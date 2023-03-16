@@ -1,11 +1,11 @@
-import { React } from "react";
+import { React, useState } from "react";
 import MaterialTable, { Column } from "@material-table/core";
 import "@fontsource/poppins";
 import classes from './styles.module.css';
 
 const CoreTable = () => {
 
-    const columns = [
+    const EDITABLE_COLUMNS = [
         { title: "ID", field: "id", type: "numeric" },
         { title: "Email", field: "email" },
         { title: "Nom", field: "nom", },
@@ -19,7 +19,7 @@ const CoreTable = () => {
 
     ];
 
-    const data = [
+    const EDITABLE_DATA = [
         {
             id: '1',
             email: 'jamal@gmail.com',
@@ -48,29 +48,87 @@ const CoreTable = () => {
             tel: '0578568934',
             details: 'Details',
         },
-        {
-            id: '4',
-            email: 'mohamed567@gamil.com',
-            nom: 'mohamed',
-            tel: '0578568934',
-            details: 'Details',
-        }
+     
     ];
+
+    const [data, setData] = useState(EDITABLE_DATA);
+
+    function getNewDataBulkEdit(changes, copyData) {
+        const keys = Object.keys(changes);
+        for (let i = 0; i < keys.length; i++) {
+            if (changes[keys[i]] && changes[keys[i]].newData) {
+                let targetData = copyData.find((el) => el.id === keys[i]);
+                if (targetData) {
+                    let newTargetDataIndex = copyData.indexOf(targetData);
+                    copyData[newTargetDataIndex] = changes[keys[i]].newData;
+                }
+            }
+        }
+        return copyData;
+    }
+
     return (
         <div className={classes.tableCore} >
-            <MaterialTable columns={columns} data={data} title='' options={{
-                headerStyle: {
-                    borderBottom: 'solid 1px black',
-                    color: '#757575',
-                    fontSize: '12px',
-                    fontWeight: '600',
-                    fontFamily: 'Poppins',
-                    lineHeight: '18px',
-                    paddingBottom: '10px',
-                    textAlign: 'center'
-                
-                },
-            }} />
+            <MaterialTable columns={EDITABLE_COLUMNS}
+                data={data}
+                title=''
+                editable={{
+                    onBulkUpdate: (changes) => {
+                        return new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                                let copyData = [...data];
+                                setData(getNewDataBulkEdit(changes, copyData));
+                                // here to put the req
+                                resolve();
+                            }, 1000);
+                        });
+                    },
+                    onRowAddCancelled: (rowData) => console.log("Row adding cancelled"),
+                    onRowUpdateCancelled: (rowData) => console.log("Row editing cancelled"),
+                    onRowAdd: (newData) => {
+                        return new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                                console.log([...data, newData]);
+                                setData([...data, newData]);
+                                resolve();
+                            }, 1000);
+                        });
+                    },
+                    onRowUpdate: (newData, oldData) => {
+                        return new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                                const dataUpdate = [...data];
+                                const target = dataUpdate.find((el) => el.id === oldData.id);
+                                const index = dataUpdate.indexOf(target);
+                                dataUpdate[index] = newData;
+                                setData(dataUpdate);
+                                resolve();
+                            }, 1000);
+                        });
+                    },
+                    onRowDelete: (oldData) => {
+                        return new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                                const dataDelete = data.filter((el) => el.id !== oldData.id);
+                                setData(dataDelete);
+                                resolve();
+                            }, 1000);
+                        });
+                    },
+                }}
+                options={{
+                    headerStyle: {
+                        borderBottom: 'solid 1px black',
+                        color: '#757575',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        fontFamily: 'Poppins',
+                        lineHeight: '18px',
+                        paddingBottom: '10px',
+                        textAlign: 'center'
+
+                    },
+                }} />
         </div>
     )
 }
