@@ -5,7 +5,7 @@ import { RxExit } from "react-icons/rx";
 
 const links = [
     {
-        text: "Distributeurs",
+        text: "Vending machines",
         icon: FaStore,
         url: "/"
     },
@@ -18,7 +18,7 @@ const links = [
 
 export function Sidebar() {
     return (
-        <div className="w-1/6 h-full shadow-lg  fixed top-0 left-0 flex flex-col items-center">
+        <div className="w-[260px] h-full shadow-lg  fixed top-0 left-0 flex flex-col items-center">
             <div className="w-full h-40 flex justify-center items-center border-b-2 border-b-gray-200 mb-6" >
                 <img src={logo} alt="logo smart Bev" />
             </div>
@@ -44,7 +44,7 @@ export function Sidebar() {
 
             <Link to="/" className="w-full h-20 flex  justify-center items-center gap-4">
                 <RxExit className="text-red-500 stroke-1" size={"20px"} />
-                 <span className="text-lg text-red-500 capitalize">Déconnexion</span>
+                 <span className="text-lg text-red-500 capitalize">Log out</span>
             </Link>
         </div>
     );
