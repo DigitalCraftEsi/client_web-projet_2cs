@@ -7,18 +7,18 @@ const links = [
     {
         text: "Vending machines",
         icon: FaStore,
-        url: "/"
+        url: "/SADM/distributeurs"
     },
     {
         text: "Clients",
         icon: FaUserFriends,
-        url: "/a"
+        url: "/SADM/clients"
     },
 ]
 
 export function Sidebar() {
     return (
-        <div className="w-[260px] h-full shadow-lg  fixed top-0 left-0 flex flex-col items-center">
+        <div className="w-[260px] h-full shadow-lg flex flex-col items-center">
             <div className="w-full h-40 flex justify-center items-center border-b-2 border-b-gray-200 mb-6" >
                 <img src={logo} alt="logo smart Bev" />
             </div>

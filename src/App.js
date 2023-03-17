@@ -1,29 +1,20 @@
 import React from "react";
-import { Sidebar } from "./components";
+import { ContextWrapper } from "./context";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { SADM, Login } from "./pages";
 
-  
 function App() {
-
-  let data = [
-    {
-      "nom": "Brahami",
-      "prenom": "Lamine",
-      "telephone": "0552166484",
-      "email": "jl_brahami@esi.dz",
-      "motDePasse": "Hola"
-    }
-  ]
-    
-  console.log(data.length)
   return (
-    <>
-    <Sidebar />
-    </>
+    <ContextWrapper>
+      <Router>
+        <Routes>
+          <Route path="/" element={<div>main</div>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/SADM/*" element={<SADM />} />
+        </Routes>
+      </Router>
+    </ContextWrapper>
   );
-}
-
-function tru() {
-  console.log("hi")
 }
 
 export default App;
