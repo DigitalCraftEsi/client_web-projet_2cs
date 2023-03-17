@@ -16,24 +16,6 @@ function Form(props) {
 		setShowForm(!showForm);
 	};
 
-	const [selectedFile, setSelectedFile] = useState(null);
-
-	// Handle the certificate
-	const handleFileInput = (event) => {
-		setSelectedFile(event.target.files[0]);
-	};
-
-	const handleUploadButton = () => {
-		const formData = new FormData();
-		formData.append("image", selectedFile);
-
-		// Send formData to the server for further processing
-		// ...
-
-		// Clear the selected file
-		setSelectedFile(null);
-	};
-
 	return (
 		<div className='inline'>
 			<button
