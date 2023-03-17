@@ -27,29 +27,14 @@ function Form(props) {
 			{showForm && (
 				<div className='fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center'>
 					<div className='bg-white rounded-lg p-8 w-1/3'>
-						<h2 className='text-xl font-bold mb-4'>Nouveau distributeur</h2>
+						<h2 className='text-xl font-bold mb-4'>Assigner à un client</h2>
 						<form onSubmit={handleSubmit}>
-							<div className='mb-4'>
-								<label
-									className='block text-gray-700 font-bold mb-2'
-									htmlFor='address'
-								>
-									Adresse
-								</label>
-								<input
-									className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-									id='address'
-									type='text'
-									value={address}
-									onChange={(e) => setAddress(e.target.value)}
-								/>
-							</div>
 							<div className='mb-4'>
 								<label
 									className='block text-gray-700 font-bold mb-2'
 									htmlFor='client'
 								>
-									Client (optionnel)
+									Client
 								</label>
 								<select
 									className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
@@ -62,12 +47,9 @@ function Form(props) {
 									<option>Lamine</option>
 								</select>
 							</div>
-							<div className='flex items-center justify-between mb-10'>
-								<h1>Certificat : </h1>
-							</div>
 							<div className='flex items-center justify-between'>
 								<Button contenu='Annuler' type='Button' onclick={toggleForm} />
-								<Button contenu='Créer' type='Submit' />
+								<Button contenu='Assigner' type='Submit' />
 							</div>
 						</form>
 					</div>
@@ -76,7 +58,5 @@ function Form(props) {
 		</div>
 	);
 }
-
-function ImageUpload() {}
 
 export default Form;
