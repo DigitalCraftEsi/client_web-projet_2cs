@@ -77,6 +77,4 @@ function Form(props) {
 	);
 }
 
-function ImageUpload() {}
-
 export default Form;
