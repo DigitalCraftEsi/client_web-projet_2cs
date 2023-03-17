@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import { ContextWrapper } from "./context";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login } from "./pages";
+import CoreTable  from "./components/BaseTable/CoreTable";
+import DisTable from "./components/BaseTable/DistTable";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,14 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  {
+    path: "/table",
+    element : <CoreTable />
+  },
+  {
+    path: "/table2",
+    element: <DisTable />
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
