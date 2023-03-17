@@ -2,6 +2,14 @@ import React from "react";
 import FormClient from "../FormClient/FormClient";
 
 const ClientInfo = (props) => {
+
+    const data = {
+        nom: "somone",
+        prenom: "prenom",
+        telephone: "1234567",
+        email: "email@gmail.com"
+    }
+
 	return (
 			<div className='container w-full rounded-sm shadow hover:shadow-lg bg-gray-50 p-4 border-solid border-2'>
 				<div className='mb-4'>
@@ -12,10 +20,10 @@ const ClientInfo = (props) => {
 				</div>
 
 				<div className='grid grid-cols-3 gap-4'>
-					<p className='col'>Nom : {props.data[0].nom}</p>
-					<p className='col'>Telephone : {props.data[0].telephone}</p>
+					<p className='col'>Nom : {data.nom}</p>
+					<p className='col'>Telephone : {data.telephone}</p>
 				</div>
-				<p>Email : {props.data[0].email}</p>
+				<p>Email : {data.email}</p>
 			</div>
 	);
 };
