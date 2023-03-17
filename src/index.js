@@ -6,8 +6,10 @@ import reportWebVitals from "./reportWebVitals";
 import { ContextWrapper } from "./context";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login } from "./pages";
-import CoreTable  from "./components/BaseTable/CoreTable";
+import CoreTable from "./components/BaseTable/CoreTable";
 import DisTable from "./components/BaseTable/DistTable";
+import ChartComponent from "./components/ChartBar/ChartComponent";
+import Chart from "./components/ChartBar/BarContainer";
 
 const router = createBrowserRouter([
   {
@@ -20,11 +22,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/table",
-    element : <CoreTable />
+    element: <CoreTable />
   },
   {
     path: "/table2",
     element: <DisTable />
+  },
+  {
+    path: "/chart",
+    element: <ChartComponent  />
   }
 ]);
 

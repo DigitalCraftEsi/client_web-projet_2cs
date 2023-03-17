@@ -1,0 +1,55 @@
+.supContainer {
+    width: 301px;
+    height: 489px;
+    padding: 16px;
+    border: solid;
+    font-family: 'Poppins';
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    text-decoration-line: underline;
+    color: #333333;
+}
+
+.topInfo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    margin-right: 3px;
+    color: black;
+}
+
+.state {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 21px;
+    margin-right: 19px;
+    color: #218261;
+}
+
+.temp {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #555555;
+}
