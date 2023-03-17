@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Button from '../Button/Button'
-import Form from '../Form/Form'
+import FormADM from '../FormADM/FormADM'
 
 const AccountInfo = (props) => {    
     if (props.data.length != 0) {
@@ -38,7 +38,8 @@ const AccountInfo = (props) => {
         return (
             <div className=' px-6 py-4 '>
             <div className='container w-full rounded-sm shadow hover:shadow-lg bg-gray-50 p-4 border-solid border-2'>
-            <Form contenu1="Ajouter" contenu2="Annuler"/>
+            <h3 className='inline'><b>Compte administrateur</b></h3>
+            <FormADM contenu1="Ajouter" contenu2=""/>
             </div>
             </div>
         )
