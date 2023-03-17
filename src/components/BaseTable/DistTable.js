@@ -14,7 +14,7 @@ const DisTable = () => {
         {
             title: "Details", field: "details", render: (rowData) => {
                 return (
-                    <Link className="text-success underline" to={`/SADM/distributeurs/${rowData.id}`}>details</Link>
+                    <Link className="text-success underline" to={`${rowData.id}`}>details</Link>
                 );
             }
         }

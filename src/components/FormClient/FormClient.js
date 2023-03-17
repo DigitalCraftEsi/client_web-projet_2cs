@@ -26,7 +26,7 @@ function Form(props) {
 				{showForm ? props.contenu2 : props.contenu1}
 			</button>
 			{showForm && (
-				<div className='fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center'>
+				<div className='fixed z-50 inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center'>
 					<div className='bg-white rounded-lg p-8 w-1/3'>
 						<h2 className='text-xl font-bold mb-4'>Nouveau Client</h2>
 						<form onSubmit={handleSubmit}>

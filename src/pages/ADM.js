@@ -1,7 +1,7 @@
-import { Sidebar, DistributeursTable, ClientsTable, ClientDetails } from "../components";
+import { Sidebar, DistributeursTable, ClientsTable, ClientDetails, NotificationDetails } from "../components";
 import { Routes, Route } from "react-router-dom";
-import { FaBell, FaStore } from "react-icons/fa";
-import { FaUserFriends } from "react-icons/fa";
+import { FaBell, FaStore, FaUserFriends  } from "react-icons/fa";
+import NotificationsTable from "../components/BaseTable/NotificationsTable";
 
 
 const links = [
@@ -31,7 +31,8 @@ export function ADM() {
         <Route path="/distributeurs" element={<DistributeursTable />} />
         <Route path="/users" element={<ClientsTable />} />
         <Route path="/users/:id" element={<ClientDetails />} />
-        <Route path="/notifications" element={<div>notif</div>} />
+        <Route path="/notifications" element={<NotificationsTable />} />
+        <Route path="/notifications/:id" element={<NotificationDetails />} />
       </Routes>
     </div>
   );
