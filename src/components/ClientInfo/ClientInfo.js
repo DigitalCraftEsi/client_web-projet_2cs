@@ -1,35 +1,23 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import React from "react";
+import FormClient from "../FormClient/FormClient";
 
-const ClientInfo = () => {
-    const { id } = useParams();
+const ClientInfo = (props) => {
+	return (
+			<div className='container w-full rounded-sm shadow hover:shadow-lg bg-gray-50 p-4 border-solid border-2'>
+				<div className='mb-4'>
+					<h3 className='inline'>
+						<b>Informations</b>
+					</h3>
+					<FormClient contenu1='Modifier' contenu2='' />
+				</div>
 
-    const data = {
-        nom: "someone",
-        telephone: "0123456789",
-        email: "email@gmail.com"
-    }
+				<div className='grid grid-cols-3 gap-4'>
+					<p className='col'>Nom : {props.data[0].nom}</p>
+					<p className='col'>Telephone : {props.data[0].telephone}</p>
+				</div>
+				<p>Email : {props.data[0].email}</p>
+			</div>
+	);
+};
 
-    return (
-            <div className='container w-full rounded-sm shadow hover:shadow-lg bg-gray-50 p-4 border-solid border-2'>
-                <div className='mb-4'>
-                    <h3 className='inline font-bold'>Informations</h3>
-                    <a href="#!" className="text-success text-sm underline ml-5">Modifier</a>
-                </div>
-
-                <div className='grid grid-cols-3 gap-4'>
-                <p className='col'>
-                    Nom : {data.nom}
-                </p>
-                <p className='col'>
-                    Telephone : {data.telephone}
-                </p>
-                </div>
-                <p>
-                    Email : {data.email}
-                </p>
-            </div>
-    )
-}
-
-export default ClientInfo
+export default ClientInfo;
