@@ -5,6 +5,7 @@ import {
   ClientDetails,
   NotificationDetails,
   VendingMachineDetails,
+  Profile,
 } from "../components";
 import { Routes, Route } from "react-router-dom";
 import { FaBell, FaStore, FaUserFriends } from "react-icons/fa";
@@ -39,6 +40,7 @@ export function ADM() {
         <Route path="/users/:id" element={<ClientDetails />} />
         <Route path="/notifications" element={<NotificationsTable />} />
         <Route path="/notifications/:id" element={<NotificationDetails />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );

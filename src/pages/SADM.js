@@ -1,4 +1,4 @@
-import { Sidebar, ClientsTable, DistributeursTable, ClientDetails } from "../components";
+import { Sidebar, ClientsTable, DistributeursTable, ClientDetails, Profile, VendingMachineDetails } from "../components";
 import { Routes, Route } from "react-router-dom";
 import { FaStore } from "react-icons/fa";
 import { FaUserFriends } from "react-icons/fa";
@@ -26,6 +26,8 @@ export function SADM() {
         <Route path="/clients" element={<ClientsTable />} />
         <Route path="/clients/:id" element={<ClientDetails />} />
         <Route path="/distributeurs" element={<DistributeursTable />} />
+        <Route path="/distributeurs/:id" element={<VendingMachineDetails />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );

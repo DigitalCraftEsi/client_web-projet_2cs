@@ -24,10 +24,10 @@ export function Sidebar({links, user}) {
                 }
             </ul>
 
-            <div className="w-full h-20 flex gap-4 items-center justify-center border-b-2 border-b-gray-200 mt-auto">
+            <NavLink to="profile" className="w-full h-20 flex gap-4 items-center justify-center border-b-2 border-b-gray-200 mt-auto">
                 <div className="rounded-full w-10 h-10 flex justify-center items-center bg-pink-400">MG</div>
                 <div className="text-lg" >{user}</div>
-            </div>
+            </NavLink>
 
 
             <NavLink to="/login" className="w-full h-20 flex  justify-center items-center gap-4">
