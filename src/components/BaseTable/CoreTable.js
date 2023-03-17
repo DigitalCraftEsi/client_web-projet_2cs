@@ -14,7 +14,7 @@ const CoreTable = () => {
         {
             title: "Details", field: "details", render: (rowData) => {
                 return (
-                    <Link className="text-success underline" to={`/SADM/clients/${rowData.id}`}>details</Link>
+                    <Link className="text-success underline" to={`${rowData.id}`}>details</Link>
                 );
             }
         }

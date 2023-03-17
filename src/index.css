@@ -6,3 +6,11 @@
     height: 100%;
 } */
 
+
+li.sidebar-link > a.active > span {
+    @apply text-success ;
+}
+
+li.sidebar-link > a.active > svg {
+    @apply text-success fill-success;
+}

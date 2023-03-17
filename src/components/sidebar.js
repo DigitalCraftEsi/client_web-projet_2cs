@@ -1,5 +1,5 @@
 import logo from "../assets/logo_smartBev.png";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { RxExit } from "react-icons/rx";
 
 
@@ -14,11 +14,11 @@ export function Sidebar({links, user}) {
             <ul className=" flex flex-col gap-4 justify-center">
                 {
                     links.map(link => (
-                        <li key={link.url} >
-                            <Link to={link.url} className="flex items-center gap-4" >
+                        <li key={link.url} className="sidebar-link" >
+                            <NavLink to={link.url}  className={({isActive}) => `flex items-center gap-4 ${isActive ? "active" : ""}`} >
                                 {<link.icon color={"#555555"} size={"20px"} />}
-                                <span className="text-lg text-[#555555] capitalize">{link.text}</span>
-                            </Link>
+                                <span className="text-lg font-medium text-[#555555] capitalize">{link.text}</span>
+                            </NavLink>
                         </li>
                     ))
                 }
@@ -30,10 +30,10 @@ export function Sidebar({links, user}) {
             </div>
 
 
-            <Link to="/login" className="w-full h-20 flex  justify-center items-center gap-4">
+            <NavLink to="/login" className="w-full h-20 flex  justify-center items-center gap-4">
                 <RxExit className="text-red-500 stroke-1" size={"20px"} />
                  <span className="text-lg text-red-500 capitalize">Log out</span>
-            </Link>
+            </NavLink>
         </div>
     );
 }
