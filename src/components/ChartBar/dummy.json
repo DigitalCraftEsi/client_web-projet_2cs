@@ -1,0 +1,27 @@
+{
+    "state": "En marche",
+    "date": "5j 23h",
+    "temp": "68",
+    "dataArray": [
+        {
+            "label": "Cafe",
+            "value": 30,
+            "maxValue": 50
+        },
+        {
+            "label": "Lait",
+            "value": 80,
+            "maxValue": 100
+        },
+        {
+            "label": "Eau",
+            "value": 50,
+            "maxValue": 100
+        },
+        {
+            "label": "Gobelets",
+            "value": 20,
+            "maxValue": 100
+        }
+    ]
+}
