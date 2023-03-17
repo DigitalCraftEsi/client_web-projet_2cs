@@ -1,4 +1,4 @@
-import { react, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BarContainer from './BarContainer'
 import classes from './styles.module.css';
 
@@ -63,9 +63,9 @@ const ChartComponent = () => {
             </div>
 
             <div className={classes.links}>
-                <a href="#">Historique des pannes</a>
-                <a href="#">Graphe d'utilisation</a>
-                <a href="#">Logs</a>
+                <a href="#!">Historique des pannes</a>
+                <a href="#!">Graphe d'utilisation</a>
+                <a href="#!">Logs</a>
             </div>
         </div>
     )

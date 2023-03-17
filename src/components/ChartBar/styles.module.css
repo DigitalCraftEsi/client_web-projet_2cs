@@ -2,7 +2,8 @@
     width: 301px;
     height: 489px;
     padding: 16px;
-    border: solid;
+    /* border: solid; */
+    @apply bg-gray-50 rounded-md shadow hover:shadow-lg border-solid border-2 ;
     font-family: 'Poppins';
     display: flex;
     flex-direction: column;
@@ -12,9 +13,10 @@
 .links {
     display: flex;
     flex-direction: column;
+    gap: 10px;
     font-style: normal;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 18px;
     text-decoration-line: underline;
     color: #333333;

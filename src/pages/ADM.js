@@ -1,8 +1,14 @@
-import { Sidebar, DistributeursTable, ClientsTable, ClientDetails, NotificationDetails } from "../components";
+import {
+  Sidebar,
+  DistributeursTable,
+  ClientsTable,
+  ClientDetails,
+  NotificationDetails,
+  VendingMachineDetails,
+} from "../components";
 import { Routes, Route } from "react-router-dom";
-import { FaBell, FaStore, FaUserFriends  } from "react-icons/fa";
+import { FaBell, FaStore, FaUserFriends } from "react-icons/fa";
 import NotificationsTable from "../components/BaseTable/NotificationsTable";
-
 
 const links = [
   {
@@ -18,10 +24,9 @@ const links = [
   {
     text: "Notifications",
     icon: FaBell,
-    url: "/ADM/notifications"
-  }
+    url: "/ADM/notifications",
+  },
 ];
-
 
 export function ADM() {
   return (
@@ -29,6 +34,7 @@ export function ADM() {
       <Sidebar links={links} user={"Moh Gezdia"} />
       <Routes>
         <Route path="/distributeurs" element={<DistributeursTable />} />
+        <Route path="/distributeurs/:id" element={<VendingMachineDetails />} />
         <Route path="/users" element={<ClientsTable />} />
         <Route path="/users/:id" element={<ClientDetails />} />
         <Route path="/notifications" element={<NotificationsTable />} />
