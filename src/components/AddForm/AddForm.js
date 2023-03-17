@@ -2,7 +2,6 @@ import React from 'react'
 import Button from '../Button/Button'
 
 class AddForm extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
