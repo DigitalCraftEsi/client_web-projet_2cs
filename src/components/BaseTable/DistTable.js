@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import MaterialTable, { Column } from "@material-table/core";
+import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from './styles.module.css';
 
@@ -7,9 +7,9 @@ const DisTable = () => {
 
     const EDITABLE_COLUMNS = [
         { title: "ID", field: "id", type: "numeric" },
-        { title: "Email", field: "email" },
-        { title: "Nom", field: "nom", },
-        { title: "Telephone", field: "tel", type: "numeric" },
+        { title: "Client", field: "client" },
+        { title: "Address", field: "address", },
+        { title: "State", field: "state" },
         {
             title: "Details", field: "details", cellStyle: {
                 textDecoration: 'underline',
@@ -22,30 +22,23 @@ const DisTable = () => {
     const EDITABLE_DATA = [
         {
             id: '1',
-            email: 'jamal@gmail.com',
-            nom: 'Jamal',
-            tel: '0771890493',
+            client: 'esi',
+            address: 'oued smar',
+            state: 'working',
             details: 'Details',
         },
         {
             id: '2',
-            email: 'taher32@gmail.com',
-            nom: 'Taher',
-            tel: '0771899876',
+            client: 'esi',
+            address: 'oued smar',
+            state: 'working',
             details: 'Details',
         },
         {
             id: '3',
-            email: 'kamel@gmail.com',
-            nom: 'Kamel',
-            tel: '0678980989',
-            details: 'Details',
-        },
-        {
-            id: '4',
-            email: 'mohamed567@gamil.com',
-            nom: 'mohamed',
-            tel: '0578568934',
+            client: 'esi',
+            address: 'oued smar',
+            state: 'working',
             details: 'Details',
         },
 

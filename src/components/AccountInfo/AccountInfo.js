@@ -1,7 +1,7 @@
 import React from 'react'
 
 const AccountInfo = (props) => {
-    if (props.data.length != 0) {
+    if (props.data.length !== 0) {
         return (
             <div className=' px-6 py-4 '>
             <div className='container w-full rounded-sm shadow hover:shadow-lg bg-gray-50 p-4 border-solid border-2'>

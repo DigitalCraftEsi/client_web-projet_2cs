@@ -1,7 +1,8 @@
 import { React, useState } from "react";
-import MaterialTable, { Column } from "@material-table/core";
+import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from './styles.module.css';
+import { Link } from "react-router-dom";
 
 const CoreTable = () => {
 
@@ -11,9 +12,10 @@ const CoreTable = () => {
         { title: "Nom", field: "nom", },
         { title: "Telephone", field: "tel", type: "numeric" },
         {
-            title: "Details", field: "details", cellStyle: {
-                textDecoration: 'underline',
-                color: '#218261'
+            title: "Details", field: "details", render: (rowData) => {
+                return (
+                    <Link className="text-success underline" to={`/SADM/clients/${rowData.id}`}>details</Link>
+                );
             }
         }
 
