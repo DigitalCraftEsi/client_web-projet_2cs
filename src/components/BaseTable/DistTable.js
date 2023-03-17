@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from './styles.module.css';
+import { Link } from "react-router-dom";
 
 const DisTable = () => {
 
@@ -11,9 +12,10 @@ const DisTable = () => {
         { title: "Address", field: "address", },
         { title: "State", field: "state" },
         {
-            title: "Details", field: "details", cellStyle: {
-                textDecoration: 'underline',
-                color: '#218261'
+            title: "Details", field: "details", render: (rowData) => {
+                return (
+                    <Link className="text-success underline" to={`/SADM/distributeurs/${rowData.id}`}>details</Link>
+                );
             }
         }
 

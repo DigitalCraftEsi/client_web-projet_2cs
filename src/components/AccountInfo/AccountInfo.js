@@ -1,11 +1,20 @@
-import React, { useState } from 'react'
-import Button from '../Button/Button'
+import React from 'react'
 import Form from '../Form/Form'
+import { useParams } from 'react-router-dom'
 
-const AccountInfo = (props) => {
-    if (props.data.length !== 0) {
+const AccountInfo = () => {
+    const { id } = useParams();
+    const data = {
+        nom: "somone",
+        prenom: "prenom",
+        email: "email@gmail.com",
+        telephone: "0123456789",
+        motDePasse: "123"
+    }
+
+    if (data != null) {
         return (
-            <div className=' px-6 py-4 '>
+
             <div className='container w-full rounded-sm shadow hover:shadow-lg bg-gray-50 p-4 border-solid border-2'>
                 <div className='mb-4'>
                     <h3 className='inline'><b>Compte administrateur</b></h3>
@@ -14,32 +23,32 @@ const AccountInfo = (props) => {
     
                 <div className='grid grid-cols-3 gap-4'>
                 <p className='col'>
-                    Nom : {props.data[0].nom}
+                    Nom : {data.nom}
                 </p>
                 <p className='col'>
-                    Prenom : {props.data[0].prenom}
+                    Prenom : {data.prenom}
                 </p>
                 </div>
                 <div className='grid grid-cols-3 gap-4'>
                 <p className='col'>
-                    Email: {props.data[0].email}
+                    Email: {data.email}
                 </p>
                 <p className='col'>
-                    Telephone : {props.data[0].telephone}
+                    Telephone : {data.telephone}
                 </p>
                 </div>
                 <p>
-                    Mot de passe : {props.data[0].motDePasse}
+                    Mot de passe : {data.motDePasse}
                 </p>
-                </div>
+
             </div>
         )
     } else {
         return (
             <div className=' px-6 py-4 '>
-            <div className='container w-full rounded-sm shadow hover:shadow-lg bg-gray-50 p-4 border-solid border-2'>
-            <Form contenu1="Ajouter" contenu2="Annuler"/>
-            </div>
+                <div className='container w-full rounded-sm shadow hover:shadow-lg bg-gray-50 p-4 border-solid border-2'>
+                <Form contenu1="Ajouter" contenu2="Annuler"/>
+                </div>
             </div>
         )
     }

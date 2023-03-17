@@ -6,7 +6,7 @@ import { RxExit } from "react-icons/rx";
 
 export function Sidebar({links, user}) {
   return (
-        <div className="w-[260px] h-full shadow-lg flex flex-col items-center">
+        <div className="w-[260px] h-screen shadow-lg sticky top-0 left-0 flex flex-col items-center">
             <div className="w-full h-40 flex justify-center items-center border-b-2 border-b-gray-200 mb-6" >
                 <img src={logo} alt="logo smart Bev" />
             </div>
