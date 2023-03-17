@@ -1,7 +1,5 @@
 import ClientInfo from "./components/ClientInfo/ClientInfo"; 
 import AccountInfo from "./components/AccountInfo/AccountInfo";
-import Button from "./components/Button/Button";
-import AddForm from "./components/AddForm/AddForm";
 
   
 function App() {
@@ -16,19 +14,12 @@ function App() {
     }
   ]
     
-  console.log(data.length)
   return (
     <div>
       <ClientInfo data = {data} />
-      <AccountInfo data={[]} />
-      <AddForm />      
-      <button onClick={tru()}>Hello</button>
+      <AccountInfo data={data} />
     </div>
   );
-}
-
-function tru() {
-  console.log("hi")
 }
 
 export default App;

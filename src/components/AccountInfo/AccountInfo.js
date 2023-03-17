@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Button from '../Button/Button'
+import Form from '../Form/Form'
 
-const AccountInfo = (props) => {
+const AccountInfo = (props) => {    
     if (props.data.length != 0) {
         return (
             <div className=' px-6 py-4 '>
@@ -36,11 +38,8 @@ const AccountInfo = (props) => {
         return (
             <div className=' px-6 py-4 '>
             <div className='container w-full rounded-sm shadow hover:shadow-lg bg-gray-50 p-4 border-solid border-2'>
-                <div>
-                    <h3 className='inline'><b>Compte Administrateur</b></h3>
-                        <a href="#!" className="text-success text-sm underline ml-5">Ajouter</a>
-                    </div>
-                </div>
+            <Form contenu1="Ajouter" contenu2="Annuler"/>
+            </div>
             </div>
         )
     }
