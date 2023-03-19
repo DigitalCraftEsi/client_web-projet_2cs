@@ -1,52 +1,47 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from './styles.module.css';
 import { Link } from "react-router-dom";
 
+const URL = "http://localhost:8000/machine";
+
 const DisTable = () => {
 
     const EDITABLE_COLUMNS = [
-        { title: "ID", field: "id", type: "numeric" },
-        { title: "Client", field: "client" },
-        { title: "Address", field: "address", },
-        { title: "State", field: "state" },
+        { title: "ID", field: "idDistributeur", type: "numeric" },
+        { title: "Client", field: "idClient", type: "numeric" },
+        { title: "AM", field: "idAM", type: "numeric" },
+        { title: "Adresse", field: "adresse", },
+        { title: "Longitude", field: "longitude", type: "numeric" },
+        { title: "Latitude", field: "latitude", type: "numeric" },
+        { title: "Code de deverrouillage", field: "codeDeDeverrouillage" },
         {
             title: "Details", field: "details", render: (rowData) => {
                 return (
-                    <Link className="text-success underline" to={`${rowData.id}`}>details</Link>
+                    <Link className="text-success underline" to={`${rowData.idDistributeur}`}>détails</Link>
                 );
             }
         }
 
     ];
 
-    const EDITABLE_DATA = [
-        {
-            id: '1',
-            client: 'esi',
-            address: 'oued smar',
-            state: 'working',
-            details: 'Details',
-        },
-        {
-            id: '2',
-            client: 'esi',
-            address: 'oued smar',
-            state: 'working',
-            details: 'Details',
-        },
-        {
-            id: '3',
-            client: 'esi',
-            address: 'oued smar',
-            state: 'working',
-            details: 'Details',
-        },
-
-    ];
+    const EDITABLE_DATA = [];
 
     const [data, setData] = useState(EDITABLE_DATA);
+
+    useEffect(() => {
+        fetch(URL)
+        .then(response => response.json())
+        .then(result => {
+            const changedData = result.data.map(item => {
+                item.details = "details";
+                return item;
+            });
+
+            setData(changedData);
+        })
+    }, []);
 
     function getNewDataBulkEdit(changes, copyData) {
         const keys = Object.keys(changes);
@@ -82,23 +77,54 @@ const DisTable = () => {
                     onRowUpdateCancelled: (rowData) => console.log("Row editing cancelled"),
                     onRowAdd: (newData) => {
                         return new Promise((resolve, reject) => {
-                            setTimeout(() => {
-                                console.log([...data, newData]);
-                                setData([...data, newData]);
-                                resolve();
-                            }, 1000);
+                            fetch(URL, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(newData)
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                if(result.statusCode === 200) {
+                                    result.data.details = "details";
+                                    setData([...data, result.data]);
+                                    resolve();
+                                } else {
+                                    reject();
+                                }
+                            })
                         });
                     },
                     onRowUpdate: (newData, oldData) => {
                         return new Promise((resolve, reject) => {
                             setTimeout(() => {
                                 const dataUpdate = [...data];
-                                const target = dataUpdate.find((el) => el.id === oldData.id);
-                                const index = dataUpdate.indexOf(target);
-                                dataUpdate[index] = newData;
+                                const index = dataUpdate.findIndex(item => item.idDistributeur === oldData.idDistributeur);
+                                dataUpdate[index] = {
+                                    ...oldData,
+                                    ...newData
+                                };
                                 setData(dataUpdate);
                                 resolve();
                             }, 1000);
+                        });
+                    },
+                    onRowDelete: (oldData) => {
+                        return new Promise((resolve, reject) => {
+                            fetch(`${URL}/${oldData.idDistributeur}`, {
+                                method: "DELETE",
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                if(result.statusCode === 200) {
+                                    const newData = data.filter(item => item.idDistributeur !== oldData.idDistributeur);
+                                    setData(newData);
+                                    resolve();
+                                } else {
+                                    reject();
+                                }
+                            })
                         });
                     },
                 }}
@@ -124,23 +150,7 @@ const DisTable = () => {
                         },
                         selection: true
                     }}
-                actions={[
-                    {
-                        tooltip: 'Remove All Selected Users',
-                        icon: 'delete',
-                        onClick: (evt, oldData) => {
-                            return new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    for (let dataDelete in oldData) {
-                                        dataDelete = oldData.filter((el) => el.id !== oldData.id);
-                                        setData(dataDelete);
-                                        resolve();
-                                    }
-                                }, 1000);
-                            })
-                        }
-                    }
-                ]}
+                
 
             />
         </div>

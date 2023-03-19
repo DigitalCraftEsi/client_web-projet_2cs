@@ -52,7 +52,7 @@ const NotificationsTable = () => {
 
 
   return (
-    <div className="p-10">
+    <div className="p-10 w-full">
       <h1 className="text-2xl font-bold mb-4">Notifications</h1>
       <div className={classes.tableCore}>
         <MaterialTable
