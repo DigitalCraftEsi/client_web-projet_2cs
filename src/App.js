@@ -8,7 +8,7 @@ function App() {
     <ContextWrapper>
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<div>main</div>} />
           <Route path="/login" element={<Login />} />
           <Route path="/SADM/*" element={<SADM />} />
           <Route path="/ADM/*" element={<ADM />} />
