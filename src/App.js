@@ -11,7 +11,7 @@ function App() {
           <Route path="/" element={<div>main</div>} />
           <Route path="/login" element={<Login />} />
           <Route path="/SADM/*" element={<SADM />} />
-          <Route path="/test/" element={<LineChart/>} />
+          <Route path="/test/" element={<LineChart title="Taux d'utilisation "/>} />
         </Routes>
       </Router>
     </ContextWrapper>

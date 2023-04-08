@@ -1,14 +1,5 @@
-import { React, useState , useEffect} from "react";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
+import { React, useState, useEffect } from "react";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -54,9 +45,9 @@ export const options = {
         },
         title: {
             display: true,
-            text: "Taux d'utilisation ",
         },
     },
+    //did an empty title just for the padding 
 };
 
 
@@ -78,22 +69,37 @@ export const data0 = {
     ],
 };
 
-export function LineChart() {
-    const [data,setData] = useState(data0);
-    
+export function LineChart(props) {
+    const [data, setData] = useState(data0);
+    const [selectedRegion, setSelectedRegion] = useState("");
+    const [selectedPeriod, setSelectedPeriod] = useState("");
 
     useEffect(() => {
         fetch('data.json')
-          .then(response => response.json())
-          .then(data => setData(data));
-      }, []);
+            .then(response => response.json())
+            .then(data => setData(data));
+    }, []);
+
+    const handleSelectedRegion = (event) => {
+        setSelectedRegion(event.target.value);
+    }
+
+    const handleSelectedPeriod = (event) => {
+        setSelectedPeriod(event.target.value);
+    }
+
+
 
     return (
         <div className="w-96 h-80 m-10">
+            <h1 className="font-semibold py-4" >{props.title}</h1>
             <div className="flex justify-between" >
                 <div className="flex flex-row items-center gap-6">
                     <p>Région</p>
-                    <select className="w-20 p-1 border-solid border-[#49454F] border-2 rounded-lg">
+                    <select className="w-20 p-1 border-solid border-[#49454F] border-2 rounded-lg"
+                        value={selectedRegion}
+                        onChange={handleSelectedRegion}
+                    >
                         {regions.map((region) =>
                             <option value={region} key={region}>{region}</option>)
                         }
@@ -101,7 +107,10 @@ export function LineChart() {
                 </div>
                 <div className="flex flex-row items-center gap-6">
                     <p>Période</p>
-                    <select className="w-20 p-1 border-solid border-[#49454F] border-2 rounded-lg">
+                    <select className="w-20 p-1 border-solid border-[#49454F] border-2 rounded-lg"
+                        value={selectedPeriod}
+                        onChange={handleSelectedPeriod}
+                    >
                         {regions.map((region) =>
                             <option value={region} key={region}>{region}</option>)
                         }
