@@ -21,7 +21,7 @@ const links = [
 export function SADM() {
   return (
     <div className="w-full h-full flex ">
-      <Sidebar links={links} user={"Moh Gezdia"} />
+      <Sidebar links={links} />
       <Routes>
         <Route path="/clients" element={<ClientsTable />} />
         <Route path="/clients/:id" element={<ClientDetails />} />

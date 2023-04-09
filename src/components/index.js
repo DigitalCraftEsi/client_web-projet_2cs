@@ -5,3 +5,4 @@ export * from "./clientDetails";
 export * from "./notificationDetails";
 export * from "./vendingMachineDetails";
 export * from "./profile";
+export * from "./Map";

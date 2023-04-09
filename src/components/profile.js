@@ -1,15 +1,21 @@
-
+import { useState, useEffect } from "react";
 
 export function Profile() {
 
-    const data = {
-        nom: "islam",
-        prenom: "someone",
-        email: "some@gmil.dz",
-        telephone: "123456789",
-        role: "admin",
-        password: ""
-    }
+    const [user, setUser] = useState({
+        nom: "Berkane",
+        prenom: "Chamsou",
+        id: 1,
+        email: "chamsou_sadm@esi.dz",
+        role: "SADM",
+        telephone: "0123456789"
+    });
+
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem("user"));
+        setUser(data);
+    }, [])
+
 
     return (
         <div className="w-full p-10 flex flex-col gap-8">
@@ -19,12 +25,12 @@ export function Profile() {
                 <h3 className="text-lg font-semibold">Informations <span className="text-success underline cursor-pointer">Edit</span></h3>
 
                 <div className="w-full grid grid-cols-2" >
-                    <div className="col-span-1 font-medium" >Nom: {data.nom}</div>
-                    <div className="col-span-1 font-medium" >Prenom: {data.prenom}</div>
-                    <div className="col-span-1 font-medium" >Email: {data.email}</div>
-                    <div className="col-span-1 font-medium" >Telephone: {data.telephone}</div>
-                    <div className="col-span-1 font-medium" >Role: {data.role}</div>
-                    <div className="col-span-1 font-medium" >Password: (not changed 69 days ago)</div>
+                    <div className="col-span-1 font-medium" >Nom: {user.nom}</div>
+                    <div className="col-span-1 font-medium" >Prenom: {user.prenom}</div>
+                    <div className="col-span-1 font-medium" >Email: {user.email}</div>
+                    <div className="col-span-1 font-medium" >Telephone: {user.telephone}</div>
+                    <div className="col-span-1 font-medium" >Role: {user.role}</div>
+                    <div className="col-span-1 font-medium" >Password: *******</div>
                 </div>
             </div>
         </div>

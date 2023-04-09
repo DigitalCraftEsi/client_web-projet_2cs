@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
+import { globalContext } from "../context"
 import logo from "../assets/logo_smartBev.png";
 
 export function Login() {
@@ -7,6 +8,7 @@ export function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const location = useNavigate();
+  const { setUser } = useContext(globalContext);
 
   function handleLogin(e) {
     e.preventDefault();
@@ -27,6 +29,8 @@ export function Login() {
       console.log(result);
 
       if(result.statusCode === 200) {
+        setUser(result.data);
+        localStorage.setItem("user", JSON.stringify(result.data));
         location("/SADM/distributeurs");
       } else {
         setErr(result.message);

@@ -1,4 +1,5 @@
 import ChartComponent from "../components/ChartBar/ChartComponent";
+import { Map } from "../components";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -8,7 +9,7 @@ export function VendingMachineDetails() {
   const { id } = useParams();
 
   const [data, setData] = useState({
-      "idDistributeur": "",
+      "idDistributeur": id,
       "adresse": "",
       "codeDeDeverrouillage": "",
       "idClient": null,
@@ -43,8 +44,8 @@ export function VendingMachineDetails() {
             <ChartComponent />
         </div>
 
-        <div className="col-span-2 bg-gray-50 flex flex-col gap-4 w-full h-full p-4 rounded-md shadow hover:shadow-lg border-solid border-2">
-            map goes here
+        <div className="col-span-2 overflow-hidden bg-gray-50 gap-4 w-full h-[400px] rounded-md shadow hover:shadow-lg border-solid border-2">
+            <Map />
         </div>
       </div>
     </div>
