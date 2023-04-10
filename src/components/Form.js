@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./Button/Button";
 
-function Form({ data }) {
+function Form({ data, onSubmit }) {
 	const labels = Object.keys(data).map(
 		(label) => label.charAt(0).toUpperCase() + label.slice(1)
 	);
-	let values = Object.values(data);
+	const initialInputs = Object.values(data);
 	const [showForm, setShowForm] = useState(false);
-	const [inputs, setInputs] = useState(Object.values(data));
+	const [inputs, setInputs] = useState(initialInputs);
+	const [originalInputs, setOriginalInputs] = useState(initialInputs);
+
+	useEffect(() => {
+		setOriginalInputs(initialInputs);
+	}, [data, initialInputs]);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		console.log(`Inputs: ${inputs}`);
+		onSubmit(inputs);
 		toggleForm();
 	};
 
@@ -22,6 +27,7 @@ function Form({ data }) {
 	};
 
 	const toggleForm = () => {
+		setInputs(originalInputs);
 		setShowForm(!showForm);
 	};
 
@@ -41,13 +47,17 @@ function Form({ data }) {
 		);
 	});
 
+	const hasChanged = inputs.some(
+		(value, index) => value !== originalInputs[index]
+	);
+
 	return (
 		<div className='inline'>
 			<button
 				className='text-success underline hover:text-blue-700 ml-3 text-sm'
 				onClick={toggleForm}
 			>
-				{showForm ? "Modifier" : "Modifier"}
+				{showForm ? "Annuler" : "Modifier"}
 			</button>
 			{showForm && (
 				<div className='fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center'>
@@ -57,8 +67,12 @@ function Form({ data }) {
 							<br />
 
 							<div className='flex items-center justify-between'>
-								<Button contenu='Annuler' type='Button' onclick={toggleForm} />
-								<Button contenu='Créer' type='Submit' onclick={handleSubmit} />
+								<Button contenu='Annuler' type='button' onclick={toggleForm} />
+								<Button
+									contenu='Sauvegarder'
+									type='submit'
+									disabled={!hasChanged}
+								/>
 							</div>
 						</form>
 					</div>

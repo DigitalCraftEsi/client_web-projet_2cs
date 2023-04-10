@@ -1,16 +1,27 @@
 import Form from "./Form";
+import { useState } from "react";
 
 export function Profile() {
-	const data = {
-		nom: "islam",
-		prenom: "someone",
-		email: "some@gmail.dz",
-		telephone: "123456789",
+	const [profileData, setProfileData] = useState({
+		firstName: "Lamine",
+		lastName: "Brahami",
+		email: "jl_brahami@esi.dz",
+		phone: "0552186484",
 		role: "admin",
 		password: "",
-	};
+	});
 
-	const labels = ["firstname", "lastname"];
+	const handleSubmit = (newInputs) => {
+		setProfileData({
+			...profileData,
+			firstName: newInputs[0],
+			lastName: newInputs[1],
+			email: newInputs[2],
+			phone: newInputs[3],
+			role: newInputs[4],
+			password: newInputs[5],
+		});
+	};
 
 	return (
 		<div className='w-full p-10 flex flex-col gap-8'>
@@ -19,19 +30,27 @@ export function Profile() {
 			<div className='bg-gray-50 flex flex-col gap-4 w-full p-4 rounded-md border-solid border-2'>
 				<h3 className='text-lg font-semibold'>
 					Informations
-					<Form data={data} />
+					<Form data={profileData} onSubmit={handleSubmit} />
 				</h3>
 
 				<div className='w-full grid grid-cols-2'>
-					<div className='col-span-1 font-medium'>Nom: {data.nom}</div>
-					<div className='col-span-1 font-medium'>Prenom: {data.prenom}</div>
-					<div className='col-span-1 font-medium'>Email: {data.email}</div>
 					<div className='col-span-1 font-medium'>
-						Telephone: {data.telephone}
+						Nom : {profileData.firstName}
 					</div>
-					<div className='col-span-1 font-medium'>Role: {data.role}</div>
 					<div className='col-span-1 font-medium'>
-						Password: (not changed 69 days ago)
+						Prenom : {profileData.lastName}
+					</div>
+					<div className='col-span-1 font-medium'>
+						Email : {profileData.email}
+					</div>
+					<div className='col-span-1 font-medium'>
+						Telephone : {profileData.phone}
+					</div>
+					<div className='col-span-1 font-medium'>
+						Role : {profileData.role}
+					</div>
+					<div className='col-span-1 font-medium'>
+						Password : (not changed 69 days ago)
 					</div>
 				</div>
 			</div>

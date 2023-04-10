@@ -60,9 +60,9 @@ export const options = {
 		},
 		title: {
 			display: true,
-			text: "Taux d'utilisation ",
 		},
 	},
+	//did an empty title just for the padding
 };
 
 export const data0 = {
@@ -83,8 +83,10 @@ export const data0 = {
 	],
 };
 
-export function LineChart() {
+export function LineChart({ title, show }) {
 	const [data, setData] = useState(data0);
+	const [selectedRegion, setSelectedRegion] = useState("");
+	const [selectedPeriod, setSelectedPeriod] = useState("");
 
 	useEffect(() => {
 		fetch("data.json")
@@ -92,25 +94,46 @@ export function LineChart() {
 			.then((data) => setData(data));
 	}, []);
 
+	const handleSelectedRegion = (event) => {
+		setSelectedRegion(event.target.value);
+	};
+
+	const handleSelectedPeriod = (event) => {
+		setSelectedPeriod(event.target.value);
+	};
+
 	return (
-		<div className='w-1/3 h-1/2 border-2 ml-10 rounded p-5 bg-gray-50'>
+		<div className='w-full rounded shadow px-5 pb-5 bg-gray-50'>
+			<h1 className='font-semibold py-4'>{title}</h1>
 			<div className='flex justify-between'>
-				<div className='flex flex-row items-center gap-6'>
-					<p>Région</p>
-					<select className='w-20 p-1 border-solid border-[#49454F] border-2 rounded-lg'>
-						{regions.map((region) => (
-							<option value={region} key={region}>
-								{region}
-							</option>
-						))}
-					</select>
-				</div>
-				<div className='flex flex-row items-center gap-6'>
+				{show && (
+					<div className='flex flex-row items-center gap-6'>
+						<p>Région</p>
+						<select
+							className='w-20 p-1 border-solid border-[#49454F] border-[1px] rounded-lg text-center'
+							value={selectedRegion}
+							onChange={handleSelectedRegion}
+						>
+							{regions.map((region) => (
+								<option value={region} key={region}>
+									{region}
+								</option>
+							))}
+						</select>
+					</div>
+				)}
+				<div
+					className={`flex flex-row items-center gap-6 ${!show && "ml-auto"}`}
+				>
 					<p>Période</p>
-					<select className='w-20 p-1 border-solid border-[#49454F] border-2 rounded-lg'>
-						{regions.map((region) => (
-							<option value={region} key={region}>
-								{region}
+					<select
+						className='w-30 p-1 border-solid border-[#49454F] border-[1px] rounded-lg text-center'
+						value={selectedPeriod}
+						onChange={handleSelectedPeriod}
+					>
+						{labels.map((label) => (
+							<option value={label} key={label}>
+								{label}
 							</option>
 						))}
 					</select>
