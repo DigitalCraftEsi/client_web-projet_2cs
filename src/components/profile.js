@@ -34,22 +34,22 @@ export function Profile() {
 				</h3>
 
 				<div className='w-full grid grid-cols-2'>
-					<div className='col-span-1 font-medium'>
+					<div className='col-span-1 font-normal mb-1'>
 						Nom : {profileData.firstName}
 					</div>
-					<div className='col-span-1 font-medium'>
+					<div className='col-span-1 font-normal mb-1'>
 						Prenom : {profileData.lastName}
 					</div>
-					<div className='col-span-1 font-medium'>
+					<div className='col-span-1 font-normal mb-1'>
 						Email : {profileData.email}
 					</div>
-					<div className='col-span-1 font-medium'>
+					<div className='col-span-1 font-normal mb-1'>
 						Telephone : {profileData.phone}
 					</div>
-					<div className='col-span-1 font-medium'>
+					<div className='col-span-1 font-normal mb-1'>
 						Role : {profileData.role}
 					</div>
-					<div className='col-span-1 font-medium'>
+					<div className='col-span-1 font-normal mb-1'>
 						Password : (not changed 69 days ago)
 					</div>
 				</div>
