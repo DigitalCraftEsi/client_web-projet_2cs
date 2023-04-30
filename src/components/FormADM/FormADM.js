@@ -111,7 +111,7 @@ function Form(props) {
 							</div>
 							<div className='flex items-center justify-between'>
 								<Button contenu='Annuler' type='Button' onclick={toggleForm} />
-								<Button contenu='Créer' type='Submit' />
+								<Button contenu='Créer' type='Submit' onclick={handleSubmit} />
 							</div>
 						</form>
 					</div>
