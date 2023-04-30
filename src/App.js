@@ -1,7 +1,7 @@
 import React from "react";
 import { ContextWrapper } from "./context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { SADM, Login, ADM } from "./pages";
+import { SADM, Login, ADM, LineChart } from "./pages";
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/SADM/*" element={<SADM />} />
           <Route path="/ADM/*" element={<ADM />} />
+          <Route path="/test/" element={<LineChart title="Taux d'utilisation "/>} />
         </Routes>
       </Router>
     </ContextWrapper>
