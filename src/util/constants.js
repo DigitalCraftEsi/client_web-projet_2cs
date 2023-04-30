@@ -1,0 +1,1 @@
+export const BACKEND_URL = "https://smartbevdb-sil-rhap.onrender.com";
