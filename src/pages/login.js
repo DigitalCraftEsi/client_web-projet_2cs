@@ -7,21 +7,20 @@ export function Login() {
 	const emailRef = useRef();
 	const passwordRef = useRef();
 	const location = useNavigate();
-	const { setUser } = useContext(globalContext);
 
 	function handleLogin(e) {
 		e.preventDefault();
 		const email = emailRef.current.value;
 		const password = passwordRef.current.value;
 
-		fetch("http://localhost:8000/login", {
+		fetch(" https://smartbevdb-sil-rhap.onrender.com/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				email,
-				password,
+				email: email,
+				password: password,
 			}),
 		})
 			.then((response) => response.json())
@@ -29,7 +28,6 @@ export function Login() {
 				console.log(result);
 
 				if (result.statusCode === 200) {
-					setUser(result.data);
 					localStorage.setItem("user", JSON.stringify(result.data));
 					location("/SADM/distributeurs");
 				} else {

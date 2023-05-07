@@ -9,6 +9,7 @@ function Form({ data, onSubmit }) {
 	const [showForm, setShowForm] = useState(false);
 	const [inputs, setInputs] = useState(initialInputs);
 	const [originalInputs, setOriginalInputs] = useState(initialInputs);
+	const [newPassword, setNewPassword] = useState("");
 
 	useEffect(() => {
 		setOriginalInputs(initialInputs);
@@ -24,6 +25,11 @@ function Form({ data, onSubmit }) {
 		const newInputs = [...inputs];
 		newInputs[index] = event.target.value;
 		setInputs(newInputs);
+
+		// Check if the label is "Previous Password" and update the state accordingly
+		if (labels[index] === "New Password") {
+			setNewPassword(event.target.value);
+		}
 	};
 
 	const toggleForm = () => {
@@ -36,13 +42,36 @@ function Form({ data, onSubmit }) {
 		return (
 			<div key={id} className='grid grid-cols-2 gap-4 mb-2'>
 				<label className='block text-gray-700 font-bold mb-2'>{label}</label>
-				<input
-					className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-					id={id}
-					type='text'
-					value={inputs[index]}
-					onChange={(e) => handleInputChange(e, index)}
-				/>
+				<div className='flex'>
+					{label === "Password" ? (
+						<>
+							<input
+								className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+								id={id}
+								type='password'
+								placeholder='Previous Password'
+								value={inputs[index]}
+								onChange={(e) => handleInputChange(e, index)}
+							/>
+							<input
+								className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+								id='new-password'
+								type='password'
+								placeholder='New Password'
+								value={newPassword}
+								onChange={(e) => setNewPassword(e.target.value)}
+							/>
+						</>
+					) : (
+						<input
+							className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+							id={id}
+							type='text'
+							value={inputs[index]}
+							onChange={(e) => handleInputChange(e, index)}
+						/>
+					)}
+				</div>
 			</div>
 		);
 	});
@@ -61,7 +90,7 @@ function Form({ data, onSubmit }) {
 			</button>
 			{showForm && (
 				<div className='fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center'>
-					<div className='bg-white rounded-lg p-8 w-1/3'>
+					<div className='bg-white rounded-lg p-8 w-1/2'>
 						<form onSubmit={handleSubmit}>
 							{inputFields}
 							<br />
