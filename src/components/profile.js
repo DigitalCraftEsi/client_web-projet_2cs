@@ -1,5 +1,18 @@
 import Form from "./Form";
 import { useState } from "react";
+import axios from "axios";
+
+// let url = "https://smartbevdb-sil-rhap.onrender.com/machine";
+// axios
+// 	.get(url, {
+// 		withCredentials: true,
+// 	})
+// 	.then((response) => {
+// 		console.log(response.data);
+// 	})
+// 	.catch((error) => {
+// 		console.error(error);
+// 	});
 
 export function Profile() {
 	const [profileData, setProfileData] = useState({

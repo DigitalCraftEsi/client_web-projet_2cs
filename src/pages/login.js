@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState, useContext } from "react";
 import { globalContext } from "../context";
+import axios from "axios";
 import logo from "../assets/logo_smartBev.png";
 
 export function Login() {
@@ -13,18 +14,45 @@ export function Login() {
 		const email = emailRef.current.value;
 		const password = passwordRef.current.value;
 
-		fetch(" https://smartbevdb-sil-rhap.onrender.com/login", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				email: email,
-				password: password,
-			}),
-		})
-			.then((response) => response.json())
-			.then((result) => {
+		// 	fetch(" https://smartbevdb-sil-rhap.onrender.com/login", {
+		// 		method: "POST",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 		},
+		// 		body: JSON.stringify({
+		// 			email: email,
+		// 			password: password,
+		// 		}),
+		// 	})
+		// 		.then((response) => response.json())
+		// 		.then((result) => {
+		// 			console.log(result);
+
+		// 			if (result.statusCode === 200) {
+		// 				localStorage.setItem("user", JSON.stringify(result.data));
+		// 				location("/SADM/distributeurs");
+		// 			} else {
+		// 				setErr(result.message);
+		// 			}
+		// 		});
+		// }
+
+		axios
+			.post(
+				"https://smartbevdb-sil-rhap.onrender.com/login",
+				{
+					email: email,
+					password: password,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+					mode: "no-cors",
+				}
+			)
+			.then((response) => {
+				const result = response.data;
 				console.log(result);
 
 				if (result.statusCode === 200) {
@@ -33,6 +61,9 @@ export function Login() {
 				} else {
 					setErr(result.message);
 				}
+			})
+			.catch((error) => {
+				console.error(error);
 			});
 	}
 
