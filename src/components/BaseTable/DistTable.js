@@ -3,8 +3,11 @@ import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from "./styles.module.css";
 import { Link } from "react-router-dom";
+import { BACKEND_URL } from "../../util/constants";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-const URL = "https://smartbevdb-sil-rhap.onrender.com/machine";
+const URL = BACKEND_URL + "/machine";
 
 const DisTable = () => {
 	const EDITABLE_COLUMNS = [
@@ -36,16 +39,21 @@ const DisTable = () => {
 	const [data, setData] = useState(EDITABLE_DATA);
 
 	useEffect(() => {
-		fetch(URL)
-			.then((response) => response.json())
-			.then((result) => {
-				const changedData = result.data.map((item) => {
+		axios
+			.get(URL, {
+				headers: {
+					"Content-Type": "application/json",
+				},
+				withCredentials: true,
+			})
+			.then((response) => {
+				const changedData = response.data.map((item) => {
 					item.details = "details";
 					return item;
 				});
-
 				setData(changedData);
-			});
+			})
+			.catch((error) => console.error(error));
 	}, []);
 
 	function getNewDataBulkEdit(changes, copyData) {

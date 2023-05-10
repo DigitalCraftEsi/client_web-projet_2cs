@@ -3,11 +3,15 @@ import { useRef, useState, useContext } from "react";
 import { globalContext } from "../context";
 import axios from "axios";
 import logo from "../assets/logo_smartBev.png";
+import { BACKEND_URL } from "../util/constants";
+import Cookies from "js-cookie";
 
 export function Login() {
 	const emailRef = useRef();
 	const passwordRef = useRef();
 	const location = useNavigate();
+
+	let url = BACKEND_URL + "/login";
 
 	function handleLogin(e) {
 		e.preventDefault();
@@ -23,6 +27,7 @@ export function Login() {
 		// 			email: email,
 		// 			password: password,
 		// 		}),
+		// 		credentials: "include",
 		// 	})
 		// 		.then((response) => response.json())
 		// 		.then((result) => {
@@ -39,7 +44,7 @@ export function Login() {
 
 		axios
 			.post(
-				"https://smartbevdb-sil-rhap.onrender.com/login",
+				url,
 				{
 					email: email,
 					password: password,
@@ -48,15 +53,15 @@ export function Login() {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					mode: "no-cors",
+					withCredentials: true,
 				}
 			)
 			.then((response) => {
 				const result = response.data;
-				console.log(result);
+				console.log(response);
 
 				if (result.statusCode === 200) {
-					localStorage.setItem("user", JSON.stringify(result.data));
+					localStorage.setItem("user", JSON.stringify(result));
 					location("/SADM/distributeurs");
 				} else {
 					setErr(result.message);

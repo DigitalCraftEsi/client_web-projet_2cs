@@ -1,34 +1,46 @@
 import Form from "./Form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-
-// let url = "https://smartbevdb-sil-rhap.onrender.com/machine";
-// axios
-// 	.get(url, {
-// 		withCredentials: true,
-// 	})
-// 	.then((response) => {
-// 		console.log(response.data);
-// 	})
-// 	.catch((error) => {
-// 		console.error(error);
-// 	});
+import { BACKEND_URL } from "../util/constants";
 
 export function Profile() {
 	const [profileData, setProfileData] = useState({
-		firstName: "Lamine",
-		lastName: "Brahami",
-		email: "jl_brahami@esi.dz",
-		phone: "0552186484",
-		role: "admin",
+		lastName: "",
+		firstName: "",
+		email: "",
+		phone: "",
+		role: "",
 		password: "",
 	});
+
+	useEffect(() => {
+		const url = BACKEND_URL + "/profile";
+		axios
+			.get(url, { withCredentials: true })
+			.then((response) => {
+				console.log(response.data.data);
+				let res = response.data.data;
+				const newData = {
+					lastName: res.nomSADM,
+					firstName: res.prenomSADM,
+					email: res.emailSADM,
+					phone: res.telephoneSADM,
+					role: "admin",
+					password: "",
+				};
+				console.log(newData);
+				setProfileData(newData);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}, [profileData]);
 
 	const handleSubmit = (newInputs) => {
 		setProfileData({
 			...profileData,
-			firstName: newInputs[0],
-			lastName: newInputs[1],
+			lastName: newInputs[0],
+			firstName: newInputs[1],
 			email: newInputs[2],
 			phone: newInputs[3],
 			role: newInputs[4],
@@ -48,10 +60,10 @@ export function Profile() {
 
 				<div className='w-full grid grid-cols-2'>
 					<div className='col-span-1 font-normal mb-1'>
-						Nom : {profileData.firstName}
+						Nom : {profileData.lastName}
 					</div>
 					<div className='col-span-1 font-normal mb-1'>
-						Prenom : {profileData.lastName}
+						Prenom : {profileData.firstName}
 					</div>
 					<div className='col-span-1 font-normal mb-1'>
 						Email : {profileData.email}
