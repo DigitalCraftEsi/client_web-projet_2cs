@@ -1,53 +1,33 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useState, useContext } from "react";
-import { globalContext } from "../context"
+import { useRef, useState} from "react";
 import logo from "../assets/logo_smartBev.png";
-import { BACKEND_URL } from "../util/constants";
+import { axiosInsance } from "../util/axios";
+
 
 export function Login() {
 
   const emailRef = useRef();
   const passwordRef = useRef();
   const location = useNavigate();
-  const { setUser } = useContext(globalContext);
  
 
-  function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
+    const response = await axiosInsance.post("/login", {
+      email,
+      password
+    })
 
-    fetch(`${BACKEND_URL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+    console.log(response);
 
-      body: JSON.stringify({
-        email,
-        password
-      })
-    })
-    .then(response => {
-      console.log(response)
-      return response.json();
-    })
-    .then(result => {
-      console.log(result);
-
-      if(result.statusCode === 200) {
-        setUser(result.data);
-        localStorage.setItem("user", JSON.stringify(result.data));
-        location("/SADM/distributeurs");
-      } else {
-        setErr(result.message);
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      setErr(err.message);
-    })
+    if(response.data.statusCode === 200) {
+      localStorage.setItem("user", JSON.stringify(response.data.data) );
+      location("/SADM/distributeurs");
+    }
+    
   }
 
   const [err, setErr] = useState("");

@@ -1,73 +1,34 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from './styles.module.css';
-import { Link } from "react-router-dom";
+import { axiosInsance } from "../../util/axios";
 
 const CoreTable = () => {
 
     const EDITABLE_COLUMNS = [
-        { title: "ID", field: "id", type: "numeric" },
-        { title: "Email", field: "email" },
-        { title: "Nom", field: "nom", },
-        { title: "Telephone", field: "tel", type: "numeric" },
-        {
-            title: "Details", field: "details", render: (rowData) => {
-                return (
-                    <Link className="text-success underline" to={`${rowData.id}`}>details</Link>
-                );
-            }
-        }
-
+        { title: "ID Client", field: "idClient", type: "numeric", editable: "never"},
+        { title: "nom", field: "nomClient"},
+        { title: "email", field: "emailClient"},
+        { title: "téléphone", field: "telephoneClient"},
     ];
 
-    const EDITABLE_DATA = [
-        {
-            id: '1',
-            email: 'jamal@gmail.com',
-            nom: 'Jamal',
-            tel: '0771890493',
-            details: 'Details',
-        },
-        {
-            id: '2',
-            email: 'taher32@gmail.com',
-            nom: 'Taher',
-            tel: '0771899876',
-            details: 'Details',
-        },
-        {
-            id: '3',
-            email: 'kamel@gmail.com',
-            nom: 'Kamel',
-            tel: '0678980989',
-            details: 'Details',
-        },
-        {
-            id: '4',
-            email: 'mohamed567@gamil.com',
-            nom: 'mohamed',
-            tel: '0578568934',
-            details: 'Details',
-        },
-     
-    ];
+    async function getAllClients() {
+        const response =  await axiosInsance.get(`/user`);
+		console.log(response);
 
-    const [data, setData] = useState(EDITABLE_DATA);
-
-    function getNewDataBulkEdit(changes, copyData) {
-        const keys = Object.keys(changes);
-        for (let i = 0; i < keys.length; i++) {
-            if (changes[keys[i]] && changes[keys[i]].newData) {
-                let targetData = copyData.find((el) => el.id === keys[i]);
-                if (targetData) {
-                    let newTargetDataIndex = copyData.indexOf(targetData);
-                    copyData[newTargetDataIndex] = changes[keys[i]].newData;
-                }
-            }
-        }
-        return copyData;
+		if(response.data.statusCode === 200) {
+			setData(response.data.data);
+		}
     }
+    
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        getAllClients();
+    }, []);
+
 
     return (
         <div className={classes.tableCore} >
@@ -75,25 +36,29 @@ const CoreTable = () => {
                 data={data}
                 title=''
                 editable={{
-                    onBulkUpdate: (changes) => {
-                        return new Promise((resolve, reject) => {
-                            setTimeout(() => {
-                                let copyData = [...data];
-                                setData(getNewDataBulkEdit(changes, copyData));
-                                // here to put the req
-                                resolve();
-                            }, 1000);
-                        });
-                    },
-                    onRowAddCancelled: (rowData) => console.log("Row adding cancelled"),
-                    onRowUpdateCancelled: (rowData) => console.log("Row editing cancelled"),
                     onRowAdd: (newData) => {
                         return new Promise((resolve, reject) => {
-                            setTimeout(() => {
-                                console.log([...data, newData]);
-                                setData([...data, newData]);
-                                resolve();
-                            }, 1000);
+                            const body = {
+                                "nom": newData.nomClient,
+                                "email": newData.emailClient,
+                                "telephone": newData.telephoneClient,
+                                "role": "CLIENT"
+							};
+
+							axiosInsance.post("/user", body).then(response => {
+
+								console.log(response);
+
+								if(response.data.statusCode === 201) {
+									setData([...data, response.data.data]);
+									resolve();
+								} else {
+									reject();
+								}
+							}).catch(err => {
+								console.log(err);
+                                reject();
+							})
                         });
                     },
                     onRowUpdate: (newData, oldData) => {
@@ -110,11 +75,26 @@ const CoreTable = () => {
                     },
                     onRowDelete: (oldData) => {
                         return new Promise((resolve, reject) => {
-                            setTimeout(() => {
-                                const dataDelete = data.filter((el) => el.id !== oldData.id);
-                                setData(dataDelete);
-                                resolve();
-                            }, 1000);
+                            const body = {
+                                id: parseInt(oldData.idClient),
+                                role: "CLIENT"
+							};
+
+							axiosInsance.delete("/user", { data: body }).then(response => {
+
+								console.log(response);
+
+								if(response.data.statusCode === 200) {
+                                    const newData = data.filter(row => row.idClient !== oldData.idClient);
+									setData(newData);
+									resolve();
+								} else {
+									reject();
+								}
+							}).catch(err => {
+								console.log(err);
+                                reject();
+							})
                         });
                     },
                 }}

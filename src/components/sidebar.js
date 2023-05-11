@@ -14,10 +14,10 @@ export function Sidebar({ links }) {
   });
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("user"));
-    if(data != null) {
-      setUser(data);
-    }
+    // const data = JSON.parse(localStorage.getItem("user"));
+    // if(data != null) {
+    //   setUser(data);
+    // }
   }, []);
 
   return (
