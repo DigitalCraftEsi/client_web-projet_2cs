@@ -25,7 +25,7 @@ export function Login() {
 
     if(response.data.statusCode === 200) {
       localStorage.setItem("user", JSON.stringify(response.data.data) );
-      location("/SADM/distributeurs");
+      location(`/${response.data.data.role}`);
     }
     
   }
