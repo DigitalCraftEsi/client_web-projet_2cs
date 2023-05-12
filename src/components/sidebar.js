@@ -2,8 +2,11 @@ import logo from "../assets/logo_smartBev.png";
 import { NavLink } from "react-router-dom";
 import { RxExit } from "react-icons/rx";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Sidebar({ links }) {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     nom: "Berkane",
     prenom: "Chamsou",
@@ -52,13 +55,16 @@ export function Sidebar({ links }) {
         <div className="text-lg capitalize">{`${user.nom} ${user.prenom}`}</div>
       </NavLink>
 
-      <NavLink
-        to="/login"
-        className="w-full h-20 flex  justify-center items-center gap-4"
+      <div
+        onClick={() => {
+          localStorage.removeItem("user");
+          navigate("/login")
+        }}
+        className="w-full h-20 flex  justify-center items-center gap-4 cursor-pointer"
       >
         <RxExit className="text-red-500 stroke-1" size={"20px"} />
         <span className="text-lg text-red-500 capitalize">Log out</span>
-      </NavLink>
+      </div>
     </div>
   );
 }
