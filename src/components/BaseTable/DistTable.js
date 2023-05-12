@@ -20,7 +20,7 @@ const DisTable = () => {
 
 	async function getAllmachines() {
 		const response =  await axiosInsance.get(`/machine`);
-		const clientsResponse = await axiosInsance.get("/user");
+		const clientsResponse = await axiosInsance.post("/user/get");
 		console.log(response);
 		// console.log(clientsResponse);
 

@@ -14,7 +14,7 @@ const CoreTable = () => {
     ];
 
     async function getAllClients() {
-        const response =  await axiosInsance.get(`/user`);
+        const response =  await axiosInsance.post(`/user/get`);
 		console.log(response);
 
 		if(response.data.statusCode === 200) {
