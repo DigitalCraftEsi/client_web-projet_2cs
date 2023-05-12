@@ -47,8 +47,8 @@ export function Profile() {
 			console.log(response.data.data);
 			let newData = {
 				...profileData,
-				nom: fName,
-				prenom: lName,
+				nom: lName,
+				prenom: fName,
 				email: email,
 				telephone: phone,
 			};
