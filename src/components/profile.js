@@ -9,9 +9,9 @@ export function Profile() {
 		firstName: "",
 		email: "",
 		phone: "",
-		role: "",
-		password: "",
 	});
+
+	const [submitExecuted, setSubmitExecuted] = useState(false);
 
 	useEffect(() => {
 		const url = BACKEND_URL + "/profile";
@@ -25,8 +25,6 @@ export function Profile() {
 					firstName: res.prenomSADM,
 					email: res.emailSADM,
 					phone: res.telephoneSADM,
-					role: "admin",
-					password: "",
 				};
 				console.log(newData);
 				setProfileData(newData);
@@ -34,18 +32,28 @@ export function Profile() {
 			.catch((error) => {
 				console.error(error);
 			});
-	}, [profileData]);
+	}, [submitExecuted]);
 
 	const handleSubmit = (newInputs) => {
-		setProfileData({
-			...profileData,
-			lastName: newInputs[0],
-			firstName: newInputs[1],
-			email: newInputs[2],
-			phone: newInputs[3],
-			role: newInputs[4],
-			password: newInputs[5],
-		});
+		const url = BACKEND_URL + "/profile";
+		axios
+			.post(
+				url,
+				{
+					lName: newInputs[0],
+					fName: newInputs[1],
+					email: newInputs[2],
+					phone: newInputs[3],
+				},
+				{ withCredentials: true }
+			)
+			.then((response) => {
+				alert("done");
+				setSubmitExecuted(true);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	};
 
 	return (
@@ -71,11 +79,10 @@ export function Profile() {
 					<div className='col-span-1 font-normal mb-1'>
 						Telephone : {profileData.phone}
 					</div>
+					<div className='col-span-1 font-normal mb-1'>Role : admin</div>
 					<div className='col-span-1 font-normal mb-1'>
-						Role : {profileData.role}
-					</div>
-					<div className='col-span-1 font-normal mb-1'>
-						Password : (not changed 69 days ago)
+						Password
+						{/* <Form data={password} onSubmit={handleSubmitPassword} /> */}
 					</div>
 				</div>
 			</div>
