@@ -53,6 +53,11 @@ export function Profile() {
 				telephone: phone,
 			};
 			setProfileData(newData);
+			let oldData = JSON.parse(localStorage.getItem("user"));
+			localStorage.setItem("user", JSON.stringify({
+				...oldData,
+				...newData
+			}));
 		}
 	}
 
