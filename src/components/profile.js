@@ -47,17 +47,20 @@ export function Profile() {
 			console.log(response.data.data);
 			let newData = {
 				...profileData,
-				nom: fName,
-				prenom: lName,
+				nom: lName,
+				prenom: fName,
 				email: email,
 				telephone: phone,
 			};
 			setProfileData(newData);
 			let oldData = JSON.parse(localStorage.getItem("user"));
-			localStorage.setItem("user", JSON.stringify({
-				...oldData,
-				...newData
-			}));
+			localStorage.setItem(
+				"user",
+				JSON.stringify({
+					...oldData,
+					...newData,
+				})
+			);
 		}
 	}
 
