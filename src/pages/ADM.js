@@ -1,45 +1,38 @@
 import {
   Sidebar,
-  DistributeursTable,
   ClientsTable,
   ClientDetails,
-  NotificationDetails,
   VendingMachineDetails,
   Profile,
 } from "../components";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { FaBell, FaStore, FaUserFriends } from "react-icons/fa";
 import NotificationsTable from "../components/BaseTable/NotificationsTable";
+import ADMmachinesTable from "../components/ADMmachinesTable";
 
 const links = [
   {
     text: "Vending machines",
     icon: FaStore,
-    url: "/ADM/distributeurs",
+    url: "/ADM/machines",
   },
   {
     text: "Users",
     icon: FaUserFriends,
     url: "/ADM/users",
-  },
-  {
-    text: "Notifications",
-    icon: FaBell,
-    url: "/ADM/notifications",
-  },
+  }
 ];
 
 export function ADM() {
   return (
     <div className="w-full h-full flex ">
-      <Sidebar links={links} user={"Moh Gezdia"} />
+      <Sidebar links={links} />
       <Routes>
-        <Route path="/distributeurs" element={<DistributeursTable />} />
-        <Route path="/distributeurs/:id" element={<VendingMachineDetails />} />
+        <Route path="/" element={<Navigate to="/ADM/machines" />} />
+        <Route path="/machines" element={<ADMmachinesTable />} />
+        <Route path="/machines/:id" element={<VendingMachineDetails />} />
         <Route path="/users" element={<ClientsTable />} />
         <Route path="/users/:id" element={<ClientDetails />} />
-        <Route path="/notifications" element={<NotificationsTable />} />
-        <Route path="/notifications/:id" element={<NotificationDetails />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
