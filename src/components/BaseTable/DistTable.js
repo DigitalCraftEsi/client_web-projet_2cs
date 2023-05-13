@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useRef } from "react";
+import { React, useState, useEffect } from "react";
 import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from "./styles.module.css";

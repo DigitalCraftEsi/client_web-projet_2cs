@@ -19,14 +19,28 @@ export function Profile() {
 	async function getProfile() {
 		const response = await axiosInsance.get(`/profile`);
 		if (response.data.statusCode === 200) {
-			let newData = {
-				nom: response.data.data.nomSADM,
-				prenom: response.data.data.prenomSADM,
-				email: response.data.data.emailSADM,
-				telephone: response.data.data.telephoneSADM,
-				role: JSON.parse(localStorage.getItem("user")).role,
-			};
-			setProfileData(newData);
+			const role = JSON.parse(localStorage.getItem("user")).role;
+			if(role === "SADM") {
+				let newData = {
+					nom: response.data.data.nomSADM,
+					prenom: response.data.data.prenomSADM,
+					email: response.data.data.emailSADM,
+					telephone: response.data.data.telephoneSADM,
+					role,
+				};
+				setProfileData(newData);
+			} else if(role === "ADM") {
+				let newData = {
+					nom: response.data.data.nomADM,
+					prenom: response.data.data.prenomADM,
+					email: response.data.data.emailADM,
+					telephone: response.data.data.telephoneADM,
+					idClient: response.data.data.idClient,
+					role,
+				};
+				setProfileData(newData);
+			}
+
 		}
 	}
 
