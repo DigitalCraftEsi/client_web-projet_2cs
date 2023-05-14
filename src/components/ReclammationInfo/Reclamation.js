@@ -25,8 +25,13 @@ export default function Reclamation() {
 			const reclamationDetails = {
 				date: response.data.data.dateReclamation,
 				titre: response.data.data.titre,
-				commande: response.data.data.commande.idCommande,
-				facture: "",
+				idCommande: response.data.data.commande.idCommande,
+				prix: response.data.data.commande.prix,
+				consommateur:
+					response.data.data.commande.consommateur.nomConsommateur +
+					" " +
+					response.data.data.commande.consommateur.prenomConsommateur,
+				dateCommande: response.data.data.commande.dateCommande,
 				description: response.data.data.description,
 			};
 			setProfileData(profileData);
