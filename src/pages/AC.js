@@ -5,6 +5,9 @@ import { RiAdvertisementFill } from "react-icons/ri";
 import BoissonTableFirst from "../components/BoissonTableFirst";
 import { ReclamationTable } from "../components/ReclamationTable";
 import Reclamation from "../components/ReclammationInfo/Reclamation";
+import AnnonceTable from "../components/AdComponents/AnnonceTable";
+import AnnonceInfo from "../components/AdComponents/AnnonceInfo";
+import ClientInfo from "../components/AdComponents/ClientInfo";
 
 const links = [
 	{
@@ -30,9 +33,9 @@ export function AC() {
 			<Sidebar links={links} user={"Moh Gezdia"} />
 			<Routes>
 				<Route path="/boissons" element={<BoissonTableFirst />} />
-				<Route path="/annonceurs" element={""} />
-				<Route path="/annonceurs/:id" element={""} />
-				<Route path="/annonceurs/:id/:annonceId" element={""} />
+				<Route path="/annonceurs" element={<AnnonceTable/>} />
+				<Route path="/annonceurs/:id" element={<ClientInfo/>} />
+				<Route path="/annonceurs/:id/:annonceId" element={<AnnonceInfo/>} />
 				<Route path="/reclamation" element={<ReclamationTable/>} />
 				<Route path="/reclamation/:id" element={ <Reclamation/> } />
 			</Routes>

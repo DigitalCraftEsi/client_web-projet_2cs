@@ -1,9 +1,10 @@
-import { React, useState } from 'react'
+import { React, useState , useEffect} from 'react'
 import { FaSearch, FaPlus } from "react-icons/fa";
-import Card from '../AdCard/Card';
+import Card from './Card';
 import Button from "../Button/Button";
 import Modal from '../Modal/Modal';
-import AnnonceForm from '../Forms/AnnonceForm';
+import AnnonceForm from './AnnonceForm';
+import { axiosInsance } from '../../util/axios';
 
 import "./styles.css"
 
@@ -56,6 +57,20 @@ const AnnonceBoard = () => {
     function toggleModal() {
         setModal(!modal)
     }
+
+
+    async function fetchData() {
+        try {
+            const response = await axiosInsance.get('/advertisment');
+            setData(response.data);
+        } catch (error) {
+            console.error('Error fetching advertisements:', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
 
     return (

@@ -87,7 +87,7 @@ const Card = (props) => {
     return (
         <>
             <ThemeProvider theme={theme}>
-                <Link to={`${data.id}`}><div className={visible ? "opacity-100" : "opacity-60"}>
+                <div className={visible ? "opacity-100" : "opacity-60"}>
                     <div className={'sup'} >
                         <div className="tools">
                             <div>
@@ -133,12 +133,13 @@ const Card = (props) => {
                             </div>
                             <p>Visible {visible ? <Switch onClick={handleVisibility} defaultChecked /> : <Switch onClick={handleVisibility} />} </p>
                         </div>
-                        <div className="img-dv" >
+                        <Link to={`${data.id}`}>   <div className="img-dv" >
                             <img className="img-pr"
                                 src={loadImage(data.imagePath)} />
                         </div>
+                        </Link>
                     </div>
-                </div></Link>
+                </div>
             </ThemeProvider>
         </>
     )

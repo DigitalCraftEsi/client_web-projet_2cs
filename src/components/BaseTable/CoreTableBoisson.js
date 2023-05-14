@@ -7,12 +7,13 @@ import { axiosInsance } from "../../util/axios";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import { FaPlus } from "react-icons/fa";
+import BoissonForm from "./BoissonForm";
 
 
 
 
-const loadImage = imageName => (`http://localhost:8000/${imageName}`);
-const idMachine = 1;
+const loadImage = imageName => (`${imageName}`);
+const idMachine = 2;
 
 
 
@@ -37,13 +38,6 @@ const EDITABLE_COLUMNS = [
         title: "Tarif",
         field: "tarif"
     },
-    {
-        title: "Modifier Tarif", field: "Modifier Tarif", render: (rowData) => {
-            return (
-                <Link className="text-success underline" to={`/AC/boissons/${rowData.id}`}>details</Link>
-            );
-        }
-    }
 ]
 
 
@@ -59,14 +53,43 @@ const CoreTableBoisson = () => {
         try {
             const response = await axiosInsance.get(`machine/${idMachine}/beverages`);
             const fetchedData = response.data.data;
+            console.log(fetchedData);
             setData(fetchedData);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
+    const deleteBev = async (id) => {
+        try {
+            await axiosInsance.delete(`/beverage/${id}`);
+            fetchBev()
+        } catch (error) {
+            console.error('Error deleting beverage:', error);
+        }
+    };
 
-
+    const updateBev = async (newData, oldData) => {
+        const body = {
+            nom: newData.nomBoisson,
+            description: newData.description,
+            tarif: newData.tarif
+        };
+        try {
+            console.log(newData);
+            const response = await axiosInsance.put(`/beverage/${oldData.idBoisson}`, body);
+            if (response.data.statusCode === 200) {
+                const dataUpdate = [...data];
+                const index = oldData.tableData.id;
+                dataUpdate[index] = newData;
+                setData([...dataUpdate]);
+            } else {
+                console.log('Update failed with status:', response.data.statusCode);
+            }
+        } catch (error) {
+            console.error('Error updating beverage:', error);
+        }
+    };
 
     useEffect(() => {
         fetchBev();
@@ -86,9 +109,7 @@ const CoreTableBoisson = () => {
                     modalFun={toggleModal}
                     title={"ajouter une boisson"}
                     content={
-                        <>
-                            <p>hello</p>
-                        </>
+                        <BoissonForm idDist={1} />
                     }
                 />
                 <MaterialTable columns={EDITABLE_COLUMNS}
@@ -122,27 +143,18 @@ const CoreTableBoisson = () => {
                                 })
                             });
                         },
-                        onRowUpdate: (newData, oldData) => {
-                            return new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    const dataUpdate = [...data];
-                                    const target = dataUpdate.find((el) => el.id === oldData.id);
-                                    const index = dataUpdate.indexOf(target);
-                                    dataUpdate[index] = newData;
-                                    setData(dataUpdate);
-                                    resolve();
-                                }, 1000);
-                            });
-                        },
-                        onRowDelete: (oldData) => {
-                            return new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    const dataDelete = data.filter((el) => el.id !== oldData.id);
-                                    setData(dataDelete);
-                                    resolve();
-                                }, 1000);
-                            });
-                        },
+                        onRowUpdate: (newData, oldData) =>
+                            new Promise((resolve, reject) => {
+                                updateBev(newData, oldData)
+                                    .then(resolve)
+                                    .catch(reject);
+                            }),
+                        onRowDelete: (oldData) =>
+                            new Promise((resolve, reject) => {
+                                deleteBev(oldData.idBoisson)
+                                    .then(resolve)
+                                    .catch(reject);
+                            }),
                     }}
                     options={{
                         headerStyle: {
