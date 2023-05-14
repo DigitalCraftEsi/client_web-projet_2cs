@@ -9,6 +9,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { FaBell, FaStore, FaUserFriends } from "react-icons/fa";
 import NotificationsTable from "../components/BaseTable/NotificationsTable";
 import ADMmachinesTable from "../components/ADMmachinesTable";
+import ADMusersTable from "../components/ADMusersTable";
 
 const links = [
   {
@@ -31,8 +32,7 @@ export function ADM() {
         <Route path="/" element={<Navigate to="/ADM/machines" />} />
         <Route path="/machines" element={<ADMmachinesTable />} />
         <Route path="/machines/:id" element={<VendingMachineDetails />} />
-        <Route path="/users" element={<ClientsTable />} />
-        <Route path="/users/:id" element={<ClientDetails />} />
+        <Route path="/users" element={<ADMusersTable />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>

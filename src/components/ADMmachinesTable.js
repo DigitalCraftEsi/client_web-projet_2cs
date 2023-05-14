@@ -73,7 +73,6 @@ const ADMmachinesTable = () => {
               lineHeight: "18px",
               color: "555555",
             },
-            selection: true,
           }}
         />
       </div>

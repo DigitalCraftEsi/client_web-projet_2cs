@@ -62,15 +62,28 @@ const CoreTable = () => {
                         });
                     },
                     onRowUpdate: (newData, oldData) => {
-                        return new Promise((resolve, reject) => {
-                            setTimeout(() => {
-                                const dataUpdate = [...data];
-                                const target = dataUpdate.find((el) => el.id === oldData.id);
-                                const index = dataUpdate.indexOf(target);
-                                dataUpdate[index] = newData;
-                                setData(dataUpdate);
-                                resolve();
-                            }, 1000);
+                        return new Promise(async (resolve, reject) => {
+                            const body = {
+                                id: oldData.idClient,
+                                nom: newData.nomClient,
+                                telephone: newData.telephoneClient,
+                                email: newData.emailClient,
+                                role: "CLIENT"
+                            }
+
+                            try {
+                                const response = await axiosInsance.patch("/user", body);
+                                if(response.data.statusCode === 200) {
+                                    getAllClients();
+                                    resolve();
+                                } else {
+                                    reject();
+                                }
+                                
+                            } catch (err) {
+                                console.log(err);
+                                reject();
+                            }
                         });
                     },
                     onRowDelete: (oldData) => {
