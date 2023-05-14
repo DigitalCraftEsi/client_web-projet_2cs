@@ -2,38 +2,57 @@ import { React, useState, useEffect, useRef } from "react";
 import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from "./styles.module.css";
-import { axiosInsance } from "../../util/axios";
-import { Select , Button, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@material-ui/core";
-
-
+import { axiosInstance } from "../../util/axios";
+import {
+	Select,
+	Button,
+	MenuItem,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	TextField,
+} from "@material-ui/core";
 
 const DisTable = () => {
-	
 	const [clientsArray, setClientsArray] = useState([]);
 	const [data, setData] = useState([]);
-	
+
 	const EDITABLE_COLUMNS = [
-		{ title: "ID distributeur", field: "idDistributeur", type: "numeric", editable: "never"},
-		{ title: "ID client", field: "idClient", type: "numeric"},
-		{ title: "nom client", field: "nomClient", type: "string", editable: "never" }
+		{
+			title: "ID distributeur",
+			field: "idDistributeur",
+			type: "numeric",
+			editable: "never",
+		},
+		{ title: "ID client", field: "idClient", type: "numeric" },
+		{
+			title: "nom client",
+			field: "nomClient",
+			type: "string",
+			editable: "never",
+		},
 	];
 
 	async function getAllmachines() {
-		const response =  await axiosInsance.get(`/machine`);
-		const clientsResponse = await axiosInsance.get("/user");
+		const response = await axiosInstance.get(`/machine`);
+		const clientsResponse = await axiosInstance.get("/user");
 		console.log(response);
 		// console.log(clientsResponse);
 
-		if(response.data.statusCode === 200 && clientsResponse.data.statusCode === 200) {
+		if (
+			response.data.statusCode === 200 &&
+			clientsResponse.data.statusCode === 200
+		) {
 			setClientsArray(clientsResponse.data.data);
 
-			
-
-			response.data.data.forEach(machine => {
+			response.data.data.forEach((machine) => {
 				machine.nomClient = "";
-				const clientIndex = clientsResponse.data.data.findIndex(client => client.idClient === machine.idClient);
+				const clientIndex = clientsResponse.data.data.findIndex(
+					(client) => client.idClient === machine.idClient
+				);
 
-				if(clientIndex >= 0) {
+				if (clientIndex >= 0) {
 					machine.nomClient = clientsResponse.data.data[clientIndex].nomClient;
 					// console.log("nomClient", machine.nomClient)
 				}
@@ -52,82 +71,99 @@ const DisTable = () => {
 		getAllmachines();
 	}, []);
 
-
 	return (
 		<div className={classes.tableCore}>
 			<Dialog open={dialogOpen}>
 				<DialogTitle>Assign a client to a vending machine</DialogTitle>
 				<DialogContent>
-					<div style={{
-						"display": "flex",
-						"flex-direction": "column",
-						"gap": "30px"
-					}}>
+					<div
+						style={{
+							display: "flex",
+							"flex-direction": "column",
+							gap: "30px",
+						}}
+					>
 						<TextField
-							label="ID distributeur"
-							variant="outlined"
-							type="number"
+							label='ID distributeur'
+							variant='outlined'
+							type='number'
 							value={editedRow.idDistributeur}
 							InputProps={{
-								readOnly: true
+								readOnly: true,
 							}}
 						/>
 
 						<Select
-							label="id_client"
-							variant="outlined"
+							label='id_client'
+							variant='outlined'
 							autoFocus={false}
 							value={editedRow.idClient}
-							onChange={(e) => setEditRow(prevData => ({ ...prevData, idClient: e.target.value }) ) }
-						>
-							{
-								clientsArray.map((client, index) => (
-									<MenuItem key={index} value={client.idClient}>{client.idClient} - {client.nomClient}</MenuItem>
-								))
+							onChange={(e) =>
+								setEditRow((prevData) => ({
+									...prevData,
+									idClient: e.target.value,
+								}))
 							}
+						>
+							{clientsArray.map((client, index) => (
+								<MenuItem key={index} value={client.idClient}>
+									{client.idClient} - {client.nomClient}
+								</MenuItem>
+							))}
 						</Select>
-
 					</div>
 				</DialogContent>
 				<DialogActions>
-					<Button color="error" onClick={() => {
-						setDialogOpen(false);
-					}}>cancel</Button>
+					<Button
+						color='error'
+						onClick={() => {
+							setDialogOpen(false);
+						}}
+					>
+						cancel
+					</Button>
 
-					<Button color="success" onClick={async () => {
-						setDialogOpen(false);
+					<Button
+						color='success'
+						onClick={async () => {
+							setDialogOpen(false);
 
-						const body = {
-							client: editedRow.idClient,
-							machines: [editedRow.idDistributeur]
-						}
-						console.log("id client", editedRow.idClient);
-						console.log("edit body", body);
+							const body = {
+								client: editedRow.idClient,
+								machines: [editedRow.idDistributeur],
+							};
+							console.log("id client", editedRow.idClient);
+							console.log("edit body", body);
 
-						const response = await axiosInsance.post("/machine/client/assignation", body)
-						console.log("assign client response", response);
+							const response = await axiosInstance.post(
+								"/machine/client/assignation",
+								body
+							);
+							console.log("assign client response", response);
 
-						if(response.data.statusCode === 200) {
-							// setData(prevData => {
-							// 	const newData = [...prevData];
-							// 	const index = newData.findIndex(row => row.idDistributeur === editedRow.idDistributeur);
-							// 	newData[index].idClient = editedRow.idClient;
+							if (response.data.statusCode === 200) {
+								// setData(prevData => {
+								// 	const newData = [...prevData];
+								// 	const index = newData.findIndex(row => row.idDistributeur === editedRow.idDistributeur);
+								// 	newData[index].idClient = editedRow.idClient;
 
-							// 	const clientIndex = clientsArray.findIndex(client => client.idClient === editedRow.idClient);
+								// 	const clientIndex = clientsArray.findIndex(client => client.idClient === editedRow.idClient);
 
-							// 	if(clientIndex >= 0) {
-							// 		newData[index].nomClient = clientsArray[clientIndex].nomClient;
-							// 	}
+								// 	if(clientIndex >= 0) {
+								// 		newData[index].nomClient = clientsArray[clientIndex].nomClient;
+								// 	}
 
-							// 	return newData;
-							// })
+								// 	return newData;
+								// })
 
-							// console.log("changed clietn");
+								// console.log("changed clietn");
 
-							getAllmachines();
-						}
-
-					}} >assign</Button>
+								getAllmachines();
+							}
+						}}
+					>
+						assign
+					</Button>
 				</DialogActions>
 			</Dialog>
 			<MaterialTable
@@ -140,34 +176,33 @@ const DisTable = () => {
 							const distuid = new Date().valueOf().toString().slice(0, 4);
 
 							const body = {
-								"distuid": distuid,
-								"odbuid": distuid
+								distuid: distuid,
+								odbuid: distuid,
 							};
 
-							axiosInsance.post("/machine", body).then(response => {
+							axiosInstance
+								.post("/machine", body)
+								.then((response) => {
+									console.log(response);
 
-								console.log(response);
-
-								if(response.data.statusCode === 200) {
-									setData([...data, response.data.data]);
-									resolve();
-								} else {
+									if (response.data.statusCode === 200) {
+										setData([...data, response.data.data]);
+										resolve();
+									} else {
+										reject();
+									}
+								})
+								.catch((err) => {
+									console.log(err);
 									reject();
-								}
-							}).catch(err => {
-								console.log(err);
-								reject();
-							})
-
-						})
-					}
+								});
+						});
+					},
 				}}
-
 				onRowClick={(event, rowData) => {
 					setEditRow(rowData);
 					setDialogOpen(true);
 				}}
-
 				options={{
 					headerStyle: {
 						borderBottom: "solid 1px black",
