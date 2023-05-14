@@ -2,30 +2,26 @@ import ChartComponent from "../components/ChartBar/ChartComponent";
 import { Map } from "../components";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-
-const URL = "http://localhost:8000/machine"
+import { axiosInsance } from "../util/axios";
 
 export function VendingMachineDetails() {
   const { id } = useParams();
 
-  const [data, setData] = useState({
-      "idDistributeur": id,
-      "adresse": "",
-      "codeDeDeverrouillage": "",
-      "idClient": null,
-      "idAM": null,
-      "longitude": null,
-      "latitude": null
-  });
+  const [data, setData] = useState({});
 
+  async function getMachine(id) {
+    const response = await axiosInsance.get("/machine/" + id);
+    console.log(response);
+
+    if(response.data.statusCode === 200) {
+      setData(response.data.data);
+
+    }
+  }
 
   useEffect(() => {
-    fetch(`${URL}/${id}`)
-    .then(response => response.json())
-    .then(result => {
-        setData(result.data);
-    });
-  }, [id])
+    getMachine(id);
+  }, [])
 
   return (
     <div className="w-full p-10 flex flex-col gap-8">
@@ -45,7 +41,7 @@ export function VendingMachineDetails() {
         </div>
 
         <div className="col-span-2 overflow-hidden bg-gray-50 gap-4 w-full h-[400px] rounded-md shadow hover:shadow-lg border-solid border-2">
-            <Map />
+            <Map data={data} />
         </div>
       </div>
     </div>

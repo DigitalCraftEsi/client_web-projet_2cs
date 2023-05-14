@@ -3,6 +3,7 @@ import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from "./BaseTable/styles.module.css";
 import { axiosInsance } from "../util/axios";
+import { useNavigate } from "react-router-dom";
 
 const ADMmachinesTable = () => {
   const [data, setData] = useState([]);
@@ -42,6 +43,8 @@ const ADMmachinesTable = () => {
     }
   }
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     getAllmachines();
   }, []);
@@ -55,6 +58,9 @@ const ADMmachinesTable = () => {
           data={data}
           title=""
           editable={{}}
+          onRowClick={(event, rowData) => {
+            navigate("/ADM/machines/" + rowData.idDistributeur)
+          }}
           options={{
             headerStyle: {
               borderBottom: "solid 1px black",
