@@ -18,7 +18,12 @@ const CoreTable = () => {
 	];
 
 	async function getAllClients() {
-		const response = await axiosInstance.get(`/user`);
+		const token = localStorage.getItem("token");
+		const response = await axiosInstance.get(`/user`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		console.log(response);
 
 		if (response.data.statusCode === 200) {

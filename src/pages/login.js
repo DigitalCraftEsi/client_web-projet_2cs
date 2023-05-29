@@ -22,6 +22,8 @@ export function Login() {
 
 		if (response.data.statusCode === 200) {
 			localStorage.setItem("user", JSON.stringify(response.data.data));
+			localStorage.setItem("token", response.data.data.token);
+			localStorage.setItem("refershToken", response.data.data.refreshToken);
 			location("/SADM/distributeurs");
 		}
 	}

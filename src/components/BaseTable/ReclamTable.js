@@ -32,7 +32,12 @@ const ReclamTable = () => {
 	const [data, setData] = useState([]);
 
 	async function getAllReclamations() {
-		const response = await axiosInstance.get(`/reclamation`);
+		const token = localStorage.getItem("token");
+		const response = await axiosInstance.get(`/reclamation`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
 		if (response.data.statusCode === 200) {
 			const modifiedData = response.data.data.map((item) => {
