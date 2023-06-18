@@ -12,7 +12,12 @@ export default function SADMusersTable() {
     ];
 
     async function getAllClients() {
-        const response = await axiosInsance.post("/user/get");
+        const token = localStorage.getItem("token");
+        const response = await axiosInsance.get("/user", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
 
         if(response.data.statusCode === 200) {
             setData(response.data.data);

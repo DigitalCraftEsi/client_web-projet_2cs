@@ -14,7 +14,13 @@ const CoreTable = () => {
     ];
 
     async function getAllClients() {
-        const response =  await axiosInsance.post(`/user/get`);
+        const token = localStorage.getItem("token");
+        const response =  await axiosInsance.get(`/user`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
 		console.log(response);
 
 		if(response.data.statusCode === 200) {
@@ -44,8 +50,13 @@ const CoreTable = () => {
                                 "telephone": newData.telephoneClient,
                                 "role": "CLIENT"
 							};
-
-							axiosInsance.post("/user", body).then(response => {
+                            
+                            const token = localStorage.getItem("token");
+							axiosInsance.post("/user", body, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }).then(response => {
 
 								console.log(response);
 
@@ -72,10 +83,15 @@ const CoreTable = () => {
                             }
 
                             try {
-                                const response = await axiosInsance.patch("/user", body);
+                                const token = localStorage.getItem("token");
+                                const response = await axiosInsance.patch("/user", body, {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                });
                                 if(response.data.statusCode === 200) {
-                                    getAllClients();
                                     resolve();
+                                    getAllClients();
                                 } else {
                                     reject();
                                 }
@@ -92,8 +108,13 @@ const CoreTable = () => {
                                 id: parseInt(oldData.idClient),
                                 role: "CLIENT"
 							};
-
-							axiosInsance.delete("/user", { data: body }).then(response => {
+                            const token = localStorage.getItem("token");
+							axiosInsance.delete("/user", { 
+                                data: body,
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }).then(response => {
 
 								console.log(response);
 

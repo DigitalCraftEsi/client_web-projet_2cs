@@ -10,7 +10,12 @@ export function VendingMachineDetails() {
   const [data, setData] = useState({});
 
   async function getMachine(id) {
-    const response = await axiosInsance.get("/machine/" + id);
+    const token = localStorage.getItem("token");
+    const response = await axiosInsance.get("/machine/" + id, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     console.log(response);
 
     if(response.data.statusCode === 200) {
@@ -33,7 +38,6 @@ export function VendingMachineDetails() {
           <div className="font-medium">Address: {data.adresse}</div>
           <div className="font-medium">Longitude: {data.longitude}</div>
           <div className="font-medium">Latitude: {data.latitude}</div>
-          <div className="font-medium">Code de deverrouillage: {data.codeDeDeverrouillage}</div>
         </div>
 
         <div className="col-span-1">

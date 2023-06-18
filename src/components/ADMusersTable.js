@@ -21,7 +21,12 @@ const ADMusersTable = () => {
   ];
 
   async function getAllusers() {
-    const response = await axiosInsance.post(`/user/get`);
+    const token = localStorage.getItem("token")
+    const response = await axiosInsance.get(`/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     console.log(response);
     if (response.data.statusCode === 200) {
         const { decideurs, acs, ams } =  response.data.data;
@@ -63,7 +68,7 @@ const ADMusersTable = () => {
 
   return (
     <div className="p-10">
-      <h1 className="text-2xl font-bold mb-4">Vending machines</h1>
+      <h1 className="text-2xl font-bold mb-4">Users</h1>
       <div className={classes.tableCore}>
         <MaterialTable
           columns={EDITABLE_COLUMNS}
@@ -77,7 +82,12 @@ const ADMusersTable = () => {
                         password: "chamsou2002"
                     };
 
-                    const response = await axiosInsance.post("/user", body);
+                    const token = localStorage.getItem("token");
+                    const response = await axiosInsance.post("/user", body, {
+                      headers: {
+                        Authorization: `Bearer ${token}`
+                      }
+                    });
                     console.log(response);
 
                     if(response.data.statusCode === 201) {
@@ -98,7 +108,13 @@ const ADMusersTable = () => {
                     console.log("body", body)
 
                     try {
-                        const response = await axiosInsance.delete("/user", { data: body });
+                        const token = localStorage.getItem("token");
+                        const response = await axiosInsance.delete("/user", {
+                          data: body,
+                          headers: {
+                            Authorization: `Bearer ${token}`
+                          }
+                        });
                         console.log(response);
     
                         if(response.data.statusCode === 200) {

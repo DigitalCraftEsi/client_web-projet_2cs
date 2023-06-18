@@ -6,15 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 export function Sidebar({ links }) {
   const navigate = useNavigate();
+  const item = JSON.parse(localStorage.getItem("user"));
 
-  const [user, setUser] = useState({
-    nom: "Berkane",
-    prenom: "Chamsou",
-    id: 1,
-    email: "chamsou_sadm@esi.dz",
-    role: "SADM",
-    telephone: "0123456789",
-  });
+  const [user, setUser] = useState(item);
 
   useEffect(() => {
     // const data = JSON.parse(localStorage.getItem("user"));
@@ -58,6 +52,7 @@ export function Sidebar({ links }) {
       <div
         onClick={() => {
           localStorage.removeItem("user");
+          localStorage.removeItem("token");
           navigate("/login")
         }}
         className="w-full h-20 flex  justify-center items-center gap-4 cursor-pointer"

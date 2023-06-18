@@ -23,7 +23,7 @@ export function Map({data}) {
   }
 
   return (
-    <MapContainer center={point} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: "100%" }} >
+    <MapContainer center={point} zoom={25} scrollWheelZoom={false} style={{ height: '100%', width: "100%" }} >
       <ScaleControl />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

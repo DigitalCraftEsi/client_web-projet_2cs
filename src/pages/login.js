@@ -25,6 +25,7 @@ export function Login() {
 
     if(response.data.statusCode === 200) {
       localStorage.setItem("user", JSON.stringify(response.data.data) );
+      localStorage.setItem("token", response.data.data.token);
       location(`/${response.data.data.role}`);
     }
     

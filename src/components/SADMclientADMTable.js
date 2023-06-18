@@ -18,10 +18,19 @@ export default function SADMclientADMTable() {
   const { id: idClient } = useParams();
   let id = parseInt(idClient);
 
+  const [data, setData] = useState([]);
+
   async function getAllADMs() {
-    const response = await axiosInsance.post(`/user/get`, {
-      id,
-      role: "CLIENT",
+    const token = localStorage.getItem("token");
+
+    const response = await axiosInsance.get(`/user/`, {
+      data: {
+        id,
+        role: "CLIENT",
+      },
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
 
     console.log("response", response);
@@ -31,7 +40,7 @@ export default function SADMclientADMTable() {
     }
   }
 
-  const [data, setData] = useState([]);
+  
 
   useEffect(() => {
     getAllADMs();
@@ -58,7 +67,12 @@ export default function SADMclientADMTable() {
                   role: "ADM"
                 };
 
-                axiosInsance.post("/user", body)
+                const token = localStorage.getItem("token");
+                axiosInsance.post("/user", body, {
+                  headers: {
+                    Authorization: `Bearer ${token}`
+                  }
+                })
                 .then(response => {
                     console.log("add adm", response);
     
@@ -75,7 +89,7 @@ export default function SADMclientADMTable() {
             },
           }}
           options={{
-            actionsColumnIndex: 1,
+            actionsColumnIndex: -1,
             headerStyle: {
               borderBottom: "solid 1px black",
               color: "#757575",
