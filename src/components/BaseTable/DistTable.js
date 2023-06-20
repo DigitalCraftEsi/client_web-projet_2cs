@@ -19,8 +19,18 @@ const DisTable = () => {
 	];
 
 	async function getAllmachines() {
-		const response =  await axiosInsance.get(`/machine`);
-		const clientsResponse = await axiosInsance.post("/user/get");
+		const token = localStorage.getItem("token");
+		const response =  await axiosInsance.get(`/machine`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+
+		const clientsResponse = await axiosInsance.get("/user", {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
 		console.log(response);
 		// console.log(clientsResponse);
 
@@ -103,8 +113,13 @@ const DisTable = () => {
 						}
 						console.log("id client", editedRow.idClient);
 						console.log("edit body", body);
+						const token = localStorage.getItem("token");
 
-						const response = await axiosInsance.post("/machine/client/assignation", body)
+						const response = await axiosInsance.post("/machine/client/assignation", body, {
+							headers: {
+								Authorization: `Bearer ${token}`
+							}
+						})
 						console.log("assign client response", response);
 
 						if(response.data.statusCode === 200) {
@@ -144,12 +159,19 @@ const DisTable = () => {
 								"odbuid": distuid
 							};
 
-							axiosInsance.post("/machine", body).then(response => {
+							const token = localStorage.getItem("token");
+
+							axiosInsance.post("/machine", body, {
+								headers: {
+									Authorization: `Bearer ${token}`
+								}
+							}).then(response => {
 
 								console.log(response);
 
 								if(response.data.statusCode === 200) {
-									setData([...data, response.data.data]);
+									// setData([...data, response.data.data]);
+									getAllmachines();
 									resolve();
 								} else {
 									reject();

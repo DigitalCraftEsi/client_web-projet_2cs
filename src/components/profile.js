@@ -17,7 +17,13 @@ export function Profile() {
 	};
 
 	async function getProfile() {
-		const response = await axiosInsance.get(`/profile`);
+		const token = localStorage.getItem("token");
+		const response = await axiosInsance.get(`/profile`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		
 		if (response.data.statusCode === 200) {
 			const role = JSON.parse(localStorage.getItem("user")).role;
 			if(role === "SADM") {

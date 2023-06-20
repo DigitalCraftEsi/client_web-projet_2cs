@@ -3,6 +3,7 @@ import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from "./BaseTable/styles.module.css";
 import { axiosInsance } from "../util/axios";
+import { useNavigate } from "react-router-dom";
 
 const ADMmachinesTable = () => {
   const [data, setData] = useState([]);
@@ -14,24 +15,25 @@ const ADMmachinesTable = () => {
       type: "numeric",
       editable: "never",
     },
-    { title: "address", field: "adresse", editable: "never" },
+    { title: "address", field: "adresse" },
     {
         title: "longitude",
         field: "longitude",
-        type: "numeric",
-        editable: "never",
     },
     {
         title: "latitude",
         field: "latitude",
-        type: "numeric",
-        editable: "never",
     },
     { title: "status", field: "status", editable: "never" },
   ];
 
   async function getAllmachines() {
-    const response = await axiosInsance.get(`/machine`);
+    const token = localStorage.getItem("token");
+    const response = await axiosInsance.get(`/machine`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     console.log(response);
     if (response.data.statusCode === 200) {
       const idClient = JSON.parse(localStorage.getItem("user")).clientId;
@@ -41,6 +43,8 @@ const ADMmachinesTable = () => {
       setData(machines);
     }
   }
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllmachines();
@@ -54,7 +58,38 @@ const ADMmachinesTable = () => {
           columns={EDITABLE_COLUMNS}
           data={data}
           title=""
-          editable={{}}
+          editable={{
+            onRowUpdate: (newData, oldData) => {
+              return new Promise(async (resolve, reject) => {
+                  try {
+                    const token = localStorage.getItem("token");
+                    const response = await axiosInsance.post(`/machine/${oldData.idClient}`, {
+                      ...oldData,
+                      ...newData
+                    }, {
+                      headers: {
+                        Authorization: `Bearer ${token}`
+                      }
+                    });
+    
+                    console.log(response);
+                    if(response.data.statusCode === 200) {
+                      getAllmachines();
+                      resolve();
+                    } else {
+                      reject();
+                    }
+
+                  } catch(err) {
+                    console.log(err);
+                    reject();
+                  }
+              });
+            }
+          }}
+          onRowClick={(event, rowData) => {
+            navigate("/ADM/machines/" + rowData.idDistributeur)
+          }}
           options={{
             headerStyle: {
               borderBottom: "solid 1px black",
@@ -73,7 +108,6 @@ const ADMmachinesTable = () => {
               lineHeight: "18px",
               color: "555555",
             },
-            selection: true,
           }}
         />
       </div>

@@ -14,7 +14,13 @@ const CoreTable = () => {
     ];
 
     async function getAllClients() {
-        const response =  await axiosInsance.post(`/user/get`);
+        const token = localStorage.getItem("token");
+        const response =  await axiosInsance.get(`/user`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
 		console.log(response);
 
 		if(response.data.statusCode === 200) {
@@ -44,8 +50,13 @@ const CoreTable = () => {
                                 "telephone": newData.telephoneClient,
                                 "role": "CLIENT"
 							};
-
-							axiosInsance.post("/user", body).then(response => {
+                            
+                            const token = localStorage.getItem("token");
+							axiosInsance.post("/user", body, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }).then(response => {
 
 								console.log(response);
 
@@ -62,15 +73,33 @@ const CoreTable = () => {
                         });
                     },
                     onRowUpdate: (newData, oldData) => {
-                        return new Promise((resolve, reject) => {
-                            setTimeout(() => {
-                                const dataUpdate = [...data];
-                                const target = dataUpdate.find((el) => el.id === oldData.id);
-                                const index = dataUpdate.indexOf(target);
-                                dataUpdate[index] = newData;
-                                setData(dataUpdate);
-                                resolve();
-                            }, 1000);
+                        return new Promise(async (resolve, reject) => {
+                            const body = {
+                                id: oldData.idClient,
+                                nom: newData.nomClient,
+                                telephone: newData.telephoneClient,
+                                email: newData.emailClient,
+                                role: "CLIENT"
+                            }
+
+                            try {
+                                const token = localStorage.getItem("token");
+                                const response = await axiosInsance.patch("/user", body, {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                });
+                                if(response.data.statusCode === 200) {
+                                    resolve();
+                                    getAllClients();
+                                } else {
+                                    reject();
+                                }
+                                
+                            } catch (err) {
+                                console.log(err);
+                                reject();
+                            }
                         });
                     },
                     onRowDelete: (oldData) => {
@@ -79,8 +108,13 @@ const CoreTable = () => {
                                 id: parseInt(oldData.idClient),
                                 role: "CLIENT"
 							};
-
-							axiosInsance.delete("/user", { data: body }).then(response => {
+                            const token = localStorage.getItem("token");
+							axiosInsance.delete("/user", { 
+                                data: body,
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }).then(response => {
 
 								console.log(response);
 

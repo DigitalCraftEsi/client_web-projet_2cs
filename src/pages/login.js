@@ -8,6 +8,8 @@ export function Login() {
 	const passwordRef = useRef();
 	const location = useNavigate();
 
+	const [err, setErr] = useState("");
+
 	async function handleLogin(e) {
 		e.preventDefault();
 		const email = emailRef.current.value;
@@ -22,11 +24,10 @@ export function Login() {
 
 		if (response.data.statusCode === 200) {
 			localStorage.setItem("user", JSON.stringify(response.data.data));
+			localStorage.setItem("token", response.data.data.token);
 			location(`/${response.data.data.role}`);
 		}
 	}
-
-	const [err, setErr] = useState("");
 
 	return (
 		<div className='w-full h-screen bg-green-800 flex justify-center items-center'>
