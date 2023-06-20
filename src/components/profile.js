@@ -55,11 +55,17 @@ export function Profile() {
     let email = inputs[2];
     let phone = inputs[3];
 
+    const token = localStorage.getItem("token");
+
     const response = await axiosInstance.post(`/profile`, {
       fName,
       lName,
       email,
       phone,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
 
     if (response.data.statusCode === 200) {
@@ -87,9 +93,15 @@ export function Profile() {
     let oldPassword = inputs[0];
     let newPassword = inputs[1];
 
+    const token = localStorage.getItem("token");
+    
     const response = await axiosInstance.post(`/profile/updatePassword`, {
       oldPassword,
       newPassword,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
 
     if (response.data.statusCode === 200) {

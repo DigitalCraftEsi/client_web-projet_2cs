@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const ADMmachinesTable = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const EDITABLE_COLUMNS = [
     {
@@ -19,15 +20,19 @@ const ADMmachinesTable = () => {
     {
       title: "longitude",
       field: "longitude",
+      type: "numeric"
     },
     {
       title: "latitude",
       field: "latitude",
+      type: "numeric"
     },
-    { title: "status", field: "status", editable: "never" },
+    { title: "distUID", field: "distuid", editable: "never"},
+    { title: "odbuid", field: "odbuid", editable: "never"}
   ];
 
   async function getAllmachines() {
+    setLoading(true);
     const token = localStorage.getItem("token");
     const response = await axiosInstance.get(`/machine`, {
       headers: {
@@ -42,6 +47,8 @@ const ADMmachinesTable = () => {
       );
       setData(machines);
     }
+
+    setLoading(false);
   }
 
   const navigate = useNavigate();
@@ -55,6 +62,7 @@ const ADMmachinesTable = () => {
       <h1 className="text-2xl font-bold mb-4">Vending machines</h1>
       <div className={classes.tableCore}>
         <MaterialTable
+          isLoading={loading}
           columns={EDITABLE_COLUMNS}
           data={data}
           title=""
@@ -63,8 +71,10 @@ const ADMmachinesTable = () => {
               return new Promise(async (resolve, reject) => {
                 try {
                   const token = localStorage.getItem("token");
+                  const idDistributeur = parseInt(oldData.idDistributeur);
+                  
                   const response = await axiosInstance.post(
-                    `/machine/${oldData.idClient}`,
+                    `/machine/${idDistributeur}`,
                     {
                       ...oldData,
                       ...newData,

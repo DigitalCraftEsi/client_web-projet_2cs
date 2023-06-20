@@ -6,6 +6,8 @@ import { axiosInstance } from "../util/axios";
 import { useNavigate } from "react-router-dom";
 
 export default function SADMusersTable() {
+  const [loading, setLoading] = useState(false);
+
   const EDITABLE_COLUMNS = [
     {
       title: "ID Client",
@@ -17,6 +19,7 @@ export default function SADMusersTable() {
   ];
 
   async function getAllClients() {
+    setLoading(true);
     const token = localStorage.getItem("token");
     const response = await axiosInstance.get("/user", {
       headers: {
@@ -27,6 +30,8 @@ export default function SADMusersTable() {
     if (response.data.statusCode === 200) {
       setData(response.data.data);
     }
+
+    setLoading(false);
   }
 
   const navigate = useNavigate();
@@ -42,6 +47,7 @@ export default function SADMusersTable() {
       <h1 className="text-2xl font-bold mb-4">Clients</h1>
       <div className={classes.tableCore}>
         <MaterialTable
+          isLoading={loading}
           columns={EDITABLE_COLUMNS}
           data={data}
           title=""

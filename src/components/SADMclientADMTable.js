@@ -6,6 +6,8 @@ import { axiosInstance } from "../util/axios";
 import { useParams } from "react-router-dom";
 
 export default function SADMclientADMTable() {
+  const [loading, setLoading] = useState(false);
+
   const EDITABLE_COLUMNS = [
     { title: "ID ADM", field: "idADM", type: "numeric", editable: "never" },
     { title: "nom", field: "nomADM" },
@@ -21,6 +23,7 @@ export default function SADMclientADMTable() {
   const [data, setData] = useState([]);
 
   async function getAllADMs() {
+    setLoading(true);
     const token = localStorage.getItem("token");
 
     const response = await axiosInstance.get(`/user/`, {
@@ -38,6 +41,8 @@ export default function SADMclientADMTable() {
     if (response.data.statusCode === 200) {
       setData(response.data.data.adm);
     }
+
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -49,6 +54,7 @@ export default function SADMclientADMTable() {
       <h1 className="text-2xl font-bold mb-4">ADMs of client {id}</h1>
       <div className={classes.tableCore}>
         <MaterialTable
+          isLoading={loading}
           columns={EDITABLE_COLUMNS}
           data={data}
           title=""

@@ -35,10 +35,12 @@ export function VendingMachineDetails() {
           <div className="font-medium">
             ID distributeur: {data.idDistributeur}
           </div>
-          <div className="font-medium">Client: {data.idClient}</div>
+          {/* <div className="font-medium">Client: {data.idClient}</div> */}
           <div className="font-medium">Address: {data.adresse}</div>
           <div className="font-medium">Longitude: {data.longitude}</div>
           <div className="font-medium">Latitude: {data.latitude}</div>
+          <div className="font-medium">distUID: {data.distuid}</div>
+          <div className="font-medium">odbUID: {data.odbuid}</div>
         </div>
 
         <div className="col-span-1">

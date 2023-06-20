@@ -3,12 +3,15 @@ import { NavLink } from "react-router-dom";
 import { RxExit } from "react-icons/rx";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { axiosInstance } from "../util/axios";
 
 export function Sidebar({ links }) {
   const navigate = useNavigate();
   const item = JSON.parse(localStorage.getItem("user"));
 
   const [user, setUser] = useState(item);
+
+
 
   useEffect(() => {
     // const data = JSON.parse(localStorage.getItem("user"));
