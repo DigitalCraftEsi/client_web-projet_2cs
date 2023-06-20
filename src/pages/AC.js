@@ -5,6 +5,9 @@ import { RiAdvertisementFill } from "react-icons/ri";
 import BoissonTableFirst from "../components/BoissonTableFirst";
 import { ReclamationTable } from "../components/ReclamationTable";
 import Reclamation from "../components/ReclammationInfo/Reclamation";
+import AnnonceTable from "../components/AdComponents/AnnonceTable";
+import ClientInfo from "../components/ClientInfo/ClientInfo";
+import AnnonceInfo from "../components/AdComponents/AnnonceInfo";
 
 const links = [
 	{
@@ -31,9 +34,9 @@ export function AC() {
 			<Routes>
 				<Route path="/" element={<Navigate to="/AC/boissons" />} />
 				<Route path="/boissons" element={<BoissonTableFirst />} />
-				<Route path="/annonceurs" element={""} />
-				<Route path="/annonceurs/:id" element={""} />
-				<Route path="/annonceurs/:id/:annonceId" element={""} />
+				<Route path="/annonceurs" element={< AnnonceTable/>} />
+				<Route path="/annonceurs/:id" element={<ClientInfo/>} />
+				<Route path="/annonceurs/:id/:annonceId" element={<AnnonceInfo/>} />
 				<Route path="/reclamation" element={<ReclamationTable/>} />
 				<Route path="/reclamation/:id" element={ <Reclamation/> } />
 			</Routes>
