@@ -1,4 +1,4 @@
-import { Sidebar } from "../components";
+import { Sidebar, Profile } from "../components";
 import { Routes, Route } from "react-router-dom";
 import { FaMugHot, FaTicketAlt } from "react-icons/fa";
 import { RiAdvertisementFill } from "react-icons/ri";
@@ -29,12 +29,13 @@ export function AC() {
 		<div className='w-full h-full flex '>
 			<Sidebar links={links} user={"Moh Gezdia"} />
 			<Routes>
-				<Route path="/boissons" element={<BoissonTableFirst />} />
-				<Route path="/annonceurs" element={""} />
-				<Route path="/annonceurs/:id" element={""} />
-				<Route path="/annonceurs/:id/:annonceId" element={""} />
-				<Route path="/reclamation" element={<ReclamationTable/>} />
-				<Route path="/reclamation/:id" element={ <Reclamation/> } />
+				<Route path='/boissons' element={<BoissonTableFirst />} />
+				<Route path='/annonceurs' element={""} />
+				<Route path='/annonceurs/:id' element={""} />
+				<Route path='/annonceurs/:id/:annonceId' element={""} />
+				<Route path='/reclamation' element={<ReclamationTable />} />
+				<Route path='/reclamation/:id' element={<Reclamation />} />
+				<Route path='/profile' element={<Profile />} />
 			</Routes>
 		</div>
 	);

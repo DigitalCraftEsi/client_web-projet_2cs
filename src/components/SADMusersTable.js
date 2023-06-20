@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from "./BaseTable/styles.module.css";
-import { axiosInsance } from "../util/axios";
+import { axiosInstance } from "../util/axios";
 import { useNavigate } from "react-router-dom";
 
 export default function SADMusersTable() {
@@ -16,13 +16,13 @@ export default function SADMusersTable() {
 		{ title: "nom", field: "nomClient" },
 	];
 
-    async function getAllClients() {
-        const token = localStorage.getItem("token");
-        const response = await axiosInsance.get("/user", {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+	async function getAllClients() {
+		const token = localStorage.getItem("token");
+		const response = await axiosInstance.get("/user", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
 		if (response.data.statusCode === 200) {
 			setData(response.data.data);

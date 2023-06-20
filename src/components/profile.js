@@ -1,14 +1,16 @@
 import Form from "./Form";
 import { useState, useEffect } from "react";
-import { axiosInsance } from "../util/axios";
+import { axiosInstance } from "../util/axios";
 
 export function Profile() {
+	const data = JSON.parse(localStorage.getItem("user"));
+
 	const [profileData, setProfileData] = useState({
-		nom: "",
-		prenom: "",
-		email: "",
-		telephone: "",
-		role: "",
+		nom: data.nom,
+		prenom: data.prenom,
+		email: data.email,
+		telephone: data.telephone,
+		role: data.role,
 	});
 
 	const password = {
@@ -18,15 +20,15 @@ export function Profile() {
 
 	async function getProfile() {
 		const token = localStorage.getItem("token");
-		const response = await axiosInsance.get(`/profile`, {
+		const response = await axiosInstance.get(`/profile`, {
 			headers: {
-				Authorization: `Bearer ${token}`
-			}
+				Authorization: `Bearer ${token}`,
+			},
 		});
-		
+
 		if (response.data.statusCode === 200) {
 			const role = JSON.parse(localStorage.getItem("user")).role;
-			if(role === "SADM") {
+			if (role === "SADM") {
 				let newData = {
 					nom: response.data.data.nomSADM,
 					prenom: response.data.data.prenomSADM,
@@ -35,7 +37,7 @@ export function Profile() {
 					role,
 				};
 				setProfileData(newData);
-			} else if(role === "ADM") {
+			} else if (role === "ADM") {
 				let newData = {
 					nom: response.data.data.nomADM,
 					prenom: response.data.data.prenomADM,
@@ -46,7 +48,6 @@ export function Profile() {
 				};
 				setProfileData(newData);
 			}
-
 		}
 	}
 
@@ -56,12 +57,21 @@ export function Profile() {
 		let email = inputs[2];
 		let phone = inputs[3];
 
-		const response = await axiosInsance.post(`/profile`, {
-			fName,
-			lName,
-			email,
-			phone,
-		});
+		const token = localStorage.getItem("token");
+		const response = await axiosInstance.post(
+			`/profile`,
+			{
+				fName,
+				lName,
+				email,
+				phone,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
 
 		if (response.data.statusCode === 200) {
 			console.log(response.data.data);
@@ -88,10 +98,19 @@ export function Profile() {
 		let oldPassword = inputs[0];
 		let newPassword = inputs[1];
 
-		const response = await axiosInsance.post(`/profile/updatePassword`, {
-			oldPassword,
-			newPassword,
-		});
+		const token = localStorage.getItem("token");
+		const response = await axiosInstance.post(
+			`/profile/updatePassword`,
+			{
+				oldPassword,
+				newPassword,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
 
 		if (response.data.statusCode === 200) {
 			console.log(response.data.data);

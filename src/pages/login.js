@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import logo from "../assets/logo_smartBev.png";
-import { axiosInsance } from "../util/axios";
+import { axiosInstance } from "../util/axios";
 
 export function Login() {
 	const emailRef = useRef();
@@ -15,7 +15,7 @@ export function Login() {
 		const email = emailRef.current.value;
 		const password = passwordRef.current.value;
 
-		const response = await axiosInsance.post("/login", {
+		const response = await axiosInstance.post("/login", {
 			email,
 			password,
 		});
