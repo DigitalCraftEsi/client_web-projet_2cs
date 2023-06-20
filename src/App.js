@@ -14,7 +14,6 @@ function App() {
 					<Route path='/ADM/*' element={<ADM />} />
 					<Route path='/AC/*' element={<AC />} />
 					<Route path='/Decideur/*' element={<Decideur />} />
-					<Route path='/chart/*' element={<LineChart />} />
 				</Routes>
 			</Router>
 		</ContextWrapper>
