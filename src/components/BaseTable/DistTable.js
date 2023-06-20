@@ -30,7 +30,7 @@ const DisTable = () => {
     { title: "ID client", field: "idClient", type: "numeric" },
     {
       title: "nom client",
-      field: "nomClient",
+      field: "client.nomClient",
       type: "string",
       editable: "never",
     },
@@ -66,25 +66,25 @@ const DisTable = () => {
       },
     });
     console.log(response);
-    // console.log(clientsResponse);
+    console.log(clientsResponse);
 
     if (
       response.data.statusCode === 200 &&
       clientsResponse.data.statusCode === 200
     ) {
-      setClientsArray(clientsResponse.data.data);
+      setClientsArray(clientsResponse.data.data.clients);
 
-      response.data.data.forEach((machine) => {
-        machine.nomClient = "";
-        const clientIndex = clientsResponse.data.data.findIndex(
-          (client) => client.idClient === machine.idClient
-        );
+      // response.data.data.forEach((machine) => {
+      //   machine.nomClient = "";
+      //   const clientIndex = clientsResponse.data.data.findIndex(
+      //     (client) => client.idClient === machine.idClient
+      //   );
 
-        if (clientIndex >= 0) {
-          machine.nomClient = clientsResponse.data.data[clientIndex].nomClient;
-          // console.log("nomClient", machine.nomClient)
-        }
-      });
+      //   if (clientIndex >= 0) {
+      //     machine.nomClient = clientsResponse.data.data[clientIndex].nomClient;
+      //     // console.log("nomClient", machine.nomClient)
+      //   }
+      // });
 
       setData(response.data.data);
       // console.log(data);
@@ -198,8 +198,10 @@ const DisTable = () => {
         data={data}
         title=""
         onRowClick={(event, rowData) => {
-          setEditRow(rowData);
-          setDialogOpen(true);
+          if(!rowData.idClient) {
+            setEditRow(rowData);
+            setDialogOpen(true);
+          }
         }}
         editable={{
           onRowAdd: async (newData) => {

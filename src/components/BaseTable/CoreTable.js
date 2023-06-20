@@ -30,7 +30,7 @@ const CoreTable = () => {
 		console.log(response);
 
 		if (response.data.statusCode === 200) {
-			setData(response.data.data);
+			setData(response.data.data.clients);
 		}
 
 		setLoading(false);

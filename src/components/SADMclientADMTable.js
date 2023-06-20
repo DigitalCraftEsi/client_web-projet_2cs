@@ -28,8 +28,8 @@ export default function SADMclientADMTable() {
 
     const response = await axiosInstance.get(`/user/`, {
       data: {
-        id,
-        role: "CLIENT",
+        // id,
+        role: "ADM",
       },
       headers: {
         Authorization: `Bearer ${token}`,
