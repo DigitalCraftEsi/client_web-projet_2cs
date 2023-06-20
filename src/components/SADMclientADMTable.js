@@ -4,42 +4,63 @@ import "@fontsource/poppins";
 import classes from "./BaseTable/styles.module.css";
 import { axiosInstance } from "../util/axios";
 import { useParams } from "react-router-dom";
+import { TextField } from "@material-ui/core";
 
 export default function SADMclientADMTable() {
   const [loading, setLoading] = useState(false);
 
   const EDITABLE_COLUMNS = [
-    { title: "ID ADM", field: "idADM", type: "numeric", editable: "never" },
+    { title: "ID", field: "idADM", type: "numeric", editable: "never" },
     { title: "nom", field: "nomADM" },
     { title: "prenom", field: "prenomADM" },
     { title: "telephone", field: "telephoneADM" },
     { title: "email", field: "emailADM" },
     { title: "ID client", field: "idClient", editable: "never" },
+    {
+      title: "client",
+      field: "client",
+      editable: "never",
+      render: (rowData) => (<span>{clientData.nomClient}</span>)
+    },
+    {
+      title: "password",
+      field: "password",
+      editable: "always",
+      editComponent: (props) => (
+        <TextField
+          placeholder="password"
+          type="password"
+          value={props.value || ""}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
+      ),
+    },
   ];
 
   const { id: idClient } = useParams();
   let id = parseInt(idClient);
 
   const [data, setData] = useState([]);
+  const [clientData, setClientData] = useState({});
 
   async function getAllADMs() {
     setLoading(true);
     const token = localStorage.getItem("token");
 
-    const response = await axiosInstance.get(`/user/`, {
-      data: {
-        // id,
+    const response = await axiosInstance.post(`/user/getadm`, {
+        id,
         role: "ADM",
-      },
+    }, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     });
 
     console.log("response", response);
 
     if (response.data.statusCode === 200) {
       setData(response.data.data.adm);
+      setClientData(response.data.data.client);
     }
 
     setLoading(false);
@@ -51,7 +72,7 @@ export default function SADMclientADMTable() {
 
   return (
     <div className="p-10">
-      <h1 className="text-2xl font-bold mb-4">ADMs of client {id}</h1>
+      <h1 className="text-2xl font-bold mb-4">ADMs of {'"'}{clientData.nomClient}{'" / id: '}  {id}</h1>
       <div className={classes.tableCore}>
         <MaterialTable
           isLoading={loading}
@@ -65,7 +86,7 @@ export default function SADMclientADMTable() {
                   email: newData.emailADM,
                   nom: newData.nomADM,
                   prenom: newData.prenomADM,
-                  password: "chamsou2002",
+                  password: newData.password == "" ? null : newData.password,
                   telephone: newData.telephoneADM,
                   client: id,
                   role: "ADM",
@@ -90,9 +111,40 @@ export default function SADMclientADMTable() {
                   });
               });
             },
+            onRowDelete: (oldData) => {
+              return new Promise(async (resolve, reject) => {
+                const body = {
+                  id: oldData.idADM,
+                  role: "ADM",
+                };
+
+                console.log("body", body);
+
+                try {
+                  const token = localStorage.getItem("token");
+                  const response = await axiosInstance.delete("/user", {
+                    data: body,
+                    headers: {
+                      Authorization: `Bearer ${token}`
+                    }
+                  });
+                  console.log(response);
+
+                  if (response.data.statusCode === 200) {
+                    getAllADMs();
+                    resolve();
+                  } else {
+                    reject();
+                  }
+                } catch (err) {
+                  console.log(err);
+                  reject();
+                }
+              })
+            }
           }}
           options={{
-            actionsColumnIndex: -1,
+            // actionsColumnIndex: -1,
             headerStyle: {
               borderBottom: "solid 1px black",
               color: "#757575",
