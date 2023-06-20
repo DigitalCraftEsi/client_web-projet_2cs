@@ -13,17 +13,25 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-export function Map() {
+export function Map({data}) {
+  let point;
+
+  if(data.latitude && data.longitude) {
+    point = [data.longitude, data.latitude]
+  } else {
+    point = [36.7050299,3.1713407]
+  }
+
   return (
-    <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: "100%" }} >
+    <MapContainer center={point} zoom={16} scrollWheelZoom={false} style={{ height: '100%', width: "100%" }} >
       <ScaleControl />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[51.505, -0.09]}  >
+      <Marker position={point}  >
         <Popup offset={new L.point(12,10)}>
-          A pretty CSS3 popup Easily customizable.
+          distributeur - {data.idDistributeur} | {JSON.stringify(point)}
         </Popup>
       </Marker>
     </MapContainer>

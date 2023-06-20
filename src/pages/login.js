@@ -1,32 +1,44 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import logo from "../assets/logo_smartBev.png";
-import { axiosInsance } from "../util/axios";
+import { axiosInstance } from "../util/axios";
 
 export function Login() {
 	const emailRef = useRef();
 	const passwordRef = useRef();
 	const location = useNavigate();
+	const [err, setErr] = useState("");
 
 	async function handleLogin(e) {
+		setErr("");
 		e.preventDefault();
 		const email = emailRef.current.value;
 		const password = passwordRef.current.value;
 
-		const response = await axiosInsance.post("/login", {
-			email,
-			password,
-		});
-
-		console.log(response);
-
-		if (response.data.statusCode === 200) {
-			localStorage.setItem("user", JSON.stringify(response.data.data));
-			location(`/${response.data.data.role}`);
+		try {
+			const response = await axiosInstance.post("/login", {
+				email,
+				password,
+			});
+	
+			console.log(response);
+	
+			if(response.data.statusCode === 200) {
+			  localStorage.setItem("user", JSON.stringify(response.data.data) );
+			  localStorage.setItem("token", response.data.data.token);
+			  location(`/${response.data.data.role}`);
+			} else {
+				setErr("There was an error, verify your credentials or contact the admin")
+			}
+			
+		} catch(e) {
+			console.log(e);
+			setErr("There was an error, verify your credentials or contact the admin")
 		}
 	}
 
-	const [err, setErr] = useState("");
+	
+    
 
 	return (
 		<div className='w-full h-screen bg-green-800 flex justify-center items-center'>

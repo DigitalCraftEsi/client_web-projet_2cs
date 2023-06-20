@@ -1,5 +1,5 @@
 import { Sidebar } from "../components";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { FaMugHot, FaTicketAlt } from "react-icons/fa";
 import { RiAdvertisementFill } from "react-icons/ri";
 import BoissonTableFirst from "../components/BoissonTableFirst";
@@ -27,8 +27,9 @@ const links = [
 export function AC() {
 	return (
 		<div className='w-full h-full flex '>
-			<Sidebar links={links} user={"Moh Gezdia"} />
+			<Sidebar links={links} />
 			<Routes>
+				<Route path="/" element={<Navigate to="/AC/boissons" />} />
 				<Route path="/boissons" element={<BoissonTableFirst />} />
 				<Route path="/annonceurs" element={""} />
 				<Route path="/annonceurs/:id" element={""} />

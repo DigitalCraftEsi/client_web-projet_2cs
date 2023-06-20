@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BACKEND_URL } from "./constants";
 
-export const axiosInsance = axios.create({
+export const axiosInstance = axios.create({
     baseURL: BACKEND_URL,
-    withCredentials: true
+    // withCredentials: true
 }) 
