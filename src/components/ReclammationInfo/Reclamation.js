@@ -12,8 +12,14 @@ export default function Reclamation() {
 	const { id } = useParams();
 	const location = useNavigate();
 
+
 	async function getReclamationById() {
-		const response = await axiosInstance.get(`/reclamation/${id}`);
+		const token = localStorage.getItem("token");
+		const response = await axiosInstance.get(`/reclamation/${id}`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
 
 		if (response.data.statusCode === 200) {
 			const profileData = {
@@ -33,6 +39,7 @@ export default function Reclamation() {
 					response.data.data.commande.consommateur.prenomConsommateur,
 				dateCommande: response.data.data.commande.dateCommande,
 				description: response.data.data.description,
+				notif: response.data.data.notif
 			};
 			setProfileData(profileData);
 			setReclamationDetails(reclamationDetails);
@@ -50,12 +57,18 @@ export default function Reclamation() {
 			notif,
 		};
 
-		const response = await axiosInstance.post(`/reclamation/${id}`, body);
+		const token = localStorage.getItem("token");
+		const response = await axiosInstance.post(`/reclamation/${id}`, body, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
 
 		if (response.data.statusCode === 200) {
 			location("/AC/reclamation");
 			console.log(reclamationDetails);
 		}
+
 	}
 
 	function handleSubmit(event) {
@@ -70,11 +83,13 @@ export default function Reclamation() {
 
 	return (
 		<div className='w-full flex flex-col '>
+			
+
 			<ReclamationDetails data={reclamationDetails}></ReclamationDetails>
 			<ProfileConsumer data={profileData}></ProfileConsumer>
 			<div className='flex items-center justify-end mr-10 mb-6'>
 				{!showConfirmation && ( // conditionally render the button or confirmation form
-					<Button
+					!reclamationDetails.notif && <Button
 						type='Button'
 						onclick={() => setShowConfirmation(true)} // show the confirmation form
 						color='success'

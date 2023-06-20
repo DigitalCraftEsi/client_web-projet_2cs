@@ -30,9 +30,16 @@ const EDITABLE_COLUMNS = [
 
 const ReclamTable = () => {
 	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	async function getAllReclamations() {
-		const response = await axiosInstance.get(`/reclamation`);
+		setLoading(true);
+		const token = localStorage.getItem("token");
+		const response = await axiosInstance.get(`/reclamation`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
 
 		if (response.data.statusCode === 200) {
 			const modifiedData = response.data.data.map((item) => {
@@ -49,6 +56,8 @@ const ReclamTable = () => {
 			console.log(modifiedData);
 			setData(modifiedData);
 		}
+
+		setLoading(false);
 	}
 
 	useEffect(() => {
@@ -58,6 +67,7 @@ const ReclamTable = () => {
 	return (
 		<div className={classes.tableCore}>
 			<MaterialTable
+				isLoading={loading}
 				columns={EDITABLE_COLUMNS}
 				data={data}
 				title=''

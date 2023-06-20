@@ -16,6 +16,7 @@ export function ReclamationDetails({ data }) {
 			<div className='bg-gray-50 flex flex-col w-full p-4 rounded-md border-solid border-2'>
 				<div className='font-normal mb-3'>Date : {data.date}</div>
 				<div className='font-normal mb-3'>Titre : {data.titre}</div>
+				<div className='font-normal mb-3'>Traité: {data.notif ? "oui" : "non"}</div>
 				<div className='font-normal mb-3'>
 					<p className='inline-block'>Commande : &nbsp;</p>
 					<p
