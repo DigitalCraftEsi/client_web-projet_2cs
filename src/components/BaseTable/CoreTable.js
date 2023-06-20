@@ -5,6 +5,8 @@ import classes from "./styles.module.css";
 import { axiosInstance } from "../../util/axios";
 
 const CoreTable = () => {
+	const [loading, setLoading] = useState(false);
+
 	const EDITABLE_COLUMNS = [
 		{
 			title: "ID Client",
@@ -18,6 +20,7 @@ const CoreTable = () => {
 	];
 
 	async function getAllClients() {
+		setLoading(true);
 		const token = localStorage.getItem("token");
 		const response = await axiosInstance.get(`/user`, {
 			headers: {
@@ -29,6 +32,8 @@ const CoreTable = () => {
 		if (response.data.statusCode === 200) {
 			setData(response.data.data);
 		}
+
+		setLoading(false);
 	}
 
 	const [data, setData] = useState([]);
@@ -40,6 +45,7 @@ const CoreTable = () => {
 	return (
 		<div className={classes.tableCore}>
 			<MaterialTable
+				isLoading={loading}
 				columns={EDITABLE_COLUMNS}
 				data={data}
 				title=''
@@ -61,7 +67,7 @@ const CoreTable = () => {
                             }).then(response => {
 
 									if (response.data.statusCode === 201) {
-										setData([...data, response.data.data]);
+										getAllClients();
 										resolve();
 									} else {
 										reject();

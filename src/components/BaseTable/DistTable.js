@@ -18,6 +18,8 @@ const DisTable = () => {
   const [clientsArray, setClientsArray] = useState([]);
   const [data, setData] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   const EDITABLE_COLUMNS = [
     {
       title: "ID distributeur",
@@ -32,9 +34,25 @@ const DisTable = () => {
       type: "string",
       editable: "never",
     },
+    {
+      title: "distUID",
+      field: "distuid",
+      type: "string",
+      editable: "onAdd"
+    },
+    {
+      title: "odbUID",
+      field: "odbuid",
+      type: "string",
+      editable: "onAdd"
+    }
   ];
 
+
+
+
   async function getAllmachines() {
+    setLoading(true);
     const token = localStorage.getItem("token");
     const response = await axiosInstance.get(`/machine`, {
       headers: {
@@ -71,6 +89,8 @@ const DisTable = () => {
       setData(response.data.data);
       // console.log(data);
     }
+
+    setLoading(false);
   }
 
   const [editedRow, setEditRow] = useState({});
@@ -103,7 +123,7 @@ const DisTable = () => {
               }}
             />
 
-            <Select
+            <select
               label="id_client"
               variant="outlined"
               autoFocus={false}
@@ -116,11 +136,11 @@ const DisTable = () => {
               }
             >
               {clientsArray.map((client, index) => (
-                <MenuItem key={index} value={client.idClient}>
+                <option key={index} value={client.idClient}  >
                   {client.idClient} - {client.nomClient}
-                </MenuItem>
+                </option>
               ))}
-            </Select>
+            </select>
           </div>
         </DialogContent>
         <DialogActions>
@@ -139,9 +159,12 @@ const DisTable = () => {
               setDialogOpen(false);
 
               const body = {
-                client: editedRow.idClient,
-                machines: [editedRow.idDistributeur],
+                client: parseInt(editedRow.idClient),
+                machines: [parseInt(editedRow.idDistributeur)],
               };
+
+              console.log("assign body:", body);
+
               console.log("id client", editedRow.idClient);
               console.log("edit body", body);
               const token = localStorage.getItem("token");
@@ -158,22 +181,6 @@ const DisTable = () => {
               console.log("assign client response", response);
 
               if (response.data.statusCode === 200) {
-                // setData(prevData => {
-                // 	const newData = [...prevData];
-                // 	const index = newData.findIndex(row => row.idDistributeur === editedRow.idDistributeur);
-                // 	newData[index].idClient = editedRow.idClient;
-
-                // 	const clientIndex = clientsArray.findIndex(client => client.idClient === editedRow.idClient);
-
-                // 	if(clientIndex >= 0) {
-                // 		newData[index].nomClient = clientsArray[clientIndex].nomClient;
-                // 	}
-
-                // 	return newData;
-                // })
-
-                // console.log("changed clietn");
-
                 getAllmachines();
               }
             }}
@@ -182,7 +189,11 @@ const DisTable = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+
+
       <MaterialTable
+        isLoading={loading}
         columns={EDITABLE_COLUMNS}
         data={data}
         title=""
@@ -193,11 +204,10 @@ const DisTable = () => {
         editable={{
           onRowAdd: async (newData) => {
             return new Promise((resolve, reject) => {
-              const distuid = new Date().valueOf().toString().slice(0, 4);
 
               const body = {
-                distuid: distuid,
-                odbuid: distuid,
+                distuid: newData.distuid,
+                odbuid: newData.odbuid,
               };
 
               const token = localStorage.getItem("token");
@@ -223,6 +233,7 @@ const DisTable = () => {
           },
         }}
         options={{
+          actionsColumnIndex: -1,
           headerStyle: {
             borderBottom: "solid 1px black",
             color: "#757575",

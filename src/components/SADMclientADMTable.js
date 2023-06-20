@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from "./BaseTable/styles.module.css";
-import { axiosInsance } from "../util/axios";
+import { axiosInstance } from "../util/axios";
 import { useParams } from "react-router-dom";
 
 export default function SADMclientADMTable() {
@@ -23,14 +23,14 @@ export default function SADMclientADMTable() {
   async function getAllADMs() {
     const token = localStorage.getItem("token");
 
-    const response = await axiosInsance.get(`/user/`, {
+    const response = await axiosInstance.get(`/user/`, {
       data: {
         id,
         role: "CLIENT",
       },
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     console.log("response", response);
@@ -39,8 +39,6 @@ export default function SADMclientADMTable() {
       setData(response.data.data.adm);
     }
   }
-
-  
 
   useEffect(() => {
     getAllADMs();
@@ -64,27 +62,26 @@ export default function SADMclientADMTable() {
                   password: "chamsou2002",
                   telephone: newData.telephoneADM,
                   client: id,
-                  role: "ADM"
+                  role: "ADM",
                 };
 
                 const token = localStorage.getItem("token");
-                axiosInsance.post("/user", body, {
-                  headers: {
-                    Authorization: `Bearer ${token}`
-                  }
-                })
-                .then(response => {
+                axiosInstance
+                  .post("/user", body, {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  })
+                  .then((response) => {
                     console.log("add adm", response);
-    
+
                     if (response.status === 201) {
                       getAllADMs();
                       resolve();
                     } else {
-                        reject();
+                      reject();
                     }
-                })
-
-
+                  });
               });
             },
           }}

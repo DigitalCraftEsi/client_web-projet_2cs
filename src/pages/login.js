@@ -20,26 +20,22 @@ export function Login() {
 
 		console.log(response);
 
-		if (response.data.statusCode === 200) {
-			localStorage.setItem("user", JSON.stringify(response.data.data));
-			location("/SADM/distributeurs");
+		if(response.data.statusCode === 200) {
+		  localStorage.setItem("user", JSON.stringify(response.data.data) );
+		  localStorage.setItem("token", response.data.data.token);
+		  location(`/${response.data.data.role}`);
 		}
 	}
 
-    if(response.data.statusCode === 200) {
-      localStorage.setItem("user", JSON.stringify(response.data.data) );
-      localStorage.setItem("token", response.data.data.token);
-      location(`/${response.data.data.role}`);
-    }
+	
     
-  }
 
 	return (
 		<div className='w-full h-screen bg-green-800 flex justify-center items-center'>
 			<form className='bg-white w-[400px]  rounded-lg p-8 flex flex-col gap-4'>
 				<img src={logo} className='w-20 h-20 mx-auto' alt='logo SmartBev' />
 				<h1 className='font-bold text-2xl text-center mb-4'>Login</h1>
-				<h4 className='font-semibold text-md text-red-500'>{err}</h4>
+				<h4 className='font-semibold text-md text-red-500'>{""}</h4>
 
 				<label htmlFor='email'>Email</label>
 				<input

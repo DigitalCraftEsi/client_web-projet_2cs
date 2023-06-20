@@ -2,18 +2,22 @@ import { React, useState, useEffect } from "react";
 import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from "./BaseTable/styles.module.css";
-import { axiosInsance } from "../util/axios";
+import { axiosInstance } from "../util/axios";
 
 const ADMusersTable = () => {
   const [data, setData] = useState([]);
 
   const EDITABLE_COLUMNS = [
     { title: "id", field: "id", editable: "never", type: "numeric" },
-    { title: "role", field: "role", lookup: {
-        "DECIDEUR": "DECIDEUR",
-        "AC": "AC",
-        "AM": "AM",
-    } },
+    {
+      title: "role",
+      field: "role",
+      lookup: {
+        DECIDEUR: "DECIDEUR",
+        AC: "AC",
+        AM: "AM",
+      },
+    },
     { title: "nom", field: "nom" },
     { title: "prenom", field: "prenom" },
     { title: "email", field: "email" },
@@ -21,44 +25,44 @@ const ADMusersTable = () => {
   ];
 
   async function getAllusers() {
-    const token = localStorage.getItem("token")
-    const response = await axiosInsance.get(`/user`, {
+    const token = localStorage.getItem("token");
+    const response = await axiosInstance.get(`/user`, {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
     console.log(response);
     if (response.data.statusCode === 200) {
-        const { decideurs, acs, ams } =  response.data.data;
+      const { decideurs, acs, ams } = response.data.data;
 
-        decideurs.forEach(decideur => {
-            decideur.role = "DECIDEUR"
-            decideur.nom = decideur.nomDecideur
-            decideur.id = decideur.idDecideur
-            decideur.prenom = decideur.prenomDecideur
-            decideur.email = decideur.emailDecideur
-            decideur.telephone = decideur.telephoneDecideur
-        });
+      decideurs.forEach((decideur) => {
+        decideur.role = "DECIDEUR";
+        decideur.nom = decideur.nomDecideur;
+        decideur.id = decideur.idDecideur;
+        decideur.prenom = decideur.prenomDecideur;
+        decideur.email = decideur.emailDecideur;
+        decideur.telephone = decideur.telephoneDecideur;
+      });
 
-        acs.forEach(ac => {
-            ac.role = "AC"
-            ac.id = ac.idAC
-            ac.nom = ac.nomAC
-            ac.prenom = ac.prenomAC
-            ac.email = ac.emailAC
-            ac.telephone = ac.telephoneAC
-        });
+      acs.forEach((ac) => {
+        ac.role = "AC";
+        ac.id = ac.idAC;
+        ac.nom = ac.nomAC;
+        ac.prenom = ac.prenomAC;
+        ac.email = ac.emailAC;
+        ac.telephone = ac.telephoneAC;
+      });
 
-        ams.forEach(am => {
-            am.role = "AM"
-            am.id = am.idAM
-            am.nom = am.nomAM
-            am.prenom = am.prenomAM
-            am.email = am.emailAM
-            am.telephone = am.telephoneAM
-        });
+      ams.forEach((am) => {
+        am.role = "AM";
+        am.id = am.idAM;
+        am.nom = am.nomAM;
+        am.prenom = am.prenomAM;
+        am.email = am.emailAM;
+        am.telephone = am.telephoneAM;
+      });
 
-        setData([ ...decideurs, ...acs, ...ams ]);
+      setData([...decideurs, ...acs, ...ams]);
     }
   }
 
@@ -76,61 +80,59 @@ const ADMusersTable = () => {
           title=""
           editable={{
             onRowAdd: (newData) => {
-                return new Promise(async (resolve, reject) => {
-                    const body = {
-                        ...newData,
-                        password: "chamsou2002"
-                    };
+              return new Promise(async (resolve, reject) => {
+                const body = {
+                  ...newData,
+                  password: "chamsou2002",
+                };
 
-                    const token = localStorage.getItem("token");
-                    const response = await axiosInsance.post("/user", body, {
-                      headers: {
-                        Authorization: `Bearer ${token}`
-                      }
-                    });
-                    console.log(response);
-
-                    if(response.data.statusCode === 201) {
-                        getAllusers();
-                        resolve();
-                    } else {
-                        reject();
-                    }
+                const token = localStorage.getItem("token");
+                const response = await axiosInstance.post("/user", body, {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
                 });
+                console.log(response);
+
+                if (response.data.statusCode === 201) {
+                  getAllusers();
+                  resolve();
+                } else {
+                  reject();
+                }
+              });
             },
             onRowDelete: (oldData) => {
-                return new Promise(async(resolve, reject) => {
-                    const body = {
-                        id: oldData.id,
-                        role: oldData.role
-                    };
+              return new Promise(async (resolve, reject) => {
+                const body = {
+                  id: oldData.id,
+                  role: oldData.role,
+                };
 
-                    console.log("body", body)
+                console.log("body", body);
 
-                    try {
-                        const token = localStorage.getItem("token");
-                        const response = await axiosInsance.delete("/user", {
-                          data: body,
-                          headers: {
-                            Authorization: `Bearer ${token}`
-                          }
-                        });
-                        console.log(response);
-    
-                        if(response.data.statusCode === 200) {
-                            getAllusers();
-                            resolve();
-                        } else {
-                            reject();
-                        }
-                        
-                    } catch (err) {
-                        console.log(err);
-                        reject();
-                    }
+                try {
+                  const token = localStorage.getItem("token");
+                  const response = await axiosInstance.delete("/user", {
+                    data: body,
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  });
+                  console.log(response);
 
-                });
-            }
+                  if (response.data.statusCode === 200) {
+                    getAllusers();
+                    resolve();
+                  } else {
+                    reject();
+                  }
+                } catch (err) {
+                  console.log(err);
+                  reject();
+                }
+              });
+            },
           }}
           options={{
             actionsColumnIndex: -1,
