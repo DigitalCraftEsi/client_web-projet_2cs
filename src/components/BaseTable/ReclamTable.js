@@ -19,7 +19,7 @@ const EDITABLE_COLUMNS = [
 			return (
 				<Link
 					className='text-success underline'
-					to={`/AC/reclamation/${rowData.id}`}
+					to={`/AC/reclamations/${rowData.id}`}
 				>
 					details
 				</Link>
@@ -37,8 +37,8 @@ const ReclamTable = () => {
 		const token = localStorage.getItem("token");
 		const response = await axiosInstance.get(`/reclamation`, {
 			headers: {
-				Authorization: `Bearer ${token}`
-			}
+				Authorization: `Bearer ${token}`,
+			},
 		});
 
 		if (response.data.statusCode === 200) {

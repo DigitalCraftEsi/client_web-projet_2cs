@@ -7,11 +7,10 @@ import { axiosInstance } from "../../util/axios";
 
 export default function Reclamation() {
 	const [profileData, setProfileData] = useState({});
-	const [reclamationDetails, setReclamationDetails] = useState({});
+	const [reclamationDetails, setReclamationDetails] = useState({ notif: true });
 	const [showConfirmation, setShowConfirmation] = useState(false);
 	const { id } = useParams();
 	const location = useNavigate();
-
 
 	async function getReclamationById() {
 		const token = localStorage.getItem("token");
@@ -39,7 +38,7 @@ export default function Reclamation() {
 					response.data.data.commande.consommateur.prenomConsommateur,
 				dateCommande: response.data.data.commande.dateCommande,
 				description: response.data.data.description,
-				notif: response.data.data.notif
+				notif: response.data.data.notif,
 			};
 			setProfileData(profileData);
 			setReclamationDetails(reclamationDetails);
@@ -82,7 +81,6 @@ export default function Reclamation() {
 				console.log(reclamationDetails);
 			}
 		}
-
 	}
 
 	function handleSubmit(event) {
@@ -101,19 +99,18 @@ export default function Reclamation() {
 
 	return (
 		<div className='w-full flex flex-col '>
-			
-
 			<ReclamationDetails data={reclamationDetails}></ReclamationDetails>
 			<ProfileConsumer data={profileData}></ProfileConsumer>
 			<div className='flex items-center justify-end mr-10 mb-6'>
-				{!showConfirmation && ( // conditionally render the button or confirmation form
-					!reclamationDetails.notif && <Button
-						type='Button'
-						onclick={() => setShowConfirmation(true)} // show the confirmation form
-						color='success'
-						contenu='Répondre'
-					></Button>
-				)}
+				{!showConfirmation && // conditionally render the button or confirmation form
+					!reclamationDetails.notif && (
+						<Button
+							type='Button'
+							onclick={() => setShowConfirmation(true)} // show the confirmation form
+							color='success'
+							contenu='Répondre'
+						></Button>
+					)}
 				{showConfirmation && ( // show the confirmation form
 					<form onSubmit={handleSubmit}>
 						<div className='fixed z-50 inset-0 overflow-y-auto'>
