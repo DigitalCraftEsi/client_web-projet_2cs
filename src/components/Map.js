@@ -13,6 +13,12 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
+/**
+ * the a component to display vending machine markers on the map
+ * @component
+ * @argument {object} data
+ * @returns {React.ReactElement}
+ */
 export function Map({data}) {
   let point;
 

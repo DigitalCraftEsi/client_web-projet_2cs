@@ -5,6 +5,11 @@ import classes from "./BaseTable/styles.module.css";
 import { axiosInstance } from "../util/axios";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * a table containing the list of clients for SADM page
+ * @component
+ * @returns {React.ReactElement}
+ */
 export default function SADMusersTable() {
   const [loading, setLoading] = useState(false);
 

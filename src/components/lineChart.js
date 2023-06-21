@@ -86,6 +86,13 @@ export const data0 = {
 	],
 };
 
+/**
+ * a line chart component
+ * @component
+ * @property {string} title
+ * @property {boolean} show
+ * @returns {React.ReactElement}
+ */
 export function LineChart({ title, show }) {
 	const [data, setData] = useState(data0);
 	const [selectedRegion, setSelectedRegion] = useState("");

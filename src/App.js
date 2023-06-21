@@ -16,6 +16,12 @@ import {
 } from "./util/authValidators";
 import PublicRoute from "./components/publicRoute";
 
+/**
+ * the main component of the app
+ * contains the differents routes and their corresponding pages
+ * @component
+ * @returns {React.ReactElement}
+ */
 function App() {
 	return (
 		<ContextWrapper>

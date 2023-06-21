@@ -17,6 +17,11 @@ const links = [
 	},
 ];
 
+/**
+ * the ADM page
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function ADM() {
 	return (
 		<div className='w-full h-full flex '>

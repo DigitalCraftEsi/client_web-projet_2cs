@@ -2,6 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import ApexCharts from "apexcharts";
 import { axiosInstance } from "../util/axios";
 
+/**
+ * pie chart
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function Chart({ title, data, regions }) {
 	const chartRef = useRef(null);
 

@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import ApexCharts from "apexcharts";
 
+/**
+ * statistic chart
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function Chart2({ title, data }) {
 	const chartRef = useRef(null);
 

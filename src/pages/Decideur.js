@@ -22,6 +22,11 @@ const links = [
 	},
 ];
 
+/**
+ * the Decideur page
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function Decideur() {
 	return (
 		<div className='w-full h-full flex'>

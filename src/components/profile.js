@@ -2,6 +2,11 @@ import Form from "./Form";
 import { useState, useEffect } from "react";
 import { axiosInstance } from "../util/axios";
 
+/**
+ * the user profile page
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function Profile() {
 	const data = JSON.parse(localStorage.getItem("user"));
 

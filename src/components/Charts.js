@@ -5,6 +5,11 @@ import { useState } from "react";
 import { axiosInstance } from "../util/axios";
 import { useEffect } from "react";
 
+/**
+ * a page containing the list of charts for Decideur page
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function Charts() {
 	const [regions, setRegions] = useState([]);
 	const [data, setData] = useState([]);

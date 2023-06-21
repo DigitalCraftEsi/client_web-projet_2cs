@@ -24,7 +24,11 @@ const links = [
   }
 ];
 
-
+/**
+ * the SADM page
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function SADM() {
   return (
     <div className="w-full h-full flex ">

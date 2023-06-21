@@ -1,5 +1,10 @@
 import ReclamTable from "./BaseTable/ReclamTable";
 
+/**
+ * the reclamations page
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function ReclamationTable() {
 	return (
 		<div className='p-10'>

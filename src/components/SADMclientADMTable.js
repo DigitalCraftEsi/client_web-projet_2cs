@@ -6,6 +6,11 @@ import { axiosInstance } from "../util/axios";
 import { useParams } from "react-router-dom";
 import { TextField } from "@material-ui/core";
 
+/**
+ * a table containing the list of ADMs of a client in SADM page
+ * @component
+ * @returns {React.ReactElement}
+ */
 export default function SADMclientADMTable() {
   const [loading, setLoading] = useState(false);
 

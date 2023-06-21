@@ -2,6 +2,13 @@ import React, { useState, useEffect } from "react";
 import Button from "./Button/Button";
 import { FaPlus } from "react-icons/fa";
 
+/**
+ * a form component to add new items
+ * @component
+ * @property {Array} data
+ * @property {function} onSubmit
+ * @returns {React.ReactElement}
+ */
 function Form({ data, onSubmit }) {
 	const labels = Object.keys(data);
 	const [showForm, setShowForm] = useState(false);

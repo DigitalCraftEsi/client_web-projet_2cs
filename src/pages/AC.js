@@ -27,6 +27,11 @@ const links = [
 	},
 ];
 
+/**
+ * the AC page
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function AC() {
 	return (
 		<div className='w-full h-full flex '>

@@ -5,6 +5,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../util/axios";
 
+/**
+ * the sidebar component
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function Sidebar({ links }) {
 	const navigate = useNavigate();
 	const item = JSON.parse(localStorage.getItem("user"));

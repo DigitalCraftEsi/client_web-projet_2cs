@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import Button from "./Button/Button";
 import { FaEdit } from "react-icons/fa";
 
+/**
+ * a form component
+ * @component
+ * @returns {React.ReactElement}
+ */
 function Form({ data, onSubmit }) {
 	const labels = Object.keys(data).map(
 		(label) => label.charAt(0).toUpperCase() + label.slice(1)

@@ -3,8 +3,11 @@ import CoreTableBoisson from "./BaseTable/CoreTableBoisson";
 import { axiosInstance } from "../util/axios";
 
 
-let tmp = [];
-
+/**
+ * the page that displays the beverages in AC page
+ * @component
+ * @returns {React.ReactElement}
+ */
 const BoissonTableFirst = () => {
 
     const [distroList, setDirstroList] = useState([]);

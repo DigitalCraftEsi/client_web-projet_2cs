@@ -3,6 +3,11 @@ import { useState, useEffect } from "react";
 import { axiosInstance } from "../util/axios";
 import { useParams } from "react-router";
 
+/**
+ * the page for AM user (tasks, pannes...)
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function User() {
 	const { id } = useParams();
 	const [c1, setC1] = useState("");

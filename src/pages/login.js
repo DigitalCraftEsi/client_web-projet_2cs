@@ -3,6 +3,11 @@ import { useRef, useState } from "react";
 import logo from "../assets/logo_smartBev.png";
 import { axiosInstance } from "../util/axios";
 
+/**
+ * the login page
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function Login() {
 	const emailRef = useRef();
 	const passwordRef = useRef();

@@ -6,6 +6,11 @@ import { axiosInstance } from "../util/axios";
 import { TextField } from "@material-ui/core";
 import { useNavigate } from "react-router";
 
+/**
+ * a table containing the list of users at a specific client for the ADM page
+ * @component
+ * @returns {React.ReactElement}
+ */
 const ADMusersTable = () => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);

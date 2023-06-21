@@ -1,5 +1,10 @@
 import CoreTable from "./BaseTable/CoreTable";
 
+/**
+ * a page containing the table of clients
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function ClientsTable() {
     return (
         <div className="p-10">

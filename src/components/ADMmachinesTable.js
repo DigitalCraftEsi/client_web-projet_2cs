@@ -5,6 +5,11 @@ import classes from "./BaseTable/styles.module.css";
 import { axiosInstance } from "../util/axios";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * a table containing the list of vending machines for the ADM page
+ * @component
+ * @returns {React.ReactElement}
+ */
 const ADMmachinesTable = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);

@@ -1,9 +1,15 @@
 import ChartComponent from "../components/ChartBar/ChartComponent";
 import { Map } from "../components";
+import { NotificationDetails } from "../components";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { axiosInstance } from "../util/axios";
 
+/**
+ * a page containing details about a specific vending machine
+ * @component
+ * @returns {React.ReactElement}
+ */
 export function VendingMachineDetails() {
 	const { id } = useParams();
 
@@ -49,6 +55,10 @@ export function VendingMachineDetails() {
 
         <div className="col-span-2 overflow-hidden bg-gray-50 gap-4 w-full h-[400px] rounded-md shadow hover:shadow-lg border-solid border-2">
           <Map data={data} />
+        </div>
+
+        <div className="col-span-3" >
+          <NotificationDetails />
         </div>
       </div>
     </div>
