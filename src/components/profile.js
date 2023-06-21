@@ -99,6 +99,7 @@ export function Profile() {
 		let newPassword = inputs[1];
 
 		const token = localStorage.getItem("token");
+
 		const response = await axiosInstance.post(
 			`/profile/updatePassword`,
 			{

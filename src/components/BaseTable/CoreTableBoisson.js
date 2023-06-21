@@ -13,7 +13,7 @@ const idMachine = 1;
 
 const EDITABLE_COLUMNS = [
 	{
-		title: "",
+		title: "image",
 		field: "image",
 		render: (rowData) => {
 			return <img src={loadImage(rowData.pic)} alt='img' />;

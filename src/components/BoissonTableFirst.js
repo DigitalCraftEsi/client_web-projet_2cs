@@ -2,15 +2,22 @@ import React, { useState, useEffect } from "react";
 import CoreTableBoisson from "./BaseTable/CoreTableBoisson";
 import { axiosInstance } from "../util/axios";
 
-let tmp = [];
 
 const BoissonTableFirst = () => {
 	const [distroList, setDirstroList] = useState([]);
 
 	const fetchDist = async () => {
+		const token = localStorage.getItem("token");
 		try {
-			const response = await axiosInstance.get("/machine");
-			const fetchedData = response.data.data;
+			const response = await axiosInstance.get("/machine", {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			
+			const user = JSON.parse(localStorage.getItem("user"));
+
+			const fetchedData = response.data.data.filter(dist => dist.idClient == user.clientId);
 			setDirstroList(fetchedData);
 		} catch (error) {
 			console.error("Error fetching data:", error);
@@ -29,7 +36,7 @@ const BoissonTableFirst = () => {
 				<select className='w-80 border-2 border-black rounded'>
 					{distroList.map((dist, index) => (
 						<option value={dist.id} key={index}>
-							{" "}
+							{dist.idDistributeur} {" - "}
 							{dist.adresse}{" "}
 						</option>
 					))}

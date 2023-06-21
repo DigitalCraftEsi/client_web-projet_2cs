@@ -5,6 +5,8 @@ module.exports = {
 		extend: {
 			colors: {
 				success: "#218261",
+				ahcici: "#218261B2",
+				ahcici_clair: "#21826121",
 			},
 		},
 	},

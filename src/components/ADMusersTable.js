@@ -3,9 +3,12 @@ import MaterialTable from "@material-table/core";
 import "@fontsource/poppins";
 import classes from "./BaseTable/styles.module.css";
 import { axiosInstance } from "../util/axios";
+import { TextField } from "@material-ui/core";
+import { useNavigate } from "react-router";
 
 const ADMusersTable = () => {
 	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	const EDITABLE_COLUMNS = [
 		{ title: "id", field: "id", editable: "never", type: "numeric" },
@@ -17,53 +20,83 @@ const ADMusersTable = () => {
 				AC: "AC",
 				AM: "AM",
 			},
+			editable: "onAdd",
 		},
 		{ title: "nom", field: "nom" },
 		{ title: "prenom", field: "prenom" },
 		{ title: "email", field: "email" },
 		{ title: "telephone", field: "telephone" },
+		{
+			title: "password",
+			field: "password",
+			editable: "always",
+			editComponent: (props) => (
+				<TextField
+					placeholder='password'
+					type='password'
+					value={props.value || ""}
+					onChange={(e) => props.onChange(e.target.value)}
+				/>
+			),
+		},
 	];
 
+	const navigate = useNavigate();
+
 	async function getAllusers() {
+		setLoading(true);
+
 		const token = localStorage.getItem("token");
 		const response = await axiosInstance.get(`/user`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
 		});
+
 		console.log(response);
+
 		if (response.data.statusCode === 200) {
-			const { decideurs, acs, ams } = response.data.data;
-
-			decideurs.forEach((decideur) => {
-				decideur.role = "DECIDEUR";
-				decideur.nom = decideur.nomDecideur;
-				decideur.id = decideur.idDecideur;
-				decideur.prenom = decideur.prenomDecideur;
-				decideur.email = decideur.emailDecideur;
-				decideur.telephone = decideur.telephoneDecideur;
+			const newData = [];
+			response.data.data.decideurs?.forEach((row) => {
+				newData.push({
+					id: row.idDecideur,
+					role: "DECIDEUR",
+					nom: row.nomDecideur,
+					prenom: row.prenomDecideur,
+					email: row.emailDecideur,
+					telephone: row.telephoneDecideur,
+					idClient: row.idClient,
+				});
 			});
 
-			acs.forEach((ac) => {
-				ac.role = "AC";
-				ac.id = ac.idAC;
-				ac.nom = ac.nomAC;
-				ac.prenom = ac.prenomAC;
-				ac.email = ac.emailAC;
-				ac.telephone = ac.telephoneAC;
+			response.data.data.acs?.forEach((row) => {
+				newData.push({
+					id: row.idAC,
+					role: "AC",
+					nom: row.nomAC,
+					prenom: row.prenomAC,
+					email: row.emailAC,
+					telephone: row.telephoneAC,
+					idClient: row.idClient,
+				});
 			});
 
-			ams.forEach((am) => {
-				am.role = "AM";
-				am.id = am.idAM;
-				am.nom = am.nomAM;
-				am.prenom = am.prenomAM;
-				am.email = am.emailAM;
-				am.telephone = am.telephoneAM;
+			response.data.data.ams?.forEach((row) => {
+				newData.push({
+					id: row.idAM,
+					role: "AM",
+					nom: row.nomAM,
+					prenom: row.prenomAM,
+					email: row.emailAM,
+					telephone: row.telephoneAM,
+					idClient: row.idClient,
+				});
 			});
 
-			setData([...decideurs, ...acs, ...ams]);
+			setData(newData);
 		}
+
+		setLoading(false);
 	}
 
 	useEffect(() => {
@@ -75,15 +108,27 @@ const ADMusersTable = () => {
 			<h1 className='text-2xl font-bold mb-4'>Users</h1>
 			<div className={classes.tableCore}>
 				<MaterialTable
+					isLoading={loading}
 					columns={EDITABLE_COLUMNS}
 					data={data}
 					title=''
+					onRowClick={(event, rowData) => {
+						let info = {
+							id: rowData.id,
+							nom: rowData.nom,
+							prenom: rowData.prenom,
+							email: rowData.email,
+							phone: rowData.telephone,
+							role: rowData.role,
+						};
+						localStorage.setItem("user_info", JSON.stringify(info));
+						navigate(`${rowData.id}`);
+					}}
 					editable={{
 						onRowAdd: (newData) => {
 							return new Promise(async (resolve, reject) => {
 								const body = {
 									...newData,
-									password: "chamsou2002",
 								};
 
 								const token = localStorage.getItem("token");
@@ -95,6 +140,33 @@ const ADMusersTable = () => {
 								console.log(response);
 
 								if (response.data.statusCode === 201) {
+									getAllusers();
+									resolve();
+								} else {
+									reject();
+								}
+							});
+						},
+						onRowUpdate: (newData, oldData) => {
+							return new Promise(async (resolve, reject) => {
+								const body = {
+									...newData,
+									client: oldData.idClient,
+									password: newData.password == "" ? null : newData.password,
+								};
+
+								delete body.idClient;
+								delete body.tableData;
+
+								const token = localStorage.getItem("token");
+								const response = await axiosInstance.patch("/user", body, {
+									headers: {
+										Authorization: `Bearer ${token}`,
+									},
+								});
+								console.log(response);
+
+								if (response.data.statusCode === 200) {
 									getAllusers();
 									resolve();
 								} else {

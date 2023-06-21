@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ApexCharts from "apexcharts";
 
-export function Chart2({ title }) {
+export function Chart2({ title, data }) {
 	const chartRef = useRef(null);
 
 	const labels = {
@@ -20,13 +20,13 @@ export function Chart2({ title }) {
 			"Novembre",
 			"Décembre",
 		],
-		Année: [2020, 2021, 2022, 2023],
+		Année: data.statistic2_Year.success.year,
 	};
 
-	const data = {
-		Semaine: [2, 6, 1, 12],
-		Mois: [2, 6, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1],
-		Année: [60, 75, 1, 12],
+	const dataUsed = {
+		Semaine: data.statistic2_Week,
+		Mois: data.statistic2_Month,
+		Année: data.statistic2_Year,
 	};
 
 	const [selectedPeriod, setSelectedPeriod] = useState("Semaine");
@@ -38,8 +38,18 @@ export function Chart2({ title }) {
 			},
 			series: [
 				{
-					name: "sales",
-					data: data[selectedPeriod],
+					name: "success",
+					data:
+						selectedPeriod === "Année"
+							? dataUsed[selectedPeriod].success.count
+							: dataUsed[selectedPeriod].success,
+				},
+				{
+					name: "fail",
+					data:
+						selectedPeriod === "Année"
+							? dataUsed[selectedPeriod].failed.count
+							: dataUsed[selectedPeriod].failed,
 				},
 			],
 			xaxis: {
@@ -53,7 +63,7 @@ export function Chart2({ title }) {
 					color: "#333",
 				},
 			},
-			colors: ["#218261"],
+			colors: ["#218261", "#FF0000"],
 		};
 
 		const chart = new ApexCharts(chartRef.current, options);
@@ -62,7 +72,7 @@ export function Chart2({ title }) {
 		return () => {
 			chart.destroy();
 		};
-	}, [selectedPeriod]);
+	}, [selectedPeriod, data]);
 
 	const handlePeriodChange = (e) => {
 		setSelectedPeriod(e.target.value);

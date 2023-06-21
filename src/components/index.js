@@ -8,3 +8,4 @@ export * from "./profile";
 export * from "./Map";
 export * from "./lineChart";
 export * from "./Charts";
+export * from "./User";

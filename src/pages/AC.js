@@ -27,7 +27,7 @@ const links = [
 export function AC() {
 	return (
 		<div className='w-full h-full flex '>
-			<Sidebar links={links} user={"Moh Gezdia"} />
+			<Sidebar links={links} />
 			<Routes>
 				<Route path='/boissons' element={<BoissonTableFirst />} />
 				<Route path='/annonceurs' element={""} />

@@ -6,63 +6,69 @@ import { axiosInstance } from "../util/axios";
 import { useNavigate } from "react-router-dom";
 
 export default function SADMusersTable() {
-	const EDITABLE_COLUMNS = [
-		{
-			title: "ID Client",
-			field: "idClient",
-			type: "numeric",
-			editable: "never",
-		},
-		{ title: "nom", field: "nomClient" },
-	];
+  const [loading, setLoading] = useState(false);
 
-	async function getAllClients() {
-		const token = localStorage.getItem("token");
-		const response = await axiosInstance.get("/user", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+  const EDITABLE_COLUMNS = [
+    {
+      title: "ID Client",
+      field: "idClient",
+      type: "numeric",
+      editable: "never",
+    },
+    { title: "nom", field: "nomClient" },
+  ];
 
-		if (response.data.statusCode === 200) {
-			setData(response.data.data);
-		}
-	}
+  async function getAllClients() {
+    setLoading(true);
+    const token = localStorage.getItem("token");
+    const response = await axiosInstance.get("/user", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-	const navigate = useNavigate();
+    if (response.data.statusCode === 200) {
+      setData(response.data.data.clients);
+    }
 
-	const [data, setData] = useState([]);
+    setLoading(false);
+  }
 
-	useEffect(() => {
-		getAllClients();
-	}, []);
+  const navigate = useNavigate();
 
-	return (
-		<div className='p-10'>
-			<h1 className='text-2xl font-bold mb-4'>Clients</h1>
-			<div className={classes.tableCore}>
-				<MaterialTable
-					columns={EDITABLE_COLUMNS}
-					data={data}
-					title=''
-					editable={{}}
-					onRowClick={(event, rowData) => {
-						navigate(`${rowData.idClient}`);
-					}}
-					options={{
-						headerStyle: {
-							borderBottom: "solid 1px black",
-							color: "#757575",
-							fontSize: "12px",
-							fontWeight: "600",
-							fontFamily: "Poppins",
-							lineHeight: "18px",
-							paddingBottom: "10px",
-							textAlign: "center",
-						},
-					}}
-				/>
-			</div>
-		</div>
-	);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getAllClients();
+  }, []);
+
+  return (
+    <div className="p-10">
+      <h1 className="text-2xl font-bold mb-4">Clients</h1>
+      <div className={classes.tableCore}>
+        <MaterialTable
+          isLoading={loading}
+          columns={EDITABLE_COLUMNS}
+          data={data}
+          title=""
+          editable={{}}
+          onRowClick={(event, rowData) => {
+            navigate(`${rowData.idClient}`);
+          }}
+          options={{
+            headerStyle: {
+              borderBottom: "solid 1px black",
+              color: "#757575",
+              fontSize: "12px",
+              fontWeight: "600",
+              fontFamily: "Poppins",
+              lineHeight: "18px",
+              paddingBottom: "10px",
+              textAlign: "center",
+            },
+          }}
+        />
+      </div>
+    </div>
+  );
 }

@@ -1,20 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import ApexCharts from "apexcharts";
+import { axiosInstance } from "../util/axios";
 
-export function Chart({ title }) {
+export function Chart({ title, data, regions }) {
 	const chartRef = useRef(null);
-
-	const regions = [
-		"Alger",
-		"Blida",
-		"Boumerdes",
-		"Tipaza",
-		"Oran",
-		"Sétif",
-		"Constantine",
-	];
-
-	const data = [10, 10, 10, 10, 10, 10, 10];
 
 	useEffect(() => {
 		const options = {
@@ -40,7 +29,7 @@ export function Chart({ title }) {
 		return () => {
 			chart.destroy();
 		};
-	}, []);
+	}, [data]);
 
 	function generateRandomColors(count) {
 		const colors = [];

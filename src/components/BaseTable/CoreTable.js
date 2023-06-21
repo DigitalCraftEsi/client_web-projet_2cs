@@ -5,6 +5,8 @@ import classes from "./styles.module.css";
 import { axiosInstance } from "../../util/axios";
 
 const CoreTable = () => {
+	const [loading, setLoading] = useState(false);
+
 	const EDITABLE_COLUMNS = [
 		{
 			title: "ID Client",
@@ -18,18 +20,20 @@ const CoreTable = () => {
 	];
 
 	async function getAllClients() {
+		setLoading(true);
 		const token = localStorage.getItem("token");
 		const response = await axiosInstance.get(`/user`, {
 			headers: {
-				Authorization: `Bearer ${token}`,
-			},
+				Authorization: `Bearer ${token}`
+			}
 		});
-
 		console.log(response);
 
 		if (response.data.statusCode === 200) {
-			setData(response.data.data);
+			setData(response.data.data.clients);
 		}
+
+		setLoading(false);
 	}
 
 	const [data, setData] = useState([]);
@@ -41,6 +45,7 @@ const CoreTable = () => {
 	return (
 		<div className={classes.tableCore}>
 			<MaterialTable
+				isLoading={loading}
 				columns={EDITABLE_COLUMNS}
 				data={data}
 				title=''
@@ -53,19 +58,16 @@ const CoreTable = () => {
 								telephone: newData.telephoneClient,
 								role: "CLIENT",
 							};
-
-							const token = localStorage.getItem("token");
-							axiosInstance
-								.post("/user", body, {
-									headers: {
-										Authorization: `Bearer ${token}`,
-									},
-								})
-								.then((response) => {
-									console.log(response);
+                            
+                            const token = localStorage.getItem("token");
+							axiosInstance.post("/user", body, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }).then(response => {
 
 									if (response.data.statusCode === 201) {
-										setData([...data, response.data.data]);
+										getAllClients();
 										resolve();
 									} else {
 										reject();
@@ -74,54 +76,53 @@ const CoreTable = () => {
 								.catch((err) => {
 									console.log(err);
 									reject();
-								});
-						});
-					},
-					onRowUpdate: (newData, oldData) => {
-						return new Promise(async (resolve, reject) => {
-							const body = {
-								id: oldData.idClient,
-								nom: newData.nomClient,
-								telephone: newData.telephoneClient,
-								email: newData.emailClient,
-								role: "CLIENT",
-							};
-
-							try {
-								const token = localStorage.getItem("token");
-								const response = await axiosInstance.patch("/user", body, {
-									headers: {
-										Authorization: `Bearer ${token}`,
-									},
-								});
-								if (response.data.statusCode === 200) {
-									resolve();
-									getAllClients();
-								} else {
-									reject();
-								}
-							} catch (err) {
-								console.log(err);
-								reject();
-							}
-						});
-					},
-					onRowDelete: (oldData) => {
-						return new Promise((resolve, reject) => {
-							const body = {
-								id: parseInt(oldData.idClient),
-								role: "CLIENT",
-							};
-							const token = localStorage.getItem("token");
-							axiosInstance
-								.delete("/user", {
-									data: body,
-									headers: {
-										Authorization: `Bearer ${token}`,
-									},
 								})
-								.then((response) => {
-									console.log(response);
+							
+                        });
+                    },
+                    onRowUpdate: (newData, oldData) => {
+                        return new Promise(async (resolve, reject) => {
+                            const body = {
+                                id: oldData.idClient,
+                                nom: newData.nomClient,
+                                telephone: newData.telephoneClient,
+                                email: newData.emailClient,
+                                role: "CLIENT"
+                            }
+
+                            try {
+                                const token = localStorage.getItem("token");
+                                const response = await axiosInstance.patch("/user", body, {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                });
+                                if(response.data.statusCode === 200) {
+                                    resolve();
+                                    getAllClients();
+                                } else {
+                                    reject();
+                                }
+                                
+                            } catch (err) {
+                                console.log(err);
+                                reject();
+                            }
+                        });
+                    },
+                    onRowDelete: (oldData) => {
+                        return new Promise((resolve, reject) => {
+                            const body = {
+                                id: parseInt(oldData.idClient),
+                                role: "CLIENT"
+							};
+                            const token = localStorage.getItem("token");
+							axiosInstance.delete("/user", { 
+                                data: body,
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }).then(response => {
 
 									if (response.data.statusCode === 200) {
 										const newData = data.filter(
