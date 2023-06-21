@@ -33,8 +33,8 @@ export function AC() {
 				<Route path='/annonceurs' element={""} />
 				<Route path='/annonceurs/:id' element={""} />
 				<Route path='/annonceurs/:id/:annonceId' element={""} />
-				<Route path='/reclamation' element={<ReclamationTable />} />
-				<Route path='/reclamation/:id' element={<Reclamation />} />
+				<Route path='/reclamations' element={<ReclamationTable />} />
+				<Route path='/reclamations/:id' element={<Reclamation />} />
 				<Route path='/profile' element={<Profile />} />
 			</Routes>
 		</div>
