@@ -14,13 +14,15 @@ const BoissonTableFirst = () => {
 
     const fetchDist = async () => {
         try {
+            const user = JSON.parse(localStorage.getItem("user"));
 			const token = localStorage.getItem("token");
             const response = await axiosInstance.get('/machine', {
 				headers: {
 					Authorization: `${token}`
 				}
 			});
-            const fetchedData = response.data.data;
+
+            const fetchedData = response.data.data.filter(dist => dist.idClient == user.clientId);
             setDirstroList(fetchedData);
 			console.log(fetchedData)
         } catch (error) {
@@ -42,13 +44,13 @@ const BoissonTableFirst = () => {
     return (
         <div className="p-10">
 
-            <h1 className="text-2xl font-bold mb-4">Annonceurs</h1>
+            <h1 className="text-2xl font-bold mb-4">Boissons</h1>
             <div className="flex justify-start align-baseline p-2 gap-3 ">
                 <h2 className=" text-2xl font-medium" > Distributeur</h2>
                 <select className="w-80 border-2 border-black rounded" onChange={handleSelect}>
                     {
                         distroList.map((dist,index) =>
-                            <option value={dist.idDistributeur} key={index} > {dist.adresse} </option>
+                            <option selected={index === 0} value={dist.idDistributeur} key={index} >{dist.idDistributeur} - {dist.adresse} </option>
                         )
                     }
                 </select>

@@ -7,7 +7,9 @@ import { axiosInstance } from "../../util/axios";
 
 const EDITABLE_COLUMNS = [
 	{ title: "ID", field: "id", type: "numeric" },
-	{ title: "Commande", field: "commande" },
+	{ title: "ID Commande", field: "idCommande" },
+	{ title: "nom consommateur", field: "commande.consommateur.nomConsommateur" },
+	{ title: "prénom consommateur", field: "commande.consommateur.prenomConsommateur" },
 	{ title: "Titre", field: "titre" },
 	{ title: "Description", field: "description" },
 	{ title: "Date", field: "date" },
@@ -42,15 +44,16 @@ const ReclamTable = () => {
 		});
 
 		if (response.data.statusCode === 200) {
-			const modifiedData = response.data.data.map((item) => {
+			const modifiedData = response.data.data.filter(row => row.commande != null).map((item) => {
 				return {
 					id: item.idReclamation,
-					commande: item.idCommande,
+					idCommande: item.idCommande,
 					titre: item.titre,
 					description: item.description,
 					date: item.dateReclamation,
 					etat: item.notif ? "oui" : "non",
 					details: "details",
+					commande: item.commande
 				};
 			});
 			console.log(modifiedData);

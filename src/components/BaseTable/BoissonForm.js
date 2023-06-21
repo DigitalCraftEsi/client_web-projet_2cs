@@ -8,14 +8,14 @@ const BoissonForm = (props) => {
     const [image, setImage] = useState(null);
     const [formData, setFormData] = useState({
         nomBoisson: "",
-        tarif: "",
+        tarif: 0,
         description: "",
-        eau: "",
-        cafe: "",
-        lait: "",
-        the: "",
-        sucre: "",
-        idDistributeur: props.idDist
+        eau: 0,
+        cafe: 0,
+        lait: 0,
+        the: 0,
+        sucre: 0,
+        idDistributeur: parseInt(props.idDist)
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -31,13 +31,31 @@ const BoissonForm = (props) => {
             const data = new FormData();
             Object.keys(formData).forEach(key => data.append(key, formData[key]));
             data.append("picture", image);
-            await axiosInstance.post('/beverage/add', data,{
+            const response = await axiosInstance.post('/beverage/add', data,{
                 headers : {
                     "Content-Type" : "multipart/form-data",
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log('Form data submitted successfully');
+
+            if(response.data.statusCode === 200) {
+                console.log('Form data submitted successfully');
+                setFormData({
+                    nomBoisson: "",
+                    tarif: 0,
+                    description: "",
+                    eau: 0,
+                    cafe: 0,
+                    lait: 0,
+                    the: 0,
+                    sucre: 0,
+                    idDistributeur: parseInt(props.idDist)
+                });
+
+                setImage(null);
+                props.setModal(false);
+                props.fetchBev();
+            }
         } catch (error) {
             console.error('Error submitting form data:', error);
         }
@@ -49,7 +67,7 @@ const BoissonForm = (props) => {
 
     return (
         <form  >
-            <p>Image :<input type="file" onChange={handleImageChange} /><a href='#'> Ajouter </a></p>
+            <p>Image :<input type="file" onChange={handleImageChange} /></p>
             <div className='sub-container'>
                 <label htmlFor="nomBoisson"> Nom du boisson :</label>
                 <input

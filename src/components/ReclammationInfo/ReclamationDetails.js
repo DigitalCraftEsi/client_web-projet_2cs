@@ -24,7 +24,7 @@ export function ReclamationDetails({ data }) {
 						onClick={toggle}
 					>
 						{" "}
-						{data.idCommande}
+						{data.idCommande} (afficher détails)
 					</p>
 				</div>
 				<p className='font-medium mb-1'>Description</p>

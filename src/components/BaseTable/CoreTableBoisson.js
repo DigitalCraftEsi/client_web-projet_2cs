@@ -8,20 +8,21 @@ import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import { FaPlus } from "react-icons/fa";
 import BoissonForm from "./BoissonForm";
+import { BACKEND_URL } from "../../util/constants"
 
 
 
 
-const loadImage = imageName => (`${imageName}`);
+const loadImage = imageName => imageName != null && typeof imageName == "string" && imageName.startsWith("src") ? (`${BACKEND_URL}/${imageName}`) : imageName ;
 
 
 
 const EDITABLE_COLUMNS = [
 	{
-		title: "",
+		title: "image",
 		field: "image",
 		render: (rowData) => {
-			return <img src={loadImage(rowData.pic)} alt="img" />
+			return <img src={loadImage(rowData.image)} alt="img" />
 		},
 		editable: 'never'
 	},
@@ -35,7 +36,8 @@ const EDITABLE_COLUMNS = [
 	},
 	{
 		title: "Tarif",
-		field: "tarif"
+		field: "tarif",
+		type: "numeric"
 	},
 ]
 
@@ -46,9 +48,11 @@ const CoreTableBoisson = (props) => {
 
 	const [data, setData] = useState([]);
 	const [modal, setModal] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 
 	const fetchBev = async () => {
+		setLoading(true);
 		try {
 			const token = localStorage.getItem("token");
 			const response = await axiosInstance.get(`machine/${props.idMachine}/beverages`, {
@@ -63,18 +67,22 @@ const CoreTableBoisson = (props) => {
 		} catch (error) {
 			console.error('Error fetching data:', error);
 		}
+		setLoading(false);
 	};
 
 	const deleteBev = async (id) => {
+		setLoading(true);
 		try {
 			await axiosInstance.delete(`/beverage/${id}`);
 			fetchBev()
 		} catch (error) {
 			console.error('Error deleting beverage:', error);
 		}
+		setLoading(false);
 	};
 
 	const updateBev = async (newData, oldData) => {
+		setLoading(true);
 		const body = {
 			nom: newData.nomBoisson,
 			description: newData.description,
@@ -82,7 +90,7 @@ const CoreTableBoisson = (props) => {
 		};
 		try {
 			console.log(newData);
-			const response = await axiosInstance.put(`/beverage/${oldData.idBoisson}`, body);
+			const response = await axiosInstance.post(`/beverage/${oldData.idBoisson}`, body);
 			if (response.data.statusCode === 200) {
 				const dataUpdate = [...data];
 				const index = oldData.tableData.id;
@@ -94,6 +102,7 @@ const CoreTableBoisson = (props) => {
 		} catch (error) {
 			console.error('Error updating beverage:', error);
 		}
+		setLoading(false);
 	};
 
 	useEffect(() => {
@@ -109,45 +118,47 @@ const CoreTableBoisson = (props) => {
 		<div className={classes.tableCore} >
 			<div className="flex flex-col ">
 				<Button onclick={toggleModal} icon={<FaPlus />} contenu="Ajouter une boisson" />
+				<br/>
 				<Modal
 					modal={modal}
 					modalFun={toggleModal}
 					title={"ajouter une boisson"}
 					content={
-						<BoissonForm idDist={props.idMachine} />
+						<BoissonForm setModal={setModal} fetchBev={fetchBev} idDist={props.idMachine} />
 					}
 				/>
 				<MaterialTable columns={EDITABLE_COLUMNS}
+					isLoading={loading}
 					data={data}
 					title=''
 					editable={{
 						onRowAddCancelled: (rowData) => console.log("Row adding cancelled"),
 						onRowUpdateCancelled: (rowData) => console.log("Row editing cancelled"),
-						onRowAdd: (newData) => {
-							return new Promise((resolve, reject) => {
-								const body = {
-									"nom": newData.nomClient,
-									"email": newData.emailClient,
-									"telephone": newData.telephoneClient,
-									"role": "CLIENT"
-								};
+						// onRowAdd: (newData) => {
+						// 	return new Promise((resolve, reject) => {
+						// 		const body = {
+						// 			"nom": newData.nomClient,
+						// 			"email": newData.emailClient,
+						// 			"telephone": newData.telephoneClient,
+						// 			"role": "CLIENT"
+						// 		};
 
-								axiosInstance.post("/user", body).then(response => {
+						// 		axiosInstance.post("/user", body).then(response => {
 
-									console.log(response);
+						// 			console.log(response);
 
-									if (response.data.statusCode === 201) {
-										setData([...data, response.data.data]);
-										resolve();
-									} else {
-										reject();
-									}
-								}).catch(err => {
-									console.log(err);
-									reject();
-								})
-							});
-						},
+						// 			if (response.data.statusCode === 201) {
+						// 				setData([...data, response.data.data]);
+						// 				resolve();
+						// 			} else {
+						// 				reject();
+						// 			}
+						// 		}).catch(err => {
+						// 			console.log(err);
+						// 			reject();
+						// 		})
+						// 	});
+						// },
 						onRowUpdate: (newData, oldData) =>
 							new Promise((resolve, reject) => {
 								updateBev(newData, oldData)
