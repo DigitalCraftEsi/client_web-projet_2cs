@@ -1,9 +1,9 @@
-import { React, useState } from 'react'
+import { React, useEffect, useState } from 'react'
 import { FaSearch, FaPlus } from "react-icons/fa";
-import Card from '../AdCard/Card';
+import Card from './Card';
 import Button from "../Button/Button";
 import Modal from '../Modal/Modal';
-import AnnonceForm from '../Forms/AnnonceForm';
+import AnnonceForm from './AnnonceForm';
 
 import "./styles.css"
 
@@ -44,9 +44,9 @@ const dummyData = [
 ]
 
 
-const AnnonceBoard = () => {
+const AnnonceBoard = (props) => {
 
-    const [data, setData] = useState(dummyData);
+    const [data, setData] = useState(props.data);
     const [modal, setModal] = useState(false);
 
     function deleteFromData(idToDelete) {
@@ -77,9 +77,11 @@ const AnnonceBoard = () => {
                 />
             </div>
 
+            
+
             <div className=' m-4 flex flex-wrap gap-4 '>
-                {data.map((objectData) =>
-                    <Card data={objectData} key={objectData.id} deleteFun={deleteFromData} />
+                {props.data.map((objectData) =>
+                    <Card data={objectData} key={objectData.idAnnonce} deleteFun={deleteFromData} />
                 )}
             </div>
         </div>

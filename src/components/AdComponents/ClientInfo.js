@@ -1,11 +1,12 @@
 import { React, useState, useEffect } from 'react'
 import AnnonceBoard from './AnnonceBoard';
 import { useParams } from 'react-router-dom'
-import { axiosInsance } from '../../util/axios';
+import { axiosInstance } from '../../util/axios';
 
 const ClientInfo = () => {
 
     const [userData, setUserData] = useState([]);
+    const [ads, setAds] = useState([]);
 
     const { id } = useParams();
 
@@ -17,24 +18,39 @@ const ClientInfo = () => {
 
     useEffect(() => {
         fetchUserData();
+        fetchAds();
     }, []);
+
+    async function fetchAds() {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axiosInstance.get(`/advertisement`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const dataToFetch = response.data.data.filter((item) => item.idAnnonceur == id)
+            setAds(dataToFetch);
+        } catch (error) {
+            console.error('Error fetching Ads Data:', error);
+        }
+    }
+
 
     async function fetchUserData() {
         try {
-            const response = await axiosInsance.get(`/advertiser/${id}`);
-            if (Array.isArray(response.data.data)) {
-                console.log(response.data.data)
-                let dataToInsert = response.data.data.find((element) => element.idClient == id);
-                console.log(dataToInsert)
-                setUserData(dataToInsert);
-            } else {
-                console.error('Error: response.data is not an array');
-            }
+            const token = localStorage.getItem("token");
+            const response = await axiosInstance.get(`/advertiser/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setUserData(response.data.data);
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
     }
-    
+
     return (
         <div className="flex flex-col ml-10">
             <div className=' px-6 py-4 '>
@@ -46,19 +62,19 @@ const ClientInfo = () => {
 
                     <div className='grid grid-cols-3 gap-4'>
                         <p className='col'>
-                            Nom : {userData?.nomClient}
+                            Nom : {userData?.nomAnnonceur}
                         </p>
                         <p className='col'>
-                            Telephone : {userData?.telephoneClient}
+                            Telephone : {userData?.telephoneAnnonceur}
                         </p>
                     </div>
                     <p>
-                        Email : {userData?.emailClient}
+                        Email : {userData?.emailAnnonceur}
                     </p>
                 </div>
             </div>
 
-            <AnnonceBoard></AnnonceBoard>
+            <AnnonceBoard data={ads} ></AnnonceBoard>
         </div>
     )
 }

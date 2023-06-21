@@ -7,18 +7,18 @@ import { axiosInstance } from "../../util/axios";
 
 const AnnonceTable = () => {
     const EDITABLE_COLUMNS = [
-        { title: "ID", field: "idAnnonceur", type: "numeric" , editable :"never" },
+        { title: "ID", field: "idAnnonceur", type: "numeric", editable: "never" },
         { title: "Email", field: "emailAnnonceur" },
         { title: "Nom", field: "nomAnnonceur" },
         { title: "Telephone", field: "telephoneAnnonceur", type: "numeric" },
         {
-            title: "Details", field: "details", render: rowData => (
+            title: "Details", field: "details", editable: "never", render: rowData => (
                 <Link className="text-success underline" to={`/AC/annonceurs/${rowData.idAnnonceur}`}>details</Link>
             )
         }
     ];
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState();
 
     const getNewDataBulkEdit = (changes, copyData) => {
         Object.keys(changes).forEach(key => {
@@ -43,9 +43,9 @@ const AnnonceTable = () => {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setData(response.data);
+                setData(response.data.data);
 
-                console.log(response.data);
+                console.log(response.data.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -55,22 +55,28 @@ const AnnonceTable = () => {
     }, []);
 
     const addAdvertiser = async (newData) => {
-        const token = localStorage.getItem("token");
         try {
-            const response = await axiosInstance.post(`/advertiser/`, newData, {
+            const token = localStorage.getItem("token");
+            const dataToAdd = {
+                name: newData.nomAnnonceur,
+                email: newData.emailAnnonceur,
+                phone: newData.telephoneAnnonceur.toString(),
+            }
+            console.log(dataToAdd)
+            const response = await axiosInstance.post(`/advertiser/`, dataToAdd, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setData((prevData) => Array.isArray(prevData) ? [...prevData, response.data] : [response.data]);
+            console.log(response)
         } catch (error) {
             console.error("Error adding advertiser:", error);
         }
     };
 
     const updateAdvertiser = async (newData) => {
-        const token = localStorage.getItem("token");
         try {
+            const token = localStorage.getItem("token");
             await axiosInstance.post(`/advertiser/${newData.idAnnonceur}`, newData, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -111,17 +117,8 @@ const AnnonceTable = () => {
                                 resolve();
                             }, 1000);
                         }),
-                        onRowAdd: (newData) =>
-                            new Promise((resolve, reject) => {
-                                addAdvertiser(newData)
-                                    .then((res) => {
-                                        resolve();
-                                    })
-                                    .catch((error) => {
-                                        console.error("Error adding advertiser:", error);
-                                        reject();
-                                    });
-                            }),
+                        onRowAdd: (newData) => addAdvertiser(newData),
+
                         onRowUpdate: (newData, oldData) =>
                             new Promise((resolve, reject) => {
                                 updateAdvertiser(newData)

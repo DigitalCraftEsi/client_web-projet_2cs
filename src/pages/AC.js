@@ -6,7 +6,7 @@ import BoissonTableFirst from "../components/BoissonTableFirst";
 import { ReclamationTable } from "../components/ReclamationTable";
 import Reclamation from "../components/ReclammationInfo/Reclamation";
 import AnnonceTable from "../components/AdComponents/AnnonceTable";
-import ClientInfo from "../components/ClientInfo/ClientInfo";
+import ClientInfo from "../components/AdComponents/ClientInfo";
 import AnnonceInfo from "../components/AdComponents/AnnonceInfo";
 
 const links = [

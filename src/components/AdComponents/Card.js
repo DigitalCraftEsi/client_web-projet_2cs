@@ -14,6 +14,8 @@ import MenuList from '@mui/material/MenuList';
 import { ThemeProvider } from '@mui/material/styles';
 import { createTheme } from '@material-ui/core';
 import { Link } from "react-router-dom";
+import { useParams } from 'react-router-dom'
+
 
 
 
@@ -25,11 +27,18 @@ const theme = createTheme({
     },
 });
 
+
+
 const Card = (props) => {
 
     const [open, setOpen] = React.useState(false);
     const [visible, setVisibility] = React.useState(props.data.visible == 1 ? true : false);
     const anchorRef = React.useRef(null);
+    const { id } = useParams();
+
+    React.useEffect(() => {
+        console.log(props.data)
+    }, [])
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -57,9 +66,11 @@ const Card = (props) => {
         handleClose();
     }
 
-    function handleVisibility() {
+    function handleVisibility(event) {
+        event.stopPropagation();
         setVisibility(!visible);
     }
+
 
     const prevOpen = React.useRef(open);
     React.useEffect(() => {
@@ -73,7 +84,7 @@ const Card = (props) => {
 
     const data = props.data;
 
-    if (!data.imagePath) {
+    if (!data.video) {
         return (
             <div>
                 image is loading
@@ -87,7 +98,7 @@ const Card = (props) => {
     return (
         <>
             <ThemeProvider theme={theme}>
-                <Link to={`${data.id}`}><div className={visible ? "opacity-100" : "opacity-60"}>
+                <Link to={`${id}`}><div className={visible ? "opacity-100" : "opacity-60"}>
                     <div className={'sup'} >
                         <div className="tools">
                             <div>
@@ -135,7 +146,7 @@ const Card = (props) => {
                         </div>
                         <div className="img-dv" >
                             <img className="img-pr"
-                                src={loadImage(data.imagePath)} />
+                                src={loadImage(data.video)} />
                         </div>
                     </div>
                 </div></Link>
