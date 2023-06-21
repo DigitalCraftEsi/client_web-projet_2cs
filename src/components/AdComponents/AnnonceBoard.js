@@ -59,11 +59,8 @@ const AnnonceBoard = (props) => {
 
 
     return (
-        <div className='w-fit max-w-5xl'>
+        <div className=' max-w-5xl'>
             <div className='toolbar p-4 pr-16 flex gap-2 justify-end'>
-                <button>
-                    <FaSearch />
-                </button>
                 <Button onclick={toggleModal} icon={<FaPlus />} contenu=" Nouvelle Annonce" />
                 <Modal
                     modal={modal}

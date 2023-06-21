@@ -16,6 +16,8 @@ import { createTheme } from '@material-ui/core';
 import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom'
 
+import nescafe from "../../assets/Annonces/nescafe.jpg"
+
 
 
 
@@ -92,8 +94,8 @@ const Card = (props) => {
         )
     }
 
-    const images = require.context('../../assets/Annonces/', true);
-    const loadImage = imageName => (images(`./${imageName}`));
+    // const images = require.context('../../assets/Annonces/', true);
+    // const loadImage = imageName => (images(`./${imageName}`));
 
     return (
         <>
@@ -146,7 +148,7 @@ const Card = (props) => {
                         </div>
                         <div className="img-dv" >
                             <img className="img-pr"
-                                src={loadImage(data.video)} />
+                                src={nescafe} />
                         </div>
                     </div>
                 </div></Link>

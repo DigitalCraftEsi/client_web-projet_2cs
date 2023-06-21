@@ -29,7 +29,7 @@ const ClientInfo = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            const dataToFetch = response.data.data.filter((item) => item.idAnnonceur == id)
+            const dataToFetch = response.data.data
             setAds(dataToFetch);
         } catch (error) {
             console.error('Error fetching Ads Data:', error);
@@ -57,7 +57,6 @@ const ClientInfo = () => {
                 <div className='container w-full rounded-sm shadow hover:shadow-lg bg-gray-50 p-4 border-solid border-2'>
                     <div className='mb-4'>
                         <h3 className='inline font-bold'>Informations</h3>
-                        <a href="#!" className="text-success text-sm underline ml-5">Modifier</a>
                     </div>
 
                     <div className='grid grid-cols-3 gap-4'>
