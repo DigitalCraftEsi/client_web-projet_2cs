@@ -37,8 +37,8 @@ export default function SADMclientADMTable() {
     },
   ];
 
-  const { id: idClient } = useParams();
-  let id = parseInt(idClient);
+	const { id: idClient } = useParams();
+	let id = parseInt(idClient);
 
   const [data, setData] = useState([]);
   const [clientData, setClientData] = useState({});
@@ -55,9 +55,6 @@ export default function SADMclientADMTable() {
         Authorization: `Bearer ${token}`
       }
     });
-
-    console.log("response", response);
-
     if (response.data.statusCode === 200) {
       setData(response.data.data.adm);
       setClientData(response.data.data.client);
@@ -69,6 +66,7 @@ export default function SADMclientADMTable() {
   useEffect(() => {
     getAllADMs();
   }, []);
+
 
   return (
     <div className="p-10">

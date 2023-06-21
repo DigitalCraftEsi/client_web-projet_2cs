@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { axiosInstance } from "../util/axios";
 
 export function VendingMachineDetails() {
-  const { id } = useParams();
+	const { id } = useParams();
 
   const [data, setData] = useState({});
 

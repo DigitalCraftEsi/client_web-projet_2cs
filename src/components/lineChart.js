@@ -41,7 +41,10 @@ const dummyData2 = {
 	Day7: "0",
 };
 
-const labels = ["Day1", "Day2", "Day3", "Day4", "Day5", "Day6", "Day7"];
+const labels = {
+	"Cette Semaine": ["Jour1", "Jour2", "Jour3", "Jour4", "Jour5", "Jour6", "Jour7"],
+	"Mois dernier": [""]
+};
 const regions = [
 	"Alger",
 	"Blida",

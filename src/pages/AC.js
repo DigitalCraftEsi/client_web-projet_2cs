@@ -1,4 +1,4 @@
-import { Sidebar } from "../components";
+import { Sidebar, Profile } from "../components";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { FaMugHot, FaTicketAlt } from "react-icons/fa";
 import { RiAdvertisementFill } from "react-icons/ri";
@@ -21,9 +21,9 @@ const links = [
 		url: "/AC/annonceurs",
 	},
 	{
-		text: "Reclamation",
+		text: "Reclamations",
 		icon: FaTicketAlt,
-		url: "/AC/reclamation",
+		url: "/AC/reclamations",
 	},
 ];
 
