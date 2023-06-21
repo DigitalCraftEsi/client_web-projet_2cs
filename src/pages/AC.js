@@ -18,9 +18,9 @@ const links = [
 		url: "/AC/annonceurs",
 	},
 	{
-		text: "Reclamation",
+		text: "Reclamations",
 		icon: FaTicketAlt,
-		url: "/AC/reclamation",
+		url: "/AC/reclamations",
 	},
 ];
 
