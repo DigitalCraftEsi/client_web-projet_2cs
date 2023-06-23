@@ -42,8 +42,9 @@ export function AC() {
 				<Route path="/annonceurs" element={< AnnonceTable/>} />
 				<Route path="/annonceurs/:id" element={<ClientInfo/>} />
 				<Route path="/annonceurs/:id/:annonceId" element={<AnnonceInfo/>} />
-				<Route path="/reclamation" element={<ReclamationTable/>} />
-				<Route path="/reclamation/:id" element={ <Reclamation/> } />
+				<Route path="/reclamations" element={<ReclamationTable/>} />
+				<Route path="/reclamations/:id" element={ <Reclamation/> } />
+				<Route path="/profile" element={ <Profile/> } />
 			</Routes>
 		</div>
 	);

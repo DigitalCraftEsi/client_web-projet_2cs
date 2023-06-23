@@ -89,7 +89,7 @@ const Card = (props) => {
     if (!data.video) {
         return (
             <div>
-                image is loading
+               
             </div>
         )
     }

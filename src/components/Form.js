@@ -70,7 +70,7 @@ function Form({ data, onSubmit }) {
 							{inputFields}
 							<br />
 
-							<div className='flex items-center justify-between'>
+							<div className='flex'>
 								<Button contenu='Annuler' type='button' onclick={toggleForm} />
 								<Button contenu='Sauvegarder' type='submit' />
 							</div>

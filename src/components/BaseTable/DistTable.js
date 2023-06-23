@@ -27,7 +27,7 @@ const DisTable = () => {
       type: "numeric",
       editable: "never",
     },
-    { title: "ID client", field: "idClient", type: "numeric" },
+    { title: "ID client", field: "idClient", type: "numeric", editable: "never" },
     {
       title: "nom client",
       field: "client.nomClient",

@@ -24,6 +24,7 @@ const BoissonForm = (props) => {
             [name]: value,
         }));
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem("token");
@@ -31,6 +32,7 @@ const BoissonForm = (props) => {
             const data = new FormData();
             Object.keys(formData).forEach(key => data.append(key, formData[key]));
             data.append("picture", image);
+            console.log(formData);
             const response = await axiosInstance.post('/beverage/add', data,{
                 headers : {
                     "Content-Type" : "multipart/form-data",

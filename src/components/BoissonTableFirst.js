@@ -51,6 +51,7 @@ const BoissonTableFirst = () => {
             <div className="flex justify-start align-baseline p-2 gap-3 ">
                 <h2 className=" text-2xl font-medium" > Distributeur</h2>
                 <select className="w-80 border-2 border-black rounded" onChange={handleSelect}>
+                    <option value=""></option>
                     {
                         distroList.map((dist,index) =>
                             <option selected={index === 0} value={dist.idDistributeur} key={index} >{dist.idDistributeur} - {dist.adresse} </option>

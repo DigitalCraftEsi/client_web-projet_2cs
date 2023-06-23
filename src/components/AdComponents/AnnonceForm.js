@@ -29,13 +29,14 @@ const AnnonceForm = () => {
         Sexe: 'M',
         ageMax: "",
         ageMin: "",
-        DistID: "",
-        boissonID: ""
+        DistID: 2,
+        boissonID: 2
     });
 
     //just useState for no reason
     const [dists, setDists] = useState([])
     const [boissons, setBoissons] = useState([])
+    const [video, setVideo] = useState(null);
 
     async function getAllDist() {
         const token = localStorage.getItem("token");
@@ -71,7 +72,8 @@ const AnnonceForm = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        console.log(formData)
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
@@ -79,24 +81,44 @@ const AnnonceForm = () => {
         console.log(formData);
         const token = localStorage.getItem("token");
         const body = {
-            advertiser: id,
+            advertiser: parseInt(id),
             sexe : formData.Sexe,
             ageMin : formData.ageMin,
             ageMax  : formData.ageMax, 
             area : "alger",
             dateDebut : formData.dateDeb,
             dateFin :  formData.dateFin, 
-            beverage : parseInt(formData.boissonID),
-            machine:  formData.DistID,
+            beverage : 3,
+            machine:  2,
         }
 
-        const response = await axiosInstance.post("/advertisement", body, {
+        const data = new FormData();
+        // Object.keys(formData).forEach(key => data.append(key, formData[key]));
+        data.append("video", video);
+        data.append("advertiser", parseInt(id))
+        data.append("sexe", formData.Sexe)
+        data.append("ageMin", formData.ageMin)
+        data.append("ageMax", formData.ageMax)
+        data.append("area", "alger")
+        data.append("dateDebut", "2023-06-21T15:30:00.000Z")
+        data.append("dateFin", "2023-07-21T15:30:00.000Z")
+        data.append("beverage", 3)
+        data.append("machine", 2)
+        
+
+        const response = await axiosInstance.post("/advertisement", data, {
             headers: {
+                "Content-Type" : "multipart/form-data",
                 Authorization: `Bearer ${token}`
             }
         });
 
+
+
         console.log('Form data submitted:', formData);
+        if(response.data.statusCode === 200) {
+            window.location.reload()
+        }   
 
     };
 
@@ -109,7 +131,7 @@ const AnnonceForm = () => {
         <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor='video'>video</label>
-                <input type="file" name="video" id="video" />
+                <input type="file" name="video" id="video" onChange={(e) => setVideo(e.target.files[0])} />
             </div>
             <div className='date'>
                 <div>
@@ -188,8 +210,9 @@ const AnnonceForm = () => {
                     value={formData.boissonID}
                     onChange={handleChange}
                 >
+                    <option value=""></option>
                     {boissons.map((boisson) => (
-                        <option key={boisson.idBoisson} value={boisson.idBoisson} > {boisson.nomBoisson} </option>
+                        <option key={boisson.idBoisson} value={parseInt(boisson.idBoisson)} > {boisson.nomBoisson} </option>
                     ))}
                 </select>
             </div>
